@@ -15,15 +15,16 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-                                ; type = "x11"
-  type = "ps"
-  wks = gsn_open_wks(type,"panel_tsk")
+  type = "x11"
+                                ; type = "ps"
+  wks = gsn_open_wks(type,"panel_slp")
   gsn_define_colormap(wks,"WhBlGrYeRe")   ; overwrite the .hluresfile color map
 
   res = True
   res@MainTitle = "Surface TEMP"
   res@Footer = False
                                 ; res@gsnSpreadColors = True    ;spread Colors
+
 
   mpres  = True  ; Map resources
   pltres = True ; Plot resources
@@ -32,22 +33,19 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-  do it = 56, 96, 10   ;; LOOP NAME
+  do it = 46, 96, 10   ;; LOOP NAME
 
-    tsk = wrf_user_getvar(a,"TSK",it)
+    slp = wrf_user_getvar(a,"slp",it)
 
     opts = res
     opts@cnFillOn         = True
+    opts@Footer = False
+    
     opts@cnLevelSelectionMode = "ExplicitLevels"
-    opts@cnLevels =  fspan(261.,280.,40)
-    opts@cnFillColor = True
+    opts@cnLevels =  fspan(980.,1006.,40)
 
-    pltres@NoTitles = True
-                                ; pltres@CommonTitle = ""
-                                ; pltres@
-
-    contour = wrf_contour(a,wks,tsk,opts)
-    plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
+    contour = wrf_contour(a,wks,slp,pltres)
+    plot = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
 
   end do
