@@ -47,7 +47,7 @@ begin
                                 ; pltres@
 
     contour = wrf_contour(a,wks,tsk,opts)
-    plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
+    plot = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
 
   end do
