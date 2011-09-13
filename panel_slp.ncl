@@ -15,32 +15,37 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "x11"
-                                ; type = "ps"
+
+  ;; type = "x11"
+  type = "ps"
+
   wks = gsn_open_wks(type,"panel_slp")
   gsn_define_colormap(wks,"WhBlGrYeRe")   ; overwrite the .hluresfile color map
 
   res = True
   res@MainTitle = "Surface TEMP"
   res@Footer = False
-                                ; res@gsnSpreadColors = True    ;spread Colors
-
+  ;; res@gsnSpreadColors = True    ;spread Colors
 
   mpres  = True  ; Map resources
   pltres = True ; Plot resources
+  mpres@mpDataBaseVersion    = "HighRes"
   mpres@mpGeophysicalLineThicknessF = 2.0
 
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-  do it = 46, 96, 10   ;; LOOP NAME
+  ;; do it = 46, 96, 10   ;; LOOP NAME
+  do it = 0, ntimes-1, 4   ;; LOOP NAME
+
+    print("Working on time: " + times(it) )
+    res@TimeLabel = times(it)   ; Set Valid time to use on plots
 
     slp = wrf_user_getvar(a,"slp",it)
-
     opts = res
     opts@cnFillOn         = True
     opts@Footer = False
-    
+
     opts@cnLevelSelectionMode = "ExplicitLevels"
     opts@cnLevels =  fspan(980.,1006.,40)
 
@@ -49,6 +54,5 @@ begin
     delete(contour)
 
   end do
-
 
 end
