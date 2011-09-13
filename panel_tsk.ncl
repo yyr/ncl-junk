@@ -14,43 +14,48 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-                                ; type = "x11"
+  a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
+
+  ;; type = "x11"
   type = "ps"
+
   wks = gsn_open_wks(type,"panel_tsk")
   gsn_define_colormap(wks,"WhBlGrYeRe")   ; overwrite the .hluresfile color map
 
   res = True
   res@MainTitle = "Surface TEMP"
   res@Footer = False
-                                ; res@gsnSpreadColors = True    ;spread Colors
+  res@gsnSpreadColors = True    ;spread Colors
 
   mpres  = True  ; Map resources
   pltres = True ; Plot resources
+  mpres@mpDataBaseVersion    = "HighRes"
   mpres@mpGeophysicalLineThicknessF = 2.0
 
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-  do it = 56, 96, 10   ;; LOOP NAME
+  do it = 0, ntimes-1, 4   ;; LOOP NAME
+;  do it = 56, 96, 10   ;; LOOP NAME
+
+    print("Working on time: " + times(it) )
+    res@TimeLabel = times(it)   ; Set Valid time to use on plots
 
     tsk = wrf_user_getvar(a,"TSK",it)
 
     opts = res
     opts@cnFillOn         = True
     opts@cnLevelSelectionMode = "ExplicitLevels"
-    opts@cnLevels =  fspan(261.,280.,40)
+    opts@cnLevels =  fspan(245.,285.,40)
     opts@cnFillColor = True
 
     pltres@NoTitles = True
-                                ; pltres@CommonTitle = ""
-                                ; pltres@
+;; pltres@CommonTitle = ""
 
     contour = wrf_contour(a,wks,tsk,opts)
     plot = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
 
   end do
-
 
 end
