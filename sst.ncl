@@ -23,14 +23,16 @@ begin
   gsn_define_colormap(wks,"WhBlGrYeRe")   ; overwrite the .hluresfile color map
 
   res = True
+  res@Title = False
   res@MainTitle = "Sea Surface Temepature SST"
   res@Footer = False
-  res@gsnSpreadColors = True    ;spread Colors
+  ;; res@gsnSpreadColors = True    ;spread Colors
 
   mpres  = True  ; Map resources
   pltres = True ; Plot resources
   mpres@mpDataBaseVersion    = "HighRes"
   mpres@mpGeophysicalLineThicknessF = 2.0
+  mpres@gsnMaximize = True
 
   ;; times  = wrf_user_list_times(a)  ; get times in the file
   ;; ntimes = dimsizes(times)         ; number of times in the file
