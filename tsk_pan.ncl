@@ -61,6 +61,8 @@ begin
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
 
     tsk = wrf_user_getvar(a,"TSK",it)
+    u10  = wrf_user_getvar(a,"U10",it)        ; u averaged to mass points
+    v10  = wrf_user_getvar(a,"V10",it)        ; v averaged to mass points
 
     ;;--------------------------------------------------------------------
     ;;
@@ -87,11 +89,24 @@ begin
 ;;--------------------------------------------------------------------
     ;; map resources
     ;; mpres@gsnMaximize = True
+    mpres@NoHeaderFooter = True
+
+    ;;--------------------------------------------------------------------
+    ;; Vector
+    optsV = True
+    optsV@FieldTitle = "Wind"   ; overwrite Field Title
+    optsV@NumVectors = 47       ; wind barb density
+
 
     ;;--------------------------------------------------------------------
     ;; plot each one
     contour = wrf_contour(a,wks,tsk,opts)
-    plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
+    ;; Plotting options for Wind Vectors
+    vector = wrf_vector(a,wks,u10,v10,optsV)
+
+    plot(it) = wrf_map_overlays(a,wks,(/contour, vector/),pltres,mpres)
+    delete(contour)
+    delete(vector)
 
   end do
 
