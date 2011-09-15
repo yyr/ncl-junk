@@ -20,10 +20,9 @@ begin
   ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
   ;; type = "x11"
   type = "ps"
-  pressure = 900.               ;which level you want to plot
-  out = "qsnow_" + pressure       ;out put file name
+  out = "snownc"       ;out put file name
 
-  tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
+  tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 
   ;;--------------------------------------------------------------------
   ;; Workstation settings
@@ -61,15 +60,9 @@ begin
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
     ;; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
-    if(isfilevar(a,"QSNOW"))
-      qv = wrf_user_getvar(a,"QSNOW",tvalues(it))
-      qv = qv*1000.
-      qv@units = "g/kg"
+    if(isfilevar(a,"SNOWNC"))
+      snownc = wrf_user_getvar(a,"SNOWNC",tvalues(it))
     end if
-
-    p  = wrf_user_getvar(a,"pressure",it) ; total pressure
-    qv_plane = wrf_user_intrp3d(qv,p,"h",pressure,0.,False)
-    ;; printVarSummary(qv_plane)
 
     ;;--------------------------------------------------------------------
     ;;
@@ -79,12 +72,11 @@ begin
     res@cnInfoLabelOn = False        ; turn off contour info label
 
 ;;--------------------------------------------------------------------
-    ;; contour resources
+    ;; contour resourcesx
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
-    opts@ContourParameters = (/ 0.5, 2.5, .07 /)
-    opts@PlotLevelID      = "Eta Level  " + pressure
+    ;; opts@ContourParameters = (/ 0.5, 2.5, .07 /)
     opts@InitTime = False
     ;; opts@ValidTime = False
     level =5
@@ -103,9 +95,9 @@ begin
 
     ;;--------------------------------------------------------------------
     ;; plot each one
-    if (isvar("qv_plane"))
-      ;; contour = wrf_contour(a,wks,qv(level,:,:),opts)
-      contour = wrf_contour(a,wks,qv_plane(:,:),opts)
+    if (isvar("snownc"))
+      ;; contour = wrf_contour(a,wks,snownc(level,:,:),opts)
+      contour = wrf_contour(a,wks,snownc(:,:),opts)
       plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
       delete(contour)
     end if
@@ -114,13 +106,13 @@ begin
 
   ;;--------------------------------------------------------------------
   ;; panalize here
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 6                ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres                = True            ; mod panel plot
+  pres@gsnPanelBottom = 0.05            ; add some space at bottom
+  pres@gsnPanelLabelBar = True          ; add common colorbar
+  pres@lbLabelStride  =  1              ; skip every other label
   pres@gsnMaximize = True
 
-  pres@txString         = "Snow mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
+  pres@txString         = "Accumilated Snow Fall mm"     ; add common title
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end

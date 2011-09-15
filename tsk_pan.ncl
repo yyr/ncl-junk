@@ -22,7 +22,7 @@ begin
   ;; type = "x11"
   type = "ps"
   pressure = 850.               ;which level you want to plot
-  out = "pan_tsk"       ;out put file name
+  out = "tsk"       ;out put file name
 
   tvalues = (/ 47, 78, 82, 86, 90,94/)   ;specify desired timestep outputs must be even
 
@@ -30,7 +30,7 @@ begin
   ;; Workstation settings
   wks = gsn_open_wks(type,out)
   ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-  gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
+  gsn_define_colormap(wks,"hotcold_18lev")
 
   ;;--------------------------------------------------------------------
   ;; some initial resources
@@ -61,8 +61,6 @@ begin
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
 
     tsk = wrf_user_getvar(a,"TSK",it)
-    u10  = wrf_user_getvar(a,"U10",it)        ; u averaged to mass points
-    v10  = wrf_user_getvar(a,"V10",it)        ; v averaged to mass points
 
     ;;--------------------------------------------------------------------
     ;;
@@ -75,7 +73,7 @@ begin
     opts = res
     opts@cnFillOn         = True
     opts@cnLevelSelectionMode = "ExplicitLevels"
-    opts@cnLevels =  fspan(265.,285.,40)
+    opts@ContourParameters = (/ 265., 280., 0.5 /)
     opts@cnFillColor = True
     opts@InitTime = False
     ;; opts@NoHeaderFooter = True
@@ -92,28 +90,19 @@ begin
     mpres@NoHeaderFooter = True
 
     ;;--------------------------------------------------------------------
-    ;; Vector
-    optsV = True
-    optsV@FieldTitle = "Wind"   ; overwrite Field Title
-    optsV@NumVectors = 47       ; wind barb density
-
-
-    ;;--------------------------------------------------------------------
     ;; plot each one
     contour = wrf_contour(a,wks,tsk,opts)
     ;; Plotting options for Wind Vectors
-    vector = wrf_vector(a,wks,u10,v10,optsV)
 
-    plot(it) = wrf_map_overlays(a,wks,(/contour, vector/),pltres,mpres)
+    plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
-    delete(vector)
 
   end do
 
   ;;--------------------------------------------------------------------
   ;; panalize here
   pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 10             ; skip every other label
+  pres@lbLabelStride  = 3             ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
 
