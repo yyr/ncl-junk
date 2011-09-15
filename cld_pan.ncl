@@ -120,7 +120,7 @@ begin
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
 
-  pres@txString         = "Snow mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
+  pres@txString         = "Cloud mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
