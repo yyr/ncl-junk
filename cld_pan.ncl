@@ -20,16 +20,16 @@ begin
   ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
   ;; type = "x11"
   type = "ps"
-  pressure = 850.               ;which level you want to plot
-  out = "pan_cld_" + pressure       ;out put file name
+  pressure = 900.               ;which level you want to plot
+  out = "cld_" + pressure       ;out put file name
 
-  tvalues = (/ 47, 85 , 90, 96 /)   ;specify desired timestep outputs must be even
+  tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
 
   ;;--------------------------------------------------------------------
   ;; Workstation settings
   wks = gsn_open_wks(type,out)
   ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-  gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
+  ;; gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
 
   ;;--------------------------------------------------------------------
   ;; some initial resources
@@ -57,19 +57,19 @@ begin
     print("tvalue: " + tvalues(it))
 
 
-    print("Working on time: " + times(it) )
+    print("Working on time: " + times(tvalues(it)))
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
     ;; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
-    if(isfilevar(a,"QVAPOR"))
-      qv = wrf_user_getvar(a,"QVAPOR",it)
-      qv = qv*1000.
-      qv@units = "g/kg"
+    if(isfilevar(a,"QCLOUD"))
+      qc = wrf_user_getvar(a,"QCLOUD",tvalues(it))
+      qc = qc*1000.
+      qc@units = "g/kg"
     end if
 
     p  = wrf_user_getvar(a,"pressure",it) ; total pressure
-    qv_plane = wrf_user_intrp3d(qv,p,"h",pressure,0.,False)
-    ;; printVarSummary(qv_plane)
+    qc_plane = wrf_user_intrp3d(qc,p,"h",pressure,0.,False)
+    ;; printVarSummary(qc_plane)
 
     ;;--------------------------------------------------------------------
     ;;
@@ -83,25 +83,29 @@ begin
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
-    opts@ContourParameters = (/ 0., 3., .08 /)
+    opts@ContourParameters = (/ 0., .7, .03 /)
     opts@PlotLevelID      = "Eta Level  " + pressure
     opts@InitTime = False
     ;; opts@ValidTime = False
+    level =5
 
     ;;--------------------------------------------------------------------
     ;; plot resources
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
+    pltres@MainTitlePos= False
 
 ;;--------------------------------------------------------------------
     ;; map resources
     mpres@gsnMaximize = True
+    ;; mpres@MainTitlePos= False
 
     ;;--------------------------------------------------------------------
     ;; plot each one
-    if (isvar("qv_plane"))
-      contour = wrf_contour(a,wks,qv_plane(:,:),opts)
+    if (isvar("qc_plane"))
+      ;; contour = wrf_contour(a,wks,qc(level,:,:),opts)
+      contour = wrf_contour(a,wks,qc_plane(:,:),opts)
       plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
       delete(contour)
     end if
@@ -114,8 +118,9 @@ begin
   pres@lbLabelStride  = 6                ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres@gsnMaximize = True
 
-  pres@txString         = "Water Vapour mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
+  pres@txString         = "Snow mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
