@@ -76,7 +76,7 @@ begin
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
-    ;; opts@ContourParameters = (/ 0.5, 2.5, .07 /)
+    opts@ContourParameters = (/ 0., 1.,0.5 /)
     opts@InitTime = False
     ;; opts@ValidTime = False
     level =5

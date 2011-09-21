@@ -29,7 +29,7 @@ begin
   ;; Workstation settings
   wks = gsn_open_wks(type,out)
   ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-  gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
+  ;; gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
 
   ;;--------------------------------------------------------------------
   ;; some initial resources
@@ -62,7 +62,7 @@ begin
     ;; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     if(isfilevar(a,"QVAPOR"))
-      qv = wrf_user_getvar(a,"QVAPOR",it)
+      qv = wrf_user_getvar(a,"QVAPOR",tvalues(it))
       qv = qv*1000.
       qv@units = "g/kg"
     end if

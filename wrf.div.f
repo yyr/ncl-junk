@@ -2,6 +2,8 @@ c--------------------------------------------------------
 C     http://forum.wrfforum.com/viewtopic.php?f=32&t=2267&p=15399#p14792
 C     NCLFORTSTART
       SUBROUTINE DCOMPUTEDIV(DIV,U,V,MSFT,DX,DY,NX,NY,NZ)
+C     MSFT : map factor
+
       IMPLICIT NONE
       INTEGER NX,NY,NZ
       DOUBLE PRECISION U(NX,NY,NZ),V(NX,NY,NZ)
