@@ -1,9 +1,8 @@
 ;; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;;    File: panel_t.ncl
+;;    File: hflux.ncl
 ;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
-;; Created: Friday, September  9 2011
-;; Licence: GPL v3 or later.
-;;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
+;; Created: Wednesday, September 21 2011
+;; Licence: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;;
 
 ;; Description:
@@ -15,21 +14,15 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
   ;;--------------------------------------------------------------------
-  ;; USER OPTIONS
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
-
-  ;; type = "x11"
   type = "ps"
-  pressure = 850.               ;which level you want to plot
-  out = "tsk"       ;out put file name
+  out = "hflux"       ;out put file name
 
   tvalues = (/ 47, 78, 82, 86, 90,94/)   ;specify desired timestep outputs must be even
 
   ;;--------------------------------------------------------------------
   ;; Workstation settings
   wks = gsn_open_wks(type,out)
-  ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
   gsn_define_colormap(wks,"hotcold_18lev")
 
   ;;--------------------------------------------------------------------
@@ -54,18 +47,18 @@ begin
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ;; LOOP NAME
-  ;; do it = 60, ntimes-1, 2  ;; LOOP NAME
-    print("tvalue: " + tvalues(it))
 
+    print("Record Number: " + tvalues(it))
     print("Working on time: " + times(it) )
+
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
 
-    tsk = wrf_user_getvar(a,"TSK",tvalues(it))
+    hflux = wrf_user_getvar(a,"HFX",tvalues(it))
 
     ;;--------------------------------------------------------------------
     ;;
-    res@gsnDraw              = False              ; Do not draw plot
-    res@gsnFrame             = False              ; Do not advance frame
+    res@gsnDraw   = False              ; Do not draw plot
+    res@gsnFrame  = False              ; Do not advance frame
     res@cnInfoLabelOn = False        ; turn off contour info label
 
 ;;--------------------------------------------------------------------
@@ -73,7 +66,7 @@ begin
     opts = res
     opts@cnFillOn         = True
     opts@cnLevelSelectionMode = "ExplicitLevels"
-    opts@ContourParameters = (/ 265., 280., 0.5 /)
+    opts@ContourParameters = (/ -100., 500., 20 /)
     opts@cnFillColor = True
     opts@InitTime = False
     ;; opts@NoHeaderFooter = True
@@ -91,7 +84,7 @@ begin
 
     ;;--------------------------------------------------------------------
     ;; plot each one
-    contour = wrf_contour(a,wks,tsk,opts)
+    contour = wrf_contour(a,wks,hflux,opts)
     ;; Plotting options for Wind Vectors
 
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
@@ -106,7 +99,7 @@ begin
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
 
-  pres@txString         = "Skin Temperature "      ; add common title
+  pres@txString         = "Upward heat flux at the suraface (W m-2) "      ; add common title
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
