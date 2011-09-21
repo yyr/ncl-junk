@@ -15,7 +15,7 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "ps"
 
-  msft = wrf_user_getvar(a,"MAPFAC_V",1 )
+  msft = wrf_user_getvar(a,"MAPFAC_M",1 )
 
   printVarSummary(msft)
   wks = gsn_open_wks(type,"msft_M")
