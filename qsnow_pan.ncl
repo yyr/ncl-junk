@@ -16,7 +16,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 begin
   ;;--------------------------------------------------------------------
   ;; USER OPTIONS
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
+  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
   ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
   ;; type = "x11"
   type = "ps"
@@ -24,6 +24,7 @@ begin
   out = "qsnow_" + pressure       ;out put file name
 
   tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
+  ; tvalues = tvalues + 96
 
   ;;--------------------------------------------------------------------
   ;; Workstation settings
