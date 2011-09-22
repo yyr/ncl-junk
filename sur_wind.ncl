@@ -1,7 +1,7 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: sur_wind.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
-; Created: Friday, September  9 2011
+; Created: Friday, September 22 2011
 ; Licence: GPL v3 or later.
 ;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
 ;
@@ -82,12 +82,7 @@ begin
     opts@InitTime = False
     opts@vcGlyphStyle = "LineArrow"
     opts@vcMonoLineArrowColor = False
-    ; opts@vcLevelColors = True
-    ; opts@vcRefAnnoOrthogonalPosF = -1.0  ;Moves the reference vector up.
     opts@gsnSpreadColors     = True      ; use full colormap
-    ; opts@gsnSpreadColorEnd   = 193       ; last color to use
-    ; opts@gsnSpreadColorStart = 6         ; first color to use
-    ; opts@lbLabelStride       = 2         ; plot every other colar bar label
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
 
 
