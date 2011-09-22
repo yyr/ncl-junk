@@ -41,13 +41,9 @@ begin
 
   opts = res
   opts@cnFillOn         = True
-  opts@cnLevelSelectionMode = "ExplicitLevels"
-  opts@cnLevels =  fspan(270.,285.,40)
+  opts@ContourParameters = (/ 270.,285., .5 /)
   opts@cnFillColor = True
-
   pltres@NoTitles = True
-  ;; pltres@CommonTitle = "testing"
-  ;; pltres@
 
   contour = wrf_contour(a,wks,sst,opts)
   plot = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)

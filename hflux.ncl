@@ -65,8 +65,7 @@ begin
     ;; contour resources
     opts = res
     opts@cnFillOn         = True
-    opts@cnLevelSelectionMode = "ExplicitLevels"
-    opts@ContourParameters = (/ -100., 500., 20 /)
+    opts@ContourParameters = (/ -100., 500., 50 /)
     opts@cnFillColor = True
     opts@InitTime = False
     ;; opts@NoHeaderFooter = True
