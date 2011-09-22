@@ -1,5 +1,5 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;    File: panel_t.ncl
+;    File: sur_air_temp.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Friday, September  9 2011
 ; Licence: GPL v3 or later.
@@ -15,16 +15,21 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
 ;--------------------------------------------------------------------
-; USER OPTIONS
+;
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
-; type = "x11"
+  tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
+
+; four_day = "yes"               ; yes or comment out
+  if ( isdefined("four_day") ) then
+    a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
+    tvalues = tvalues + 96
+  end if
+
   level=1
 
   type = "ps"
   out = "air_temp_at_level_" + level      ;out put file name
 
-  tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 ;--------------------------------------------------------------------
 ; Workstation settings
   wks = gsn_open_wks(type,out)

@@ -30,7 +30,7 @@ begin
   ;; Workstation settings
   wks = gsn_open_wks(type,out)
   ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-  gsn_define_colormap(wks,"hotcold_18lev")
+  ; gsn_define_colormap(wks,"hotcold_18lev")
 
   ;;--------------------------------------------------------------------
   ;; some initial resources
@@ -72,7 +72,6 @@ begin
     ;; contour resources
     opts = res
     opts@cnFillOn         = True
-    opts@cnLevelSelectionMode = "ExplicitLevels"
     opts@ContourParameters = (/ 265., 280., 0.5 /)
     opts@cnFillColor = True
     opts@InitTime = False
@@ -102,7 +101,7 @@ begin
   ;;--------------------------------------------------------------------
   ;; panalize here
   pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 3             ; skip every other label
+  pres@lbLabelStride  = 7             ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
 
