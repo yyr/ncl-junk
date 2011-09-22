@@ -18,9 +18,9 @@ begin
 ; input file
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
+  tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 
-  four_day = "yes"               ; yes or comment out
+  ; four_day = "yes"               ; yes or comment out
   if ( isdefined("four_day") ) then
     a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
     tvalues = tvalues + 96
@@ -33,8 +33,7 @@ begin
 ; Workstation settings
 
   wks = gsn_open_wks(type,out)
-                                ; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-                                ; gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
+  ; gsn_define_colormap(wks,"BlAqGrYeOrReVi200")            ; choose color map
 
 ;--------------------------------------------------------------------
 ; some initial resources
@@ -48,6 +47,7 @@ begin
   pltres = True ; Plot resources
   mpres@mpDataBaseVersion    = "HighRes"
   mpres@mpGeophysicalLineThicknessF = 2.0
+  mpres@mpGeophysicalLineColor = "Blue"
 
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
@@ -78,9 +78,18 @@ begin
 ; Plotting options for Wind Vectors
     opts = res
     opts@FieldTitle = "Wind"       ; overwrite Field Title
-    opts@NumVectors = 55           ; density of wind barbs
+    ; opts@NumVectors = 40           ; density of wind barbs
     opts@InitTime = False
     opts@vcGlyphStyle = "LineArrow"
+    opts@vcMonoLineArrowColor = False
+    ; opts@vcLevelColors = True
+    ; opts@vcRefAnnoOrthogonalPosF = -1.0  ;Moves the reference vector up.
+    opts@gsnSpreadColors     = True      ; use full colormap
+    ; opts@gsnSpreadColorEnd   = 193       ; last color to use
+    ; opts@gsnSpreadColorStart = 6         ; first color to use
+    ; opts@lbLabelStride       = 2         ; plot every other colar bar label
+    opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
+
 
 ;--------------------------------------------------------------------
 ; plot resources
