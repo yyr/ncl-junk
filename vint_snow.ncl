@@ -2,7 +2,7 @@
 ;    File: vint_snow.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Wednesday, September 21 2011
-; Licence: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
+; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;
 
 ; Description:

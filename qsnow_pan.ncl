@@ -2,7 +2,7 @@
 ;    File: panel_t.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Friday, September  9 2011
-; Licence: GPL v3 or later.
+; License: GPL v3 or later.
 ;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
 ;
 
