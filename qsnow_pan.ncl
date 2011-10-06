@@ -57,13 +57,11 @@ begin
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ; LOOP NAME
-                                ; do it = 60, ntimes-1, 2  ; LOOP NAME
+; do it = 60, ntimes-1, 2  ; LOOP NAME
+
+;-- notify the timings  --
     print("tvalue: " + tvalues(it))
-
-
     print("Working on time: " + times(tvalues(it)))
-    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-                                ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     if(isfilevar(a,"QSNOW"))
       qv = wrf_user_getvar(a,"QSNOW",tvalues(it))
@@ -76,11 +74,13 @@ begin
                                 ; printVarSummary(qv_plane)
 
 ;--------------------------------------------------------------------
-;
+; set resorces for this iteration
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
-
     res@cnInfoLabelOn = False        ; turn off contour info label
+; res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
+    res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
+
 
 ;--------------------------------------------------------------------
 ; contour resources
