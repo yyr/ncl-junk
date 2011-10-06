@@ -1,5 +1,5 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;    File: sur_wind.ncl
+;    File: wind10.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Friday, September 22 2011
 ; License: GPL v3 or later.
@@ -60,7 +60,6 @@ begin
   do it = 0, noft - 1, 1   ; LOOP NAME
                                 ; do it = 60, ntimes-1, 2  ; LOOP NAME
     print("tvalue: " + tvalues(it))
-
 
     print("Working on time: " + times(tvalues(it)))
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
