@@ -1,5 +1,5 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;    File: vint_snow.ncl
+;    File: vint.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Wednesday, September 21 2011
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
@@ -16,11 +16,16 @@ begin
 ;--------------------------------------------------------------------
 ; USER OPTIONS
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
+;  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
   type = "ps"
-  out = "vint_ice"        ;out put file name
+  var = "QSNOW"
+  out = "vint_" + var       ;out put file name
 
   tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
+  ; tvalues = tvalues + 96
   wks = gsn_open_wks(type,out)
+
+  noflevels = 33                ; how many layers should be added
 
 ;--------------------------------------------------------------------
 ; some initial resources
@@ -51,21 +56,18 @@ begin
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
                                 ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
-    qice = wrf_user_getvar(a,"QICE",tvalues(it))
-    qice = qice*1000.
-    qice@units = "g/kg"
+    qv = wrf_user_getvar(a,var,tvalues(it))
+    qv = qv*1000.
+    qv@units = "g/kg"
 
                                 ; print(qice(12,:,:))
-    dim = dimsizes(qice)
-    qice_sum = new((/ dim(1),dim(2) /),typeof(qice))
+    dim = dimsizes(qv)
+    qv_sum = new((/ dim(1),dim(2) /),typeof(qv))
 
-    mean_levels = 20
-    do z = 0, mean_levels, 1   ; z level
-      qice_sum(:,:) = qice_sum(:,:) + qice(z,:,:) ;* 1/mean_levels)
+    qv_sum = qv(1,:,:)
+    do z = 1, noflevels, 1   ; z level
+      qv_sum(:,:) = qv_sum(:,:) + qv(z,:,:) ;* 1/mean_levels)
     end do
-
-                                ; p  = wrf_user_getvar(a,"pressure",it) ; total pressure
-                                ; qice_sum = wrf_user_intrp3d(qice,p,"h",pressure,0.,False)
 
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
@@ -76,11 +78,8 @@ begin
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
-                                ; opts@ContourParameters = (/ 0.5, 2.5, .07 /)
-                                ; opts@PlotLevelID      = "Eta Level  " + pressure
+
     opts@InitTime = False
-                                ; opts@ValidTime = False
-    level =5
 
 ;--------------------------------------------------------------------
 ; plot resources
@@ -97,7 +96,7 @@ begin
     level= 10
 ;--------------------------------------------------------------------
 ; plot each one
-    contour = wrf_contour(a,wks,qice_sum(:,:),opts)
+    contour = wrf_contour(a,wks,qv_sum(:,:),opts)
                                 ; contour = wrf_contour(a,wks,qice(level,:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
 
@@ -111,7 +110,7 @@ begin
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
 
-  pres@txString         = "Snow mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
+  pres@txString         =  "Sum of " + var + "( " + noflevels + " levels)"; add common title
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
