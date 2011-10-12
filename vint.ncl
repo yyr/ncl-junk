@@ -6,7 +6,7 @@
 ;
 
 ; Description:
-;
+; vintegration
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
@@ -19,6 +19,8 @@ begin
 ;  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
   type = "ps"
   var = "QSNOW"
+  ; var = "QICE"
+  ; var = "QSNOW"
   out = "vint_" + var       ;out put file name
 
   tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
@@ -105,7 +107,7 @@ begin
 ;--------------------------------------------------------------------
 ; panalize here
   pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 6                ; skip every other label
+  pres@lbLabelStride  = 3                ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
