@@ -17,4 +17,12 @@ begin
 
 end
 
-undef
+;;--------------------------------------------------------------------
+; weighted_sum to weight of the layer will be calculated using
+; hydrostatic equation.
+
+undef("weighted_sum")
+function weighted_sum(f:file,)
+begin
+
+end
