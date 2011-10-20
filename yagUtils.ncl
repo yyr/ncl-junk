@@ -17,12 +17,68 @@ begin
 
 end
 
+undef("no_of_levels")
+function yag_draw_2d(f:file)
+begin
+  dims = dimsizes(var)
+
+end
+
 ;;--------------------------------------------------------------------
 ; weighted_sum to weight of the layer will be calculated using
 ; hydrostatic equation.
 
-undef("weighted_sum")
-function weighted_sum(f:file,)
+undef("wrf_user_getvar_weighted_sum")
+function wrf_user_getvar_weighted_sum(file_handle,var_in:string,time_in:integer)
+local var,varname, var, ph,phb,pres,gh,dim, wgt_var, noflevels, \
+lay_var,dgh,dp, lay_wgt, lay_wgt_var, wgt_var,time,g
+
 begin
+  g = 9.8                       ; gravity
+
+; check the file handle is okay
+  if(typeof(file_handle).eq."file") then
+    ISFILE = True
+    nc_file = file_handle
+  else
+    print("wrf_user_getvar: error: the first argument must be a file or a list of files opened with addfile or addfiles")
+    return
+  end if
+
+; get var we need to return
+  varname=var_in(0)
+  time = time_in(0)
+
+  var = wrf_user_getvar(nc_file,varname,time)
+  ph = wrf_user_getvar(nc_file,"PH",time)
+  phb = wrf_user_getvar(nc_file,"PHB",time)
+  pres = wrf_user_getvar(nc_file,"pressure",time)
+  gh = ph + phb               ;geo potential height
+;  print(gh)
+
+  dim = dimsizes(var)
+  wgt_var = new((/ dim(1),dim(2) /),typeof(var))
+
+  wgt_var = 0                   ;intialize
+
+  noflevels = 32
+  do z = 0, noflevels, 1   ; z level
+
+    lay_var = (var(z+1,:,:) + var(z,:,:)) ; interpolation of the variable
+    lay_var = lay_var/2.
+
+    dgh = gh(z+1,:,:) - gh(z,:,:) ; gh difference bw two layers
+    dp = pres(z+1,:,:) - pres(z,:,:) ; pressure difference bw two layers
+
+    lay_wgt = (dp/dgh)
+    lay_wgt = lay_wgt * g     ;
+    lay_wgt_var = lay_var * lay_wgt
+
+    wgt_var = wgt_var + lay_wgt_var ;* 1/mean_levels)
+
+  end do
+  wgt_var = wgt_var * -1
+
+  return(wgt_var)
 
 end
