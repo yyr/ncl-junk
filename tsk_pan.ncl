@@ -95,17 +95,6 @@ begin
 
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
-
   end do
-
-  ;;--------------------------------------------------------------------
-  ;; panalize here
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 7             ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-
-  pres@txString         = "Skin Temperature "      ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
