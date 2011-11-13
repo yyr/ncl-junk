@@ -1,5 +1,5 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;    File: utils.ncl
+;    File: yagUtils.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Wednesday, September 21 2011
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
@@ -7,27 +7,31 @@
 
 ; Description:
 ; my dumb functions
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
 
 ;;--------------------------------------------------------------------
 undef("yag_draw_2d")
 function yag_draw_2d(var:numeric)
 begin
-
-
+  print(var)
 end
 
+
+;;--------------------------------------------------------------------
 undef("no_of_levels")
-function yag_draw_2d(f:file)
+function no_of_levels( f:file )
 begin
   dims = dimsizes(var)
 
 end
 
+
 ;;--------------------------------------------------------------------
 ; weighted_sum to weight of the layer will be calculated using
 ; hydrostatic equation.
-
 undef("wrf_user_getvar_weighted_sum")
 function wrf_user_getvar_weighted_sum(file_handle,var_in:string,time_in:integer)
 local var,varname, var, ph,phb,pres,gh,dim, wgt_var, noflevels, \
@@ -86,15 +90,53 @@ end
 ;;--------------------------------------------------------------------
 ; this takes plots and arranges as panels
 undef("panelize_2col")
-function yag_draw_2d(var:numeric)
-begin
+function panelize_2col(var:numeric)
 
+begin
+  wks = "test"
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 7             ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
 
   pres@txString         = "Skin Temperature "      ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
+;;  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
+end
+
+;;--------------------------------------------------------------------
+; function to retrieve diagnosis variable
+; this is companion of wrf_user_getvar
+undef("wrf_my_getvar")
+function wrf_my_getvar(file_handle,var_in:numeric,t_in:integer)
+local test,fh,var,T,tin
+begin
+  fh = file_handle
+  var = var_in(0)
+  tin = t_in(0)
+  if ( var .eq. "T" ) then
+    T = wrf_user_getvar(fh,"T",tin)
+    T = T + 300
+    return(T)
+  end if
+end
+
+;---------------------------------------------------------------------
+; Fuction: set_inputfile
+; Doc:
+;
+;---------------------------------------------------------------------
+undef("set_inputfile")
+function set_inputfile(env_in)
+local env,fh
+begin
+  env=env_in
+  if ( (env_in) ) then
+    env = env_in
+  else
+    env = "NCL_FIN"
+  end if
+  fname = getenv(env)
+  fh = addfile(fname,"r")
+  return fh
 end
