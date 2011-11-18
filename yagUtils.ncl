@@ -12,6 +12,25 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
 
+;---------------------------------------------------------------------
+; Fuction: announce
+; Doc: just announces stdout what ever given with print statement
+;---------------------------------------------------------------------
+undef("announce")
+procedure announce(var_in:string)
+local str
+
+begin
+  str = var_in
+  system("echo")
+  system("echo ===========================================================")
+  print(str+"")
+  system("echo ===========================================================")
+
+end
+;- |announce| ends here --
+
+
 ;;--------------------------------------------------------------------
 undef("yag_draw_2d")
 function yag_draw_2d(var:numeric)
