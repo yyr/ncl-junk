@@ -126,6 +126,8 @@ end
 ;;--------------------------------------------------------------------
 ; function to retrieve diagnosis variable
 ; this is companion of wrf_user_getvar
+;  T -> theta with removed offset
+;  tc ->  tempereture in celcious [not yet implimented]
 undef("wrf_my_getvar")
 function wrf_my_getvar(file_handle,var_in:numeric,t_in:integer)
 local test,fh,var,T,tin
@@ -138,6 +140,12 @@ begin
     T = T + 300
     return(T)
   end if
+
+  if ( var .eq. "tc" ) then
+    return
+  end if
+
+
 end
 
 ;---------------------------------------------------------------------
