@@ -186,15 +186,28 @@ end
 ;- |draw_cs_line| ends here --
 
 ;---------------------------------------------------------------------
-; Fuction: end
+; Fuction: last
 ; Doc: returns the last index
 ;
 ;---------------------------------------------------------------------
-undef("end")
-function end(fh_in:string,dim_in:string)
+undef("last")
+function last(fh_in,varname_in:string,dim_in:integer)
+local var,fh,var_in_file,last_ind,dim
 begin
+  varname= varname_in
+  dim = dim_in
 
+  if ( typeof(fh_in) .eq. "file" ) then
+    ISFILE = True
+    fh = fh_in
+  else
+    print("wrf_user_getvar: error: the first argument must be a file or a list of files opened with addfile or addfiles")
+    return
+  end if
 
-  return
+  dims = filevardimsizes(fh,varname)
+  last_ind = dims(dim) - 1
+  return last_ind
+
 end
-;- |end| ends here --
+;- |last| ends here --
