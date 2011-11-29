@@ -60,7 +60,13 @@ begin
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
-    opts@ContourParameters = (/ 0., 2.6, .2 /)
+    if ( varname .eq. "QSNOW"  ) then
+      opts@ContourParameters = (/ 0., 2.6, .02 /)
+    end if
+    if ( varname .eq. "QICE"  ) then
+      opts@ContourParameters = (/ 0., 0.01, .001 /)
+    end if
+
 ;  opts@lbLabelBarOn        = False           ; turn off individual cb's
     opts@InitTime = False
 

@@ -29,13 +29,15 @@ begin
 
   dimt = filevardimsizes(a,varname)
   nd = dimsizes(dimt)
-  wgted_var = new((/53,dimt(2),dimt(3)/),float)
 
   dummy = 0
   st_time = 44
   tmp = dim(0)- st_time
   taus = fspan(st_time,dim(0)-1,tmp)
   taus = taus - st_time + 1
+
+  wgted_var = new((/tmp,dimt(2),dimt(3)/),float)
+
   do it = st_time, dim(0)-1, 1   ;; times
     wgted_var(dummy,:,:) = wrf_user_getvar_weighted_sum(a,varname,it)
     times(dummy) = chartostring(times_in_file(it,8:12))

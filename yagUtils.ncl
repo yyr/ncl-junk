@@ -9,8 +9,9 @@
 ; my dumb functions
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
+load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 ;---------------------------------------------------------------------
 ; Fuction: announce
@@ -167,3 +168,33 @@ begin
   fh = addfile(fname,"r")
   return fh
 end
+
+;---------------------------------------------------------------------
+; Fuction: draw_cs_line
+; Doc:
+;
+;---------------------------------------------------------------------
+undef("draw_cs_line")
+function draw_cs_line(plane_in,opts:logical)
+local t
+
+begin
+
+
+  return False
+end
+;- |draw_cs_line| ends here --
+
+;---------------------------------------------------------------------
+; Fuction: end
+; Doc: returns the last index
+;
+;---------------------------------------------------------------------
+undef("end")
+function end(fh_in:string,dim_in:string)
+begin
+
+
+  return
+end
+;- |end| ends here --
