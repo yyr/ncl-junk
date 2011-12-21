@@ -6,7 +6,8 @@
 ;
 
 ; Description:
-; my dumb functions
+; my dumb ncl functions/procedures
+
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
@@ -201,7 +202,7 @@ begin
     ISFILE = True
     fh = fh_in
   else
-    print("wrf_user_getvar: error: the first argument must be a file or a list of files opened with addfile or addfiles")
+    print("last: first argument is not a file handle")
     return
   end if
 
@@ -211,3 +212,21 @@ begin
 
 end
 ;- |last| ends here --
+
+;---------------------------------------------------------------------
+; Fuction: wrf_diff_slp2_xlevel
+; Doc:
+;
+;---------------------------------------------------------------------
+undef("wrf_diff_slp2_xlevel")
+function wrf_diff_slp2_xlevel(fh_in,lev_in:integer)
+local lev,fh_in,
+
+begin
+
+
+
+
+  return
+end
+;- "wrf_diff_slp2_xlevel" ends here --

@@ -17,12 +17,13 @@ load "$nsc/yagUtils.ncl"
 begin
 ;--------------------------------------------------------------------
 ; USER OPTIONS
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
+  a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
+;  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 ;  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
                                 ; type = "x11"
   type = "ps"
 ;  type = "ngcm"
-  varname = "QSNOW"
+  varname = "QICE"
 
   out = "wgt_sum_" + varname       ;out put file name
 
@@ -36,7 +37,7 @@ begin
 
 ;--------------------------------------------------------------------
 
-  do it = 44, 95, 1   ;; LOOP NAME
+  do it = 44, 144, 1   ;; LOOP NAME
 ;  notify time
 
     vt = it

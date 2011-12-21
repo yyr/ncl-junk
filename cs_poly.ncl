@@ -25,8 +25,9 @@ begin
   plane = new(4,float)
   dims = dimsizes(hgt)
 
-;  plane = (/89,52,216,218/)
+; plane = (/89,52,216,218/)
   plane = (/205,12,296,199/)
+;  plane = (/224,65,296,199/)
 ;  plane = (/ dims(2)/2, dims(1)/2 /)       ; pivot point (x,y) through center of domain
   angle = 45.                              ; plot from west to east
 ;  opts = False                             ; start and end point not supplied
