@@ -15,11 +15,11 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "ps"
-                                ; type = "x11"
-  out = "div_sur"     ;out put file name
+  type = "pdf"
+  out = "div10"     ;out put file name
 
-  tvalues = ispan(85,95,2)
+  tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
+
 
 ;;--------------------------------------------------------------------
 ; Workstation settings
@@ -89,8 +89,9 @@ begin
 
     ;;-- map res  --
     mpres@NoHeaderFooter = True
+    opts@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
 
-    ;;-- plot res  --
+   ;;-- plot res  --
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
