@@ -16,7 +16,7 @@ begin
 ;
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   ; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
-  ; type = "x11"
+
   type = "ps"
   pressure = 900.               ;which level you want to plot
   out = "cld_" + pressure       ;out put file name
