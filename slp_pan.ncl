@@ -17,7 +17,7 @@ begin
 ;--------------------------------------------------------------------
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be evenc
+  tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
 
   ; four_day = "yes"               ; yes or comment out
   if ( isdefined("four_day") ) then
@@ -25,13 +25,13 @@ begin
     tvalues = tvalues + 96
   end if
 
-  type = "ps"
   out = "slp"       ;out put file name
+  type = "pdf"
 
 ;--------------------------------------------------------------------
                                 ; Workstation settings
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"spread_15lev")   ; overwrite the .hluresfile color map
+  gsn_define_colormap(wks,"helix1")   ; overwrite the .hluresfile color map
   gsn_reverse_colormap(wks)
 
 ;--------------------------------------------------------------------
