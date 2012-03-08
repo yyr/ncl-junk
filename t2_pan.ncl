@@ -19,8 +19,8 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
   ;; type = "x11"
-  type = "pdf"
-  out = "t2"       ;out put file name
+  type = "ps"
+  out = "t2_pan"       ;out put file name
 
   tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
 

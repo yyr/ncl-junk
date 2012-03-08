@@ -16,7 +16,7 @@ begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "pdf"
-  out = "div10"     ;out put file name
+  out = "div10_pan"     ;out put file name
 
   tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
 

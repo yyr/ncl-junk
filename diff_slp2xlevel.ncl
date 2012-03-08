@@ -16,7 +16,7 @@ begin
 ; We generate plots, but what kind do we prefer?
   type = "ps"
 ;  type = "x11"
-  wks = gsn_open_wks(type,"diff_p")
+  wks = gsn_open_wks(type,"diff_p_pan")
 
   varname = "slp"
 
