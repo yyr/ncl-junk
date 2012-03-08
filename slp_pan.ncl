@@ -25,8 +25,8 @@ begin
     tvalues = tvalues + 96
   end if
 
-  out = "slp"       ;out put file name
-  type = "pdf"
+  out = "slp_pan"       ;out put file name
+  type = "ps"
 
 ;--------------------------------------------------------------------
                                 ; Workstation settings
