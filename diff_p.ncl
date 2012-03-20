@@ -19,6 +19,8 @@ begin
 
   varname = "slp"
 
+  tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
+
 ; get time information and strip out the day and hour
 
   last_ind = last(a,"Times",0)
@@ -43,6 +45,11 @@ begin
   opts = True                             ; start and end point not supplied
 
   height = 1500.   ; height at which pressure to be extracted
+
+;;--------------------------------------------------------------------
+; Do looping
+  noft = dimsizes(tvalues)
+  plot = new(noft,graphic)
 
   do it = st_time, last_ind,2   ;; times
 

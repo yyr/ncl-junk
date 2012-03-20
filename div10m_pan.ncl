@@ -78,14 +78,15 @@ begin
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
     res@cnInfoLabelOn = False        ; turn off contour info label
-;    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
     res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
+    res@lbLabelBarOn         = False               ; turn off the label bar
 
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
     opts@InitTime = False
     opts@ContourParameters = (/-.2,0.2 , .05 /)
+
 
     ;;-- map res  --
     mpres@NoHeaderFooter = True
@@ -107,6 +108,7 @@ begin
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
+  pres@gsnPanelLabelBar = True
 
   pres@txString         = "Divergenge at 10m"
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot

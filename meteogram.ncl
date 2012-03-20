@@ -21,20 +21,23 @@ begin
 
 ; Find the ij location for the point if interest
   ;; land point over hokkaido
-  lat = 43.25
-  lon = 143.
+  ;; lat = 43.25
+  ;; lon = 143.
 
   ;; land point over hokkaido
-  ;; lat = 45.5
-  ;; lon = 143.
+  lat = 45.5
+  lon = 143.
 
   llres = True
   llres@ReturnInt = True   ; Return integer values
   locij = wrf_user_ll_to_ij(a, lon, lat, llres)
   locij = locij - 1        ; array pointers in NCL space
   locX = 179
-  locY = 71
-;  locY = 119
+ locY = 71
+ wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
+
+  ;; locY = 119
+  ;; wks = gsn_open_wks("ps","meteo_sea")    ; open a workstation
 
 ;  print(locij)
 
@@ -49,7 +52,6 @@ begin
     times(i) = chartostring(times_in_file(i,8:12))
   end do
 
-  wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
 
 ;-----------------------------------------------------------------------
 
@@ -117,7 +119,7 @@ begin
   tt_res@lbBoxMinorExtentF        = 0.13
   tt_res@lbLabelFontHeightF       = 0.012
   tt_res@lbBoxLinesOn             = False
-  tt_res@tiMainString             = "Meteogram 1"
+  tt_res@tiMainString             = "Meteogram over Hokkaido"
 
 
   uv_res = res2D
