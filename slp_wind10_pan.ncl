@@ -118,7 +118,7 @@ begin
 ; panalize here
 
   pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 6                ; skip every other label
+  pres@lbLabelStride  = 4                ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
