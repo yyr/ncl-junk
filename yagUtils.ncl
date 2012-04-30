@@ -212,21 +212,3 @@ begin
 
 end
 ;- |last| ends here --
-
-;---------------------------------------------------------------------
-; Fuction: wrf_diff_slp2_xlevel
-; Doc:
-;
-;---------------------------------------------------------------------
-undef("wrf_diff_slp2_xlevel")
-function wrf_diff_slp2_xlevel(fh_in,lev_in:integer)
-local lev,fh_in,
-
-begin
-
-
-
-
-  return
-end
-;- "wrf_diff_slp2_xlevel" ends here --

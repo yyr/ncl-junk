@@ -18,8 +18,7 @@ begin
   type = "pdf"
   out = "div10_pan"     ;out put file name
 
-  tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
-
+  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
 
 ;;--------------------------------------------------------------------
 ; Workstation settings
