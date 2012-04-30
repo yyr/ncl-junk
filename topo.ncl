@@ -23,7 +23,7 @@ begin
   f = addfile(din + fin + ".nc","r")
   z = f->z
 
-  wks = gsn_open_wks("png","topo")
+  wks = gsn_open_wks("ps","topo")
 
   ;; convertion
   s = (sl+90)*60
@@ -37,6 +37,7 @@ begin
 
   res = True ; options desired
   res@gsnMaximize = True ; maximize size of plot
+  res@gsnLeftString = "Height in meters"
   res@tiMainString = "Topographical Map of East Asian region"
 
   res@cnFillOn = True
@@ -51,9 +52,11 @@ begin
 
   ;; lablebar
   res@lbOrientation = "vertical"
-  res@lbLabelStrings =  (/0., 100., 200., 400., 800., 1600., 3200., 4000. /)
+  res@lbLabelStride = 2
 
-  ;;
+;  res@lbLabelStrings =  (/0., 100., 200., 400., 800., 1600., 3200., 4000. /)
+
+
   plot = gsn_csm_contour(wks,z(s:n,w:e),res)
 
 end
