@@ -20,20 +20,12 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
 
-                                ; four_day = "yes"               ; yes or comment out
-  if ( isdefined("four_day") ) then
-    a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
-    tvalues = tvalues + 96
-  end if
-                                ; type = "x11"
   type = "ps"
   out  = "slp_wind10_pan"       ;out put file name
 
-;--------------------------------------------------------------------
-; Workstation settings
 
+;--------------------------------------------------------------------
   wks = gsn_open_wks(type,out)
-                                ; gsn_define_colormap(wks,"BlAqGrYeOrReVi200")            ; choose color map
 
 ;--------------------------------------------------------------------
 ; some initial resources
@@ -68,15 +60,24 @@ begin
     v10 = wrf_user_getvar(a,"V10",tvalues(it))   ; V component of the wind at 10m
     slp = wrf_user_getvar(a,"slp",tvalues(it))
 
-;--------------------------------------------------------------------
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
 
 
+
+;--------------------------------------------------------------------
 ; resources for contour plot
     cres = res
-    cres@cnFillOn         = True
-    cres@gsnSpreadColors = True
+    cres@cnFillOn         = False
+    cres@cnLevelFlags = True
+    cres@ContourParameters = (/ 972., 996., 3 /)
+    cres@InitTime = False
+    cres@gsnPanelRight = True
+
+    contour = wrf_contour(a,wks,slp,cres)
+    delete(cres)
+
+
 
 ;--------------------------------------------------------------------
 ; Plotting options for Wind Vectors
@@ -84,8 +85,9 @@ begin
     opts@FieldTitle = "Wind"       ; overwrite Field Title
                                 ; opts@NumVectors = 40           ; density of wind barbs
     opts@InitTime = False
+    opts@ValidTime = False
     opts@vcGlyphStyle = "LineArrow"
-    opts@vcMonoLineArrowColor = True
+    opts@vcMonoLineArrowColor = False
     opts@gsnSpreadColors     = True      ; use full colormap
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
 
@@ -106,7 +108,6 @@ begin
 ;--------------------------------------------------------------------
 ; plot each one
 
-    contour = wrf_contour(a,wks,slp,cres)
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector,contour/),pltres,mpres)
     delete(vector)
