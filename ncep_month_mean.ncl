@@ -65,8 +65,6 @@ begin
     res@mpDataBaseVersion             = "MediumRes"
     res@mpOutlineOn                   = True
 ;    res@mpOutlineSpecifiers           = (/"Japan"/)
-    res@gsnMajorLonSpacing            = 10
-    res@gsnMajorLatSpacing            = 10
     res@pmLabelBarDisplayMode    = "Always"
 
 ;
