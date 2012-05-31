@@ -75,6 +75,10 @@ begin
 
   res@gsnSpreadColors = True
 
+  res@cnLevelSelectionMode = "ExplicitLevels"
+  res@cnLevels = (/0.,0.2,0.4,.6,.8,1.,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6/)
+  res@lbOrientation = "vertical"
+
   plot = gsn_csm_hov(wks,t_plane,res)
 
 end

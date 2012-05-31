@@ -14,9 +14,10 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
 ; We generate plots, but what kind do we prefer?
-  type = "ps"
+  type = "png"
 ;  type = "x11"
   wks = gsn_open_wks(type,"diff_p_pan")
+  tvalues = (/ 48,96 /)   ;specify desired timestep outputs must be even
 
   varname = "slp"
 
@@ -32,47 +33,65 @@ begin
 
   st_time = 70
 
+                                ;--------------------------------------------------------------------
+  noft = dimsizes(tvalues)
+  plot = new(noft,graphic)
+
   ts_len = last_ind - st_time + 1
   ts = fspan(st_time,last_ind,ts_len)
   ts = ts - st_time + 1
 
   height = 1500.   ; height at which pressure to be extracted
 
-  do it = st_time, last_ind,2   ;; times
-;  do it = 90 ,92
+  res = True
+;  res@cnFillOn         = True
+;  res@gsnSpreadColors = True
+  res@gsnDraw              = False              ; Do not draw plot
+  res@gsnFrame             = False              ; Do not advance frame
 
-    print("working with time:" + times(it))
-    slp = wrf_user_getvar(a,varname,it)
+do it = 0, noft - 1, 1   ; LOOP NAME
 
-    p  = wrf_user_getvar(a, "pressure",it) ; pressure is our vertical coordinate
-    z  = wrf_user_getvar(a, "z",it)        ; grid point height
+    vt = tvalues(it)
+;  do vt = st_time, last_ind,2   ;; times
+;  do vt = 90 ,92
+
+    print("working with time:" + times(vt))
+    slp = wrf_user_getvar(a,varname,vt)
+
+    p  = wrf_user_getvar(a, "pressure",vt) ; pressure is our vertical coordinate
+    z  = wrf_user_getvar(a, "z",vt)        ; grid point height
     p_plane  = wrf_user_intrp3d( p,z,"h",height,0.,False)
 
     p_diff = slp-p_plane
 
-    res = True
-    res@cnFillOn         = True
-    res@gsnSpreadColors = True
-    ;; res@gsnDraw   = False              ; Do not draw plot
-    ;; res@gsnFrame  = False              ; Do not advance frame
-;    res@cnLevelSpacingF =  .2
-
     res@cnLevelSelectionMode = "ExplicitLevels"
-    res@cnLevels = fspan(165,180,76)
+    res@cnLevels = fspan(171,180,45)
 
     plot=wrf_contour(a,wks,p_diff,res)
 
-    mpres  = True  ; Map resources
+    mpres  = res  ; Map resources
     mpres@mpDataBaseVersion    = "HighRes"
     mpres@mpGeophysicalLineThicknessF = 2.0
 
-    pltres = True ; Plot resources
+    pltres = res ; Plot resources
     pltres@NoTitles = True
     pltres@NoHeaderFooter = True
 
-    f = wrf_map_overlays(a,wks,(/plot/),pltres,mpres)
+    plot(it) = wrf_map_overlays(a,wks,(/plot/),pltres,mpres)
+    delete(pltres)
+    delete(mpres)
+
 
   end do
+  pres                = True              ; mod panel plot
+  pres@lbLabelStride  = 4                ; skip every other label
+  pres@gsnPanelBottom = 0.05              ; add some space at bottom
+  pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres@gsnMaximize = True
+;  pres@lbOrientation = "Vertical"
+
+  pres@txString         = "Pressure Diff"
+  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
 
 end
 ;;; cs_hgt.ncl ends here

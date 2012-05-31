@@ -19,7 +19,7 @@ begin
 
   varname = "slp"
 
-  tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
+  tvalues = (/ 48,60,72,84,90,96,102,108,114 /)   ;specify desired timestep outputs must be even
 
 ; get time information and strip out the day and hour
 
@@ -51,14 +51,17 @@ begin
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
-  do it = st_time, last_ind,2   ;; times
+  do it = 0, noft - 1, 1   ; LOOP NAME
 
-    print("working with time:" + times(it))
-    slp = wrf_user_getvar(a,varname,it)
+    vt = tvalues(it)
+;  do it = st_time, last_ind,2   ;; times
+
+    print("working with time:" + times(vt))
+    slp = wrf_user_getvar(a,varname,vt)
     slp_cs_line = wrf_user_intrp2d(slp,plane,angle,opts)
 
-    p  = wrf_user_getvar(a, "pressure",it) ; pressure is our vertical coordinate
-    z  = wrf_user_getvar(a, "z",it)        ; grid point height
+    p  = wrf_user_getvar(a, "pressure",vt) ; pressure is our vertical coordinate
+    z  = wrf_user_getvar(a, "z",vt)        ; grid point height
     p_plane  = wrf_user_intrp3d( p,z,"h",height,0.,False)
     p_cs_line = wrf_user_intrp2d(p_plane,plane,angle,opts)
 
@@ -79,13 +82,25 @@ begin
     yesL@trYMinF  = 8.                  ; min value on y-axis
     yesL@trYMaxF  = 15.                   ; max value on y-axis
 
-    yesL@tiMainString= "diff along cs line at" + times(it)
+    yesL@tiMainString= "diff along cs line at" + times(vt)
 
 ;    plot = gsn_csm_xy(wks,x_axis,(/slp_cs_line,p_cs_line/),yesL)
     plot = gsn_csm_xy(wks,x_axis,diff,yesL)
 
-
   end do
+
+
+  pres                = True              ; mod panel plot
+  pres@lbLabelStride  = 4                ; skip every other label
+  pres@gsnPanelBottom = 0.05              ; add some space at bottom
+  pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres@gsnMaximize = True
+;  pres@lbOrientation = "Vertical"
+
+;  pres@txString         = "D"
+;  gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
+  gsn_panel(wks,plot,(/3,noft/3/),pres)        ; create panel plot
+
 
 end
 ;;; cs_hgt.ncl ends here
