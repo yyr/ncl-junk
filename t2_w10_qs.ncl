@@ -13,10 +13,11 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
-  type = "ps"
+ type = "ps"
+  ;; type = "png"
   out = "qs_over"
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"BlueGreen14")   ; overwrite the .hluresfile color map
+  gsn_define_colormap(wks,"temp_19lev")   ; overwrite the .hluresfile color map
 ;  gsn_reverse_colormap(wks)
 
   varname = "QSNOW"

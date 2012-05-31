@@ -28,6 +28,7 @@ begin
   z&lon = x
 
   wks = gsn_open_wks("x11","topo")
+  gsn_define_colormap(wks,"gsdtol")   ; overwrite the .hluresfile color map
 ;  gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
 
 

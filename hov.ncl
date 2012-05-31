@@ -31,7 +31,7 @@ begin
   nd = dimsizes(dimt)
 
   dummy = 0
-  st_time = 44
+  st_time = 48
   tmp = dim(0)- st_time
   taus = fspan(st_time,dim(0)-1,tmp)
   taus = taus - st_time + 1
@@ -40,6 +40,7 @@ begin
 
   do it = st_time, dim(0)-1, 1   ;; times
     wgted_var(dummy,:,:) = wrf_user_getvar_weighted_sum(a,varname,it)
+
     times(dummy) = chartostring(times_in_file(it,8:12))
     print("working with time:" + times(dummy))
     dummy = dummy + 1
@@ -69,6 +70,7 @@ begin
   res@tmYLMode       = "Explicit"    ; Define own tick mark labels.
   res@tmYLValues     = taus          ; location of explicit labels
   res@tmYLLabels     = times         ; labels are the locations
+  res@tmYLLabelStride = 6
   res@tmYROn         = False         ; turn off the top tick marks
 
   res@gsnSpreadColors = True

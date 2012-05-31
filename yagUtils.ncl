@@ -212,3 +212,44 @@ begin
 
 end
 ;- |last| ends here --
+
+;---------------------------------------------------------------------
+; Fuction: wv_wrf_ll_to_ij
+; Doc:
+;
+;---------------------------------------------------------------------
+undef("wv_wrf_ll_to_ij")
+function wv_wrf_ll_to_ij(fh_in,lonin:float, latin:float)
+local fh,opt,loc
+
+begin
+
+  if ( typeof(fh_in) .eq. "file" ) then
+    ISFILE = True
+    fh = fh_in
+  else
+    print("fatal: last argument is not a file handle")
+    return
+  end if
+
+  opt = True
+  opt@MAP_PROJ  = fh@MAP_PROJ
+  opt@TRUELAT1  = fh@TRUELAT1
+  opt@TRUELAT2  = fh@TRUELAT2
+  opt@STAND_LON = fh@STAND_LON
+  opt@DX        = fh@DX
+  opt@DY        = fh@DY
+
+  XLAT  = fh->XLAT(0,:,:)
+  XLONG = fh->XLONG(0,:,:)
+
+  opt@REF_LAT = XLAT(0,0)
+  opt@REF_LON = XLONG(0,0)
+  opt@KNOWNI  = 1.0
+  opt@KNOWNJ  = 1.0
+
+  loc = wrf_ll_to_ij ( lonin, latin, opt )
+
+  return loc
+end
+;- "wv_wrf_ll_to_ij" ends here --
