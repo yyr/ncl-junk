@@ -25,23 +25,23 @@ begin
   ;; lon = 143.
 
   ;; land point over hokkaido
-  lat = 45.5
-  lon = 143.
+  lat = 46
+  lon = 144.5
 
   llres = True
   llres@ReturnInt = True   ; Return integer values
   locij = wrf_user_ll_to_ij(a, lon, lat, llres)
   locij = locij - 1        ; array pointers in NCL space
   locX = 179
- locY = 71
- wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
+ ;; locY = 71
+ ;; wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
 
-  ;; locY = 119
-  ;; wks = gsn_open_wks("ps","meteo_sea")    ; open a workstation
+  locY = 119
+  wks = gsn_open_wks("ps","meteo_sea")    ; open a workstation
 
 ;  print(locij)
 
-  taus =  ispan(47,96,4)      ; create a time reference
+  taus =  ispan(48,144,6)      ; create a time reference
 
 ; get time information and strip out the day and hour
   times_in_file = a->Times
@@ -119,7 +119,7 @@ begin
   tt_res@lbBoxMinorExtentF        = 0.13
   tt_res@lbLabelFontHeightF       = 0.012
   tt_res@lbBoxLinesOn             = False
-  tt_res@tiMainString             = "Meteogram over Hokkaido"
+  tt_res@tiMainString             = "Meteogram over at " + lat + "N " + lon + "E"
 
 
   uv_res = res2D
@@ -160,7 +160,7 @@ begin
   windlayer = gsn_vector(wks,ugrid,vgrid,uv_res)
   overlay(ttfill,windlayer)
 
-  slp_plot  = gsn_csm_xy(wks,taus,slp_point,slp_res)
+;  slp_plot  = gsn_csm_xy(wks,taus,slp_point,slp_res)
   t2_plot  = gsn_csm_xy(wks,taus,t2_point,t2_res)
 
   draw(ttfill)
