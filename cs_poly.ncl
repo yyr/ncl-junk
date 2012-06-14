@@ -13,7 +13,8 @@ load "$nsc/yagUtils.ncl"
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "ps"
+;  type = "ps"
+  type = "png"
   wks = gsn_open_wks(type,"cs_poly")
 
   varname = "HGT"
@@ -25,8 +26,15 @@ begin
   plane = new(4,float)
   dims = dimsizes(hgt)
 
+
+
+  ;; TODO: make it lat lon basis
+  ;;  may be a function to retrieve cs line
+
 ; plane = (/89,52,216,218/)
-  plane = (/205,12,296,199/)
+;  plane = (/205,12,296,199/)
+;  plane = (/205,12,388,371/)
+  plane = (/300,56,378,176/)
 ;  plane = (/224,65,296,199/)
 ;  plane = (/ dims(2)/2, dims(1)/2 /)       ; pivot point (x,y) through center of domain
   angle = 45.                              ; plot from west to east

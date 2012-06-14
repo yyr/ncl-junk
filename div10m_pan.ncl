@@ -15,16 +15,15 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "pdf"
+  type = "png"
   out = "div10_pan"     ;out put file name
 
-  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
+  tvalues = (/ 48,72,96 /)   ;specify desired timestep outputs must be even
 
 ;;--------------------------------------------------------------------
 ; Workstation settings
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"BlWhRe")   ; overwrite the .hluresfile color map
   gsn_reverse_colormap(wks)
 
 ;--------------------------------------------------------------------
@@ -77,15 +76,13 @@ begin
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
     res@cnInfoLabelOn = False        ; turn off contour info label
-    res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
     res@lbLabelBarOn         = False               ; turn off the label bar
 
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
     opts@InitTime = False
-    opts@ContourParameters = (/-.2,0.2 , .05 /)
-
+    opts@ContourParameters = (/-.2, 0.2 , .01 /)
 
     ;;-- map res  --
     mpres@NoHeaderFooter = True
@@ -95,6 +92,7 @@ begin
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
+    pltres@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     contour = wrf_contour(a,wks,div,opts)
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
@@ -102,14 +100,18 @@ begin
 
   end do
 
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 3         ; skip every other label
+  print("I came")
+  pres                = res              ; mod panel plot
+  pres@lbLabelStride  = 4         ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
   pres@gsnPanelLabelBar = True
+  pres@lbOrientation = "vertical"
+  pres@lbOrientation = "vertical"
 
   pres@txString         = "Divergenge at 10m"
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
+  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
+
 
 end

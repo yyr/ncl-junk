@@ -28,7 +28,7 @@ begin
 
 ;--------------------------------------------------------------------
 
-  do it = 48, 95, 1   ;; LOOP NAME
+  do it = 90, 99, 1   ;; LOOP NAME
     vt = it
 ;     vt = it + 96
 ;  notify time
@@ -52,7 +52,6 @@ begin
     opts@InitTime = False
     contour = wrf_contour(a,wks,wgted_var,opts)
     delete(opts)
-
 
 ;;--------------------------------------------------------------------
 ;;-- t2  --
@@ -97,7 +96,7 @@ begin
     mpres@mpGeophysicalLineThicknessF = 2.0
 
 
-;    plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
+   ;; plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
     plot = wrf_map_overlays(a,wks,(/vector,contour_t,contour/),pltres,mpres)
     delete(pltres)
     delete(mpres)

@@ -30,7 +30,6 @@ begin
 ;    wks_type@wkWidth  = 600
 ;    wks_type@wkHeight = 800
     wks = gsn_open_wks(wks_type,filename)
-
 ;    gsn_define_colormap(wks,"gui_d")
 
     print ("Mon --> " + months(mon))
@@ -38,8 +37,8 @@ begin
     res                      = True          ; Plot options set
 
     res@gsnAddCyclic         = True          ; Add a longitude cyclic point.
-    res@vcMonoLineArrowColor = False         ; Turn on color vectors
-    res@gsnSpreadColors      = True          ; Span the color map
+    res@vcMonoLineArrowColor = True         ; Turn on color vectors
+;    res@gsnSpreadColors      = True          ; Span the color map
     res@gsnSpreadColorEnd    = -2            ; Don't include gray at end
     res@vcRefMagnitudeF      = 15           ; Define reference magnitude
     res@vcRefLengthF         = 0.07         ; Define length of vector reference

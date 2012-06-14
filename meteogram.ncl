@@ -26,7 +26,7 @@ begin
 
   ;; land point over hokkaido
   lat = 46
-  lon = 144.5
+  lon = 144
 
   llres = True
   llres@ReturnInt = True   ; Return integer values
@@ -36,8 +36,9 @@ begin
  ;; locY = 71
  ;; wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
 
+  out = "meteo_" + lat
   locY = 119
-  wks = gsn_open_wks("ps","meteo_sea")    ; open a workstation
+  wks = gsn_open_wks("ps",out)    ; open a workstation
 
 ;  print(locij)
 
@@ -90,11 +91,14 @@ begin
   res2D@vpHeightF            = 0.40       ; height
   res2D@tiXAxisString        = "Day_Time"
   res2D@tiXAxisFontHeightF   = 0.016
+  res2D@tmXBLabelAngleF   = 30.
   res2D@tmXBMode             = "Explicit"
   res2D@tmXBValues           = taus
   res2D@tmXBLabels           = times(taus)
   res2D@tmXBLabelJust        = "CenterCenter"
   res2D@tmXBLabelFontHeightF = .012
+  res2D@trYMaxF = 16
+
 
   tt_res = res2D
   tt_res@sfXArray                 = taus
@@ -142,6 +146,7 @@ begin
   res1D@xyLineThicknesses = 2             ; increase line thickness
   res1D@gsnDraw           = False         ; Don't draw individual plot.
   res1D@gsnFrame          = False         ; Don't advance frame.
+  res1D@tmXBLabelAngleF   = 30.
 
 
   slp_res = res1D
@@ -164,7 +169,7 @@ begin
   t2_plot  = gsn_csm_xy(wks,taus,t2_point,t2_res)
 
   draw(ttfill)
-  draw(slp_plot)
+;  draw(slp_plot)
   draw(t2_plot)
 
   frame(wks)                            ; now frame the plot

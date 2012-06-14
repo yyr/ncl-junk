@@ -18,9 +18,10 @@ begin
 ; input file
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
+;  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
+ tvalues = (/ 48,72,90/)   ;specify desired timestep outputs must be even
 
-  type = "ps"
+  type = "png"
   out  = "slp_wind10_pan"       ;out put file name
 
 
@@ -87,7 +88,7 @@ begin
     opts@InitTime = False
     opts@ValidTime = False
     opts@vcGlyphStyle = "LineArrow"
-    opts@vcMonoLineArrowColor = False
+    opts@vcMonoLineArrowColor = True
     opts@gsnSpreadColors     = True      ; use full colormap
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
 
@@ -102,7 +103,7 @@ begin
 ;--------------------------------------------------------------------
 ; map resources
 
-    mpres@gsnMaximize = True
+
 ;; mpres@MainTitlePos= False
 
 ;--------------------------------------------------------------------
@@ -119,11 +120,14 @@ begin
 
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres@gsnMaximize = True
+;  pres@gsnPanelBottom = 0.05              ; add some space at bottom
+; pres@gsnPanelLabelBar = False                   ; add common colorbar
+  pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
 
-  pres@txString         = "Wind at 10"
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
+
+  pres@txString         = "slp and Wind at 10m"
+  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
 
 end

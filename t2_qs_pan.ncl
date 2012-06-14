@@ -12,13 +12,14 @@ load "$nsc/yagUtils.ncl"
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
+; tvalues = (/ 84,90,96,102,108,114 /)   ;specify desired timestep outputs must be even
+ tvalues = (/ 48,72,96 /)   ;specify desired timestep outputs must be even
 
-  type = "ps"
+  type = "png"
   out = "t2_qs_pan"
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"BlueGreen14")   ; overwrite the .hluresfile color map
+  gsn_define_colormap(wks,"temp_19lev")   ; overwrite the .hluresfile color map
 
   varname = "QSNOW"
   noflevels = 32                ; how many layers should be added
@@ -102,13 +103,15 @@ begin
 
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
+;  pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
-  pres@lbOrientation = "Vertical"
+;  pres@lbOrientation = "Vertical"
 
-  pres@txString         = "Snow Mixing ration over SST"
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
+  pres@txString         = "Integraded column Snow over SST"
+;  gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
+  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
 
 end
 ;;; t2_qs_pan.ncl ends here

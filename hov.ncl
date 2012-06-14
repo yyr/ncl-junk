@@ -14,8 +14,9 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
 ; We generate plots, but what kind do we prefer?
-  type = "ps"
+  type = "png"
   wks = gsn_open_wks(type,"hov")
+  gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
 
   varname = "QSNOW"
 
@@ -32,6 +33,7 @@ begin
 
   dummy = 0
   st_time = 48
+
   tmp = dim(0)- st_time
   taus = fspan(st_time,dim(0)-1,tmp)
   taus = taus - st_time + 1
@@ -51,7 +53,10 @@ begin
   dims = dimsizes(wgted_var)
 
   plane = new(4,float)
-  plane = (/205,12,296,199/)
+;  plane = (/205,12,388,371/)
+;  plane = (/309,12,385,196/)
+  plane = (/300,56,378,176/)
+;  plane = (/205,12,296,199/)
 ;  plane = (/89,52,216,218/)
   angle = 45.                              ; plot from west to east
   opts = True                             ; start and end point not supplied
@@ -66,7 +71,7 @@ begin
 
   res@cnLineLabelAngleF   = 0.0                 ; [cn] label horizontal
   res@cnFillOn = True
-  res@tiMainString = "Hovmueller plot"
+;  res@tiMainString = ""
   res@tmYLMode       = "Explicit"    ; Define own tick mark labels.
   res@tmYLValues     = taus          ; location of explicit labels
   res@tmYLLabels     = times         ; labels are the locations
