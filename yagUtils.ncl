@@ -1,6 +1,5 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: yagUtils.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Wednesday, September 21 2011
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;
@@ -8,40 +7,25 @@
 ; Description:
 ; my dumb ncl functions/procedures
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/shea_util.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
-;---------------------------------------------------------------------
+;_____________________________________________________________________________
 ; Fuction: announce
 ; Doc: just announces stdout what ever given with print statement
-;---------------------------------------------------------------------
+;_____________________________________________________________________________
 undef("announce")
 procedure announce(var_in:string)
 local str
 
 begin
   str = var_in
-  system("echo")
-  system("echo ===========================================================")
-  print(str+"")
-  system("echo ===========================================================")
-
+  system("echo ___________________________________________________________")
+  system("echo " + str)
+  system("echo ___________________________________________________________")
+  system("echo ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯")
 end
 ;- |announce| ends here --
 
 
-;;--------------------------------------------------------------------
-undef("yag_draw_2d")
-function yag_draw_2d(var:numeric)
-begin
-  print(var)
-end
-
-
-;;--------------------------------------------------------------------
 undef("no_of_levels")
 function no_of_levels( f:file )
 begin
@@ -49,10 +33,10 @@ begin
 
 end
 
-
-;;--------------------------------------------------------------------
-; weighted_sum to weight of the layer will be calculated using
-; hydrostatic equation.
+;_____________________________________________________________________________
+; wrf_user_getvar_weighted_sum:
+;          Calculate weight of the layer will be calculated using
+;          hydrostatic equation.
 undef("wrf_user_getvar_weighted_sum")
 function wrf_user_getvar_weighted_sum(file_handle,var_in:string,time_in:integer)
 local var,varname, var, ph,phb,pres,gh,dim, wgt_var, noflevels, \
@@ -253,3 +237,42 @@ begin
   return loc
 end
 ;- "wv_wrf_ll_to_ij" ends here --
+
+;---------------------------------------------------------------------
+; Fuction: set_zoom_in
+; Doc:
+;
+;---------------------------------------------------------------------
+undef("set_zoom_in")
+function set_zoom_in(in_file[1]:file,x1,y1,x2,y2,map_args[1]:logical)
+local lat,lon,dims,ii,jj
+
+
+begin
+
+  if(isfilevar(in_file,"XLAT"))
+    lat = in_file->XLAT(0,:,:)
+    lon = in_file->XLONG(0,:,:)
+  else
+    lat = in_file->XLAT_M(0,:,:)
+    lon = in_file->XLONG_M(0,:,:)
+  end if
+  dims = dimsizes(lat)
+
+  do ii = 0, dims(0)-1
+    do jj = 0, dims(1)-1
+      if ( lon(ii,jj) .lt. 0.0) then
+        lon(ii,jj) = lon(ii,jj) + 360.
+      end if
+    end do
+  end do
+
+  map_args@mpLeftCornerLatF      = lat(y1,x1)
+  map_args@mpLeftCornerLonF      = lon(y1,x1)
+  map_args@mpRightCornerLatF     = lat(y2,x2)
+  map_args@mpRightCornerLonF     = lon(y2,x2)
+
+  return(map_args)
+
+end
+;- "set_zoom_in" ends here --
