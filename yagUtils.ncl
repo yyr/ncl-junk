@@ -238,39 +238,17 @@ begin
 end
 ;- "wv_wrf_ll_to_ij" ends here --
 
-;---------------------------------------------------------------------
-; Fuction: set_zoom_in
-; Doc:
-;
-;---------------------------------------------------------------------
 undef("set_zoom_in")
-function set_zoom_in(in_file[1]:file,x1,y1,x2,y2,map_args[1]:logical)
-local lat,lon,dims,ii,jj
-
+function set_zoom_in(x1,y1,x2,y2,map_args[1]:logical)
+local x1,y1,x2,y2,map_args
 
 begin
 
-  if(isfilevar(in_file,"XLAT"))
-    lat = in_file->XLAT(0,:,:)
-    lon = in_file->XLONG(0,:,:)
-  else
-    lat = in_file->XLAT_M(0,:,:)
-    lon = in_file->XLONG_M(0,:,:)
-  end if
-  dims = dimsizes(lat)
-
-  do ii = 0, dims(0)-1
-    do jj = 0, dims(1)-1
-      if ( lon(ii,jj) .lt. 0.0) then
-        lon(ii,jj) = lon(ii,jj) + 360.
-      end if
-    end do
-  end do
-
-  map_args@mpLeftCornerLatF      = lat(y1,x1)
-  map_args@mpLeftCornerLonF      = lon(y1,x1)
-  map_args@mpRightCornerLatF     = lat(y2,x2)
-  map_args@mpRightCornerLonF     = lon(y2,x2)
+  map_args@ZoomIn = True
+  map_args@Xstart = x1
+  map_args@Ystart = y1
+  map_args@Xend   = x2
+  map_args@Yend   = y2
 
   return(map_args)
 

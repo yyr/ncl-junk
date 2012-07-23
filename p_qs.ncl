@@ -43,7 +43,8 @@ begin
 
     opts = res
     opts@gsnMaximize = True
-    opts@AspectRatio = 0.6667
+    opts@AspectRatio = 1.2
+;    opts = set_zoom_in(a,178,54,389,325,opts)
 
 ;__contour map _______________________________________________________________
 
@@ -77,7 +78,7 @@ begin
     mpres@mpGeophysicalLineThicknessF = 2.0
     mpres@mpGeophysicalLineColor = "Blue"
 
-    mpres = set_zoom_in(a,178,54,389,325,mpres)
+;    mpres = set_zoom_in(178,54,389,325,mpres)
 
     plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
     delete(pltres)
