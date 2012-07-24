@@ -1,0 +1,3 @@
+[submodule "ncl-lib"]
+	path = ncl-lib
+	url = ./ncl-lib
