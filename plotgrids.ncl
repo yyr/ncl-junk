@@ -1,52 +1,36 @@
-;; NOTE: adopted from wps 3.4 sourcecode util directory
-;   Script display location of model domains
-;   Only works for ARW domains
-;   Reads namelist file directly
-
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
-;load "./WRFUserARW.ncl"
+load "$nsc/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
-;
 
-; We generate plots, but what kind do we prefer?
-;  type = "x11"
-; type = "pdf"
- type = "ps"
-; type = "ncgm"
-  wks = gsn_open_wks(type,"model_dom")
+  type = "x11"
+  wks = gsn_open_wks(type,"domain")
 
 ; read the following namelist file
-  filename = "./namelist.wps"
-
+  filename = "$nsc/namelist.wps"
 
 ; Set the colors to be used
-  colors = (/"white","black","White","ForestGreen","DeepSkyBlue","Red","Blue"/)
-  gsn_define_colormap(wks, colors)
+;  colors = (/"white","black","White","ForestGreen","DeepSkyBlue"/)
+;  gsn_define_colormap(wks, colors)
 
 
 ; Set some map information ; line and text information
   mpres = True
-  mpres@mpFillOn = True
-  mpres@mpFillColors  = (/"background","DeepSkyBlue","ForestGreen","DeepSkyBlue", "transparent"/)
+  mpres@mpFillOn = False
+;  mpres@mpFillColors  = (/"background","DeepSkyBlue","ForestGreen","DeepSkyBlue", "transparent"/)
   mpres@mpGeophysicalLineColor      = "Black"
   mpres@mpGridLineColor             = "Black"
   mpres@mpLimbLineColor             = "Black"
-  mpres@mpNationalLineColor         = "Black"
-  mpres@mpPerimLineColor            = "Black"
-  mpres@mpUSStateLineColor          = "Black"
-  ;mpres@mpGridSpacingF              = 45
-  mpres@tiMainString                = "Model Domain Configuration"
+  mpres@mpDataBaseVersion    = "HighRes"
+  mpres@mpGeophysicalLineThicknessF = 2.0
 
   lnres = True
   lnres@gsLineThicknessF = 2.5
-  lnres@domLineColors    = (/ "white", "Red" , "Red" , "Blue" /)
 
   txres = True
   txres@txFont = "helvetica-bold"
-  ;txres@txJust = "BottomLeft"
-  txres@txJust = "TopLeft"
+  txres@txJust = "BottomLeft"
   txres@txPerimOn = False
   txres@txFontHeightF = 0.015
 
@@ -117,17 +101,22 @@ begin
   mpres@e_we              = e_we
   mpres@e_sn              = e_sn
 
+  opts = True
+
+;  cn = wrf_contour()
+
   mp = wrf_wps_dom (wks,mpres,lnres,txres)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Now you can add some information to the plot.
 ; Below is an example of adding a white dot over the DC location.
-  ;pmres = True
-  ;pmres@gsMarkerColor = "White"
-  ;pmres@gsMarkerIndex = 16
-  ;pmres@gsMarkerSizeF = 0.01
-  ;gsn_polymarker(wks,mp,-77.26,38.56,pmres)
+                                ;pmres = True
+                                ;pmres@gsMarkerColor = "White"
+                                ;pmres@gsMarkerIndex = 16
+                                ;pmres@gsMarkerSizeF = 0.01
+                                ;gsn_polymarker(wks,mp,-77.26,38.56,pmres)
 
 
   frame(wks)           ; lets frame the plot - do not delete
