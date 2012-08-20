@@ -1,45 +1,40 @@
 ;    File: cs_poly.ncl
 ; Created: Monday, November 14 2011
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
   type = "X11"
-;  type = "png"
-
-  wks = gsn_open_wks(type,"cs_poly")
-
   varname = "HGT"
 
-  dimt = filevardimsizes(a,varname)
-  nd = dimsizes(dimt)
+  wks = gsn_open_wks(type,"cs_line")
+  set_colormap(wks,varname)
 
-  hgt = a->$varname$
-  plane = new(4,float)
-  dims = dimsizes(hgt)
-
-  plane = (/300,56,378,176/)
+  ;; initialize resorces
+  res = True
   opts = True
 
-;  plane = (/ dims(2)/2, dims(1)/2 /)       ; pivot point (x,y) through center of domain
-;  angle = 45.                              ; plot from west to east
+  pltres = True
+  mpres = True
+  mpres = set_high_res_coast(mpres)
 
-  xlat = wrf_user_getvar(a, "XLAT",0)
-  xlon = wrf_user_getvar(a, "XLONG",0)
-  ter = wrf_user_getvar(a, "HGT",0)
+  ;; retrieve needed variables
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+  ter = a->HGT(0,:,:)
 
   angle = 0.
+  plane = new(4,float)
+  plane = (/300,378,56,176/)
+
   X_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
   lat_plane = wrf_user_intrp2d(xlat,plane,angle,opts)
   lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
 
   X_desc = "longitude"
-
 
 ; X-axis lables
   dimsX = dimsizes(X_plane)
@@ -51,20 +46,23 @@ begin
   X_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
   X_desc = "longitude"
 
-  res = True
-  mpres = True
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
-  mpres@mpGeophysicalLineColor = "Black"
 
-  pltres = True
   pltres@FramePlot = False
+
   optsM = res
   optsM@NoHeaderFooter = True
   optsM@cnFillOn = True
   optsM@lbTitleOn = False
+  optsM@cnLevelSelectionMode = "ExplicitLevels"
+  optsM@cnLevels = (/1.,100.,200.,400.,800.,1600.,2400./)
+;  optsM@lbOrientation = "vertical"
+
+  optsM@gsnMaximize = True
+  optsM@gsnFrame = False              ; Do not advance frame
+
   contour  = wrf_contour(a,wks,ter,optsM)
   plot = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
+
   lnres = True
   lnres@gsLineThicknessF = 3.0
   lnres@gsLineColor = "Red"
@@ -74,7 +72,6 @@ begin
     if ( ii .eq. 50 ) then
     gsn_polyline(wks,plot,(/lon_plane(ii),lon_plane(ii+1)/),(/lat_plane(ii),lat_plane(ii+1)/),lnres)
     end if
-
   end do
 
   frame(wks)
