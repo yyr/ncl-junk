@@ -13,10 +13,9 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
-; We generate plots, but what kind do we prefer?
   type = "png"
   wks = gsn_open_wks(type,"hov")
-  gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
+  gsn_define_colormap(wks,"BlueRedGray")
 
   varname = "QSNOW"
 
@@ -53,16 +52,9 @@ begin
   dims = dimsizes(wgted_var)
 
   plane = new(4,float)
-;  plane = (/205,12,388,371/)
-;  plane = (/309,12,385,196/)
-  plane = (/300,56,378,176/)
-;  plane = (/205,12,296,199/)
-;  plane = (/89,52,216,218/)
+  plane = (/300,378,56,176/)
   angle = 45.                              ; plot from west to east
   opts = True                             ; start and end point not supplied
-  ;; plane = (/ dims(2)/2, dims(1)/2 /)       ; pivot point (x,y) through center of domain
-  ;; angle = 45.                              ; plot from west to east
-  ;; opts = False                             ; start and end point not supplied
 
   t_plane = wrf_user_intrp2d(wgted_var,plane,angle,opts)
 
@@ -71,7 +63,9 @@ begin
 
   res@cnLineLabelAngleF   = 0.0                 ; [cn] label horizontal
   res@cnFillOn = True
-;  res@tiMainString = ""
+
+  res@tiMainString = "time series along cross section line"
+
   res@tmYLMode       = "Explicit"    ; Define own tick mark labels.
   res@tmYLValues     = taus          ; location of explicit labels
   res@tmYLLabels     = times         ; labels are the locations
