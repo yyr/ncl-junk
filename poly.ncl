@@ -47,8 +47,4 @@ begin
   end do
 
   frame(wks)
-  delete(lon_plane)
-  delete(lat_plane)
-  pltres@FramePlot = True
-
 end
