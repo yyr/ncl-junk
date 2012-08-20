@@ -1,21 +1,18 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: t2_qs_pan.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Monday, November 14 2011
-; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;
 
 ; Description:
 ;
-
 load "$nsc/yagUtils.ncl"
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 ; tvalues = (/ 84,90,96,102,108,114 /)   ;specify desired timestep outputs must be even
- tvalues = (/ 48,72,96 /)   ;specify desired timestep outputs must be even
+  tvalues = (/71, 82, 95, 119 /)   ;specify desired timestep outputs must be even
 
-  type = "png"
+  type = "X11"
   out = "t2_qs_pan"
 
   wks = gsn_open_wks(type,out)
@@ -27,12 +24,9 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
-;;--------------------------------------------------------------------
-; res
   res = True
   res@Footer = False
   res@gsnDraw              = False              ; Do not draw plot
@@ -42,13 +36,9 @@ begin
   do it = 0, noft - 1, 1   ; LOOP NAME
 
     vt = tvalues(it)
-;     vt = tvalues(it) + 96
-;  notify time
     print("working with: " + times(vt))
 
 
-;;--------------------------------------------------------------------
-;;-- qsnow  --
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
     wgted_var = wgted_var * 1000. ;
     wgted_var@units = "g"
@@ -93,25 +83,27 @@ begin
 
 ;    plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
     plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
+
     delete(pltres)
     delete(mpres)
 
   end do
+
+
 
 ;--------------------------------------------------------------------
 ; panalize here
 
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
-;  pres@gsnPanelBottom = 0.05              ; add some space at bottom
+  pres@gsnPanelBottom = 0.1              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
-;  pres@lbOrientation = "Vertical"
 
   pres@txString         = "Integraded column Snow over SST"
-;  gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
-  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
+  gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
+;  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
 
 end
 ;;; t2_qs_pan.ncl ends here
