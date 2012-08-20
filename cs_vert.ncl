@@ -9,8 +9,12 @@ begin
   wks = gsn_open_wks(type,"cs")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
+  opts = True                            ; Specifying start and end points
+  plane = new(4,float)
+  plane = (/300,378,56,176/)
+
   res = True
-  res@MainTitle = "Verticlal Plane along the cross section"
+  res@MainTitle = "Vertical Plane along the cross section"
   res@Footer = False
   res@vpWidthF = .9
   res@vpHeightF = 1.0
@@ -21,9 +25,7 @@ begin
   times  = wrf_user_list_times(a)          ; Get times in the file
   ntimes = dimsizes(times)                    ; Number of times in the file
 
-  mdims = getfilevardimsizes(a,"P")       ; Get some dimension sizes for the file
-  nd = dimsizes(mdims)
-
+  nd = rank_of_file_var(a,"P")
 
 ;  do it = 70,ntimes-1,2                              ; TIME LOOP
   do it = 98,99
@@ -31,25 +33,15 @@ begin
     print("Working on time: " + times(it) )
     res@TimeLabel = times(it)         ; Set Valid time to use on plots
 
-
     th  = wrf_user_getvar(a,"th",it)
-    pvo = wrf_user_getvar(a,"QSNOW",it)
+    qs = wrf_user_getvar(a,"QSNOW",it)
     u   = wrf_user_getvar(a,"ua",it)
     v   = wrf_user_getvar(a,"va",it)
-    z   = wrf_user_getvar(a, "z",it)
     p   = wrf_user_getvar(a, "pressure",it)
     w   = wrf_user_getvar(a,"wa",it)
 
-; Cross section
-
-    opts = True                            ; Specifying start and end points
-    plane = new(4,float)
-    plane = (/300,378,56,176/)
-;    plane = (/  50,80 ,  50,20  /)  ; Start x;y & end x;y point
-
-
     th_plane = wrf_user_intrp3d( th,p,"v",plane,0.,opts)
-    pv_plane = wrf_user_intrp3d(pvo,p,"v",plane,0.,opts)
+    qs_plane = wrf_user_intrp3d(qs,p,"v",plane,0.,opts)
     u_plane  = wrf_user_intrp3d(  u,p,"v",plane,0.,opts)
     v_plane  = wrf_user_intrp3d(  v,p,"v",plane,0.,opts)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,0.,opts)
@@ -77,6 +69,7 @@ begin
       FirstTime = False
 
     end if
+
 
     opts_xy                         = res
 
@@ -133,19 +126,19 @@ begin
     opts_v@NumVectors = 47                           ; Wind barb density
 
     contour_th = wrf_contour(a,wks,th_plane(0:zmax_pos,:),opts_th)
-    contour_pv = wrf_contour(a,wks,pv_plane(0:zmax_pos,:),opts_pv)
+    contour_qs = wrf_contour(a,wks,qs_plane(0:zmax_pos,:),opts_pv)
 ;    vector = wrf_vector(a,wks,u_plane(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_w)
     vector = wrf_vector(a,wks,u_plane(0:zmax_pos,:),v_plane(0:zmax_pos,:),opts_v)
 
-    plot = wrf_overlays(a,wks,(/contour_th,contour_pv,vector/),pltres)
+    plot = wrf_overlays(a,wks,(/contour_th,contour_qs,vector/),pltres)
 
     delete(opts_th)
     delete(opts_pv)
     delete(opts_v)
     delete(th_plane)
-    delete(pv_plane)
+    delete(qs_plane)
     delete(u_plane)
     delete(v_plane)
 
   end do                                                     ; END OF TIME LOOP
-end                                                           ; END OF SCRIPT
+  end                                                           ; END OF SCRIPT
