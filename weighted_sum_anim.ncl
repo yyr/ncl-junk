@@ -10,20 +10,15 @@
 ; dP/dz = - ro * g (ro = density )
 ;
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$nsc/yagUtils.ncl"
 
 begin
 ;--------------------------------------------------------------------
 ; USER OPTIONS
-  a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
-;  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-;  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
-                                ; type = "x11"
+ a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "ps"
-;  type = "ngcm"
-  varname = "QICE"
+
+  varname = "QSNOW"
 
   out = "wgt_sum_" + varname       ;out put file name
 
