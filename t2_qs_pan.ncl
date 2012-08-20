@@ -101,9 +101,8 @@ begin
   pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
 
-  pres@txString         = "Integraded column Snow over SST"
+  pres@txString         = "Integraded column Snow over SAT"
   gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
-;  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
 
 end
 ;;; t2_qs_pan.ncl ends here
