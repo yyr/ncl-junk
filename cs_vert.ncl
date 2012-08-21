@@ -5,27 +5,32 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
   type = "png"
+  type = "x11"
 
   wks = gsn_open_wks(type,"cs")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
-  opts = True                            ; Specifying start and end points
   plane = new(4,float)
   plane = (/300,378,56,176/)
+  angle = 0.                    ; intialize
+  angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
+;    print(angle)
+
 
   res = True
+  opts = True                   ; Specifying start and end points
+  pltres = True
+  FirstTime = True              ; for calculating top level
+
   res@MainTitle = "Vertical Plane along the cross section"
   res@Footer = False
   res@vpWidthF = .9
   res@vpHeightF = 1.0
 
-  pltres = True
+ times  = wrf_user_list_times(a)          ; Get times in the file
+ ntimes = dimsizes(times)                    ; Number of times in the file
 
-  FirstTime = True
-  times  = wrf_user_list_times(a)          ; Get times in the file
-  ntimes = dimsizes(times)                    ; Number of times in the file
-
-  nd = rank_of_file_var(a,"P")
+ nd = rank_of_file_var(a,"P")
 
 ;  do it = 70,ntimes-1,2                              ; TIME LOOP
   do it = 98,99
@@ -40,17 +45,19 @@ begin
     p   = wrf_user_getvar(a, "pressure",it)
     w   = wrf_user_getvar(a,"wa",it)
 
-    th_plane = wrf_user_intrp3d( th,p,"v",plane,0.,opts)
-    qs_plane = wrf_user_intrp3d(qs,p,"v",plane,0.,opts)
-    u_plane  = wrf_user_intrp3d(  u,p,"v",plane,0.,opts)
-    v_plane  = wrf_user_intrp3d(  v,p,"v",plane,0.,opts)
-    w_plane  = wrf_user_intrp3d(w,p,"v",plane,0.,opts)
+    th_plane = wrf_user_intrp3d(th,p,"v",plane,angle,opts)
+    qs_plane = wrf_user_intrp3d(qs,p,"v",plane,angle,opts)
+    u_plane  = wrf_user_intrp3d(u,p,"v",plane,angle,opts)
+    v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,opts)
+    w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
 
+    urot_plane  = u_plane*cos(angle) - v_plane*sin(angle)  ; perform standard rotation
+    vrot_plane  = u_plane*sin(angle) + v_plane*cos(angle)
 
     if ( FirstTime ) then
 
-      zmax = 400.                        ;  Place top at model top or close to zmax
-      zz = wrf_user_intrp3d(p,p,"v",plane,0.,opts)
+      zmax = 500.                        ;  Place top at model top or close to zmax
+      zz = wrf_user_intrp3d(p,p,"v",plane,angle,opts)
       zmin = 1000                        ; Orginally set to zz, caused the program
       nice_levs = floor((zmin-zmax)/50)*50  ; to balk so it was set to 1000
       zmax = zmin - nice_levs       ; (suggestion from WRF NCL forums)
@@ -69,7 +76,6 @@ begin
       FirstTime = False
 
     end if
-
 
     opts_xy                         = res
 
@@ -111,24 +117,28 @@ begin
     opts_th@ContourParameters  = (/ 270., 460., 2. /)
 
                                 ; Vertical Velocity
-    w_plane = 100.*w_plane
+    w_plane = 10.*w_plane
     opts_w   = res
-                                ;opts_w@FieldTitle            = w@description
     opts_w@UnitLabel             = "m/3"
-                                ;opts_w@PlotLevelID           = 0.001*height + " km"
-                                ;opts_w@cnFillOn              = True
+
+;    opts_w@cnFillOn = True
+    opts_w@cnFillColor = True
     opts_w@gsnSpreadColorEnd     = -3
     contour_w = wrf_contour(a,wks, w_plane,opts_w)
 
-
     opts_v = res
-    opts_v@FieldTitle = "Wind"                        ; Overwrite Field Title
-    opts_v@NumVectors = 47                           ; Wind barb density
+    opts_v = set_no_frame_res(opts_v)
+
+    opts_v@vcMonoLineArrowColor = True
+    opts_v@vcMinDistanceF = 0.03 ; Thins the vectors
+    opts_v@vcRefLengthF = 0.03 ; Thins the vectors
+    opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
+    opts@vcRefMagnitudeF = 20.
 
     contour_th = wrf_contour(a,wks,th_plane(0:zmax_pos,:),opts_th)
     contour_qs = wrf_contour(a,wks,qs_plane(0:zmax_pos,:),opts_pv)
-;    vector = wrf_vector(a,wks,u_plane(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_w)
-    vector = wrf_vector(a,wks,u_plane(0:zmax_pos,:),v_plane(0:zmax_pos,:),opts_v)
+    vector = gsn_vector(wks,urot_plane(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_v)
+;    vector = wrf_vector(a,wks,urot_plane(0:zmax_pos,:),vrot_plane(0:zmax_pos,:),opts_v)
 
     plot = wrf_overlays(a,wks,(/contour_th,contour_qs,vector/),pltres)
 
