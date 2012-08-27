@@ -5,7 +5,6 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
   type = "png"
-  type = "x11"
 
   wks = gsn_open_wks(type,"cs")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
@@ -14,8 +13,6 @@ begin
   plane = (/300,378,56,176/)
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
-;    print(angle)
-
 
   res = True
   opts = True                   ; Specifying start and end points
@@ -27,10 +24,10 @@ begin
   res@vpWidthF = .9
   res@vpHeightF = 1.0
 
- times  = wrf_user_list_times(a)          ; Get times in the file
- ntimes = dimsizes(times)                    ; Number of times in the file
+  times  = wrf_user_list_times(a)          ; Get times in the file
+  ntimes = dimsizes(times)                    ; Number of times in the file
 
- nd = rank_of_file_var(a,"P")
+  nd = rank_of_file_var(a,"P")
 
 ;  do it = 70,ntimes-1,2                              ; TIME LOOP
   do it = 98,99
@@ -51,16 +48,18 @@ begin
     v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,opts)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
 
-    urot_plane  = u_plane*cos(angle) - v_plane*sin(angle)  ; perform standard rotation
+    ;; perform standard rotation
+    urot_plane  = u_plane*cos(angle) - v_plane*sin(angle)
     vrot_plane  = u_plane*sin(angle) + v_plane*cos(angle)
 
     if ( FirstTime ) then
 
-      zmax = 500.                        ;  Place top at model top or close to zmax
+      zmax = 400.
       zz = wrf_user_intrp3d(p,p,"v",plane,angle,opts)
-      zmin = 1000                        ; Orginally set to zz, caused the program
-      nice_levs = floor((zmin-zmax)/50)*50  ; to balk so it was set to 1000
-      zmax = zmin - nice_levs       ; (suggestion from WRF NCL forums)
+
+      zmin = 1000
+      nice_levs = floor((zmin-zmax)/50)*50
+      zmax = zmin - nice_levs
       dims = dimsizes(zz)
       zmax_pos = dims(0)-1
 
@@ -98,7 +97,6 @@ begin
 
 
 ; Plotting options for PV
-
     opts_pv = opts_xy
     opts_pv@pmLabelBarOrthogonalPosF = -0.07
     opts_pv@cnFillOn = True
@@ -116,7 +114,7 @@ begin
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
     opts_th@ContourParameters  = (/ 270., 460., 2. /)
 
-                                ; Vertical Velocity
+; Vertical Velocity
     w_plane = 10.*w_plane
     opts_w   = res
     opts_w@UnitLabel             = "m/3"
@@ -151,4 +149,4 @@ begin
     delete(v_plane)
 
   end do                                                     ; END OF TIME LOOP
-  end                                                           ; END OF SCRIPT
+end
