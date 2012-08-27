@@ -1,3 +1,7 @@
+;; doc:
+;;  (wrf) generate a horizontal plot at a given pressure level.
+
+
 load "$nsc/yagUtils.ncl"
 
 begin
@@ -36,9 +40,6 @@ begin
     v = wrf_user_getvar(a,"va",tvalues(it))   ; V component of the wind at 10m
 
     p  = wrf_user_getvar(a,"pressure",tvalues(it)) ; total pressure
-    printVarSummary(p)
-    printVarSummary(u)
-    printVarSummary(at_p)
 
     u_plevel = wrf_user_intrp3d(u,p,"h",at_p,0.,False)
     v_plevel = wrf_user_intrp3d(v,p,"h",at_p,0.,False)
