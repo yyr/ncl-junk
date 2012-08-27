@@ -45,16 +45,15 @@ begin
     v_plevel = wrf_user_intrp3d(v,p,"h",at_p,0.,False)
 
     opts = res
+    opts = set_no_frame_res(opts)
+
     opts@FieldTitle = "Wind"       ; overwrite Field Title
-                                ; opts@NumVectors = 40           ; density of wind barbs
-    opts@InitTime = False
-    opts@vcGlyphStyle = "LineArrow"
-    opts@vcMonoLineArrowColor = True
-    opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
     pltres@NoTitles = True
+    opts@InitTime = False
 
+    opts = set_vc_res(opts)
 
-    vector = wrf_vector(a,wks,u_plevel(:,:),v_plevel(:,:),opts)
+    vector = gsn_vector(wks,u_plevel(:,:),v_plevel(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector/),pltres,mpres)
     delete(vector)
   end do
