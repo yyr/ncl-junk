@@ -49,12 +49,14 @@ begin
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
 
     ;; perform standard rotation
-    urot_plane  = u_plane*cos(angle) - v_plane*sin(angle)
-    vrot_plane  = u_plane*sin(angle) + v_plane*cos(angle)
+;    urot_plane  = u_plane*cos(angle) ;- v_plane*sin(angle)
+;    vrot_plane  = u_plane*sin(angle) ;+ v_plane*cos(angle)
+
+    uproj = u_plane*cos(angle) + v_plane*sin(angle)
 
     if ( FirstTime ) then
 
-      zmax = 400.
+      zmax = 550.
       zz = wrf_user_intrp3d(p,p,"v",plane,angle,opts)
 
       zmin = 1000
@@ -115,7 +117,7 @@ begin
     opts_th@ContourParameters  = (/ 270., 460., 2. /)
 
 ; Vertical Velocity
-    w_plane = 10.*w_plane
+;    w_plane = 10.*w_plane
     opts_w   = res
     opts_w@UnitLabel             = "m/3"
 
@@ -127,20 +129,11 @@ begin
     opts_v = res
     opts_v = set_no_frame_res(opts_v)
 
-    opts_v@vcMonoLineArrowColor = True
-    opts_v@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
-    opts_v@vcMinDistanceF = 0.04
-
-    opts_v@vcRefMagnitudeF = 20.
-    opts_v@vcRefLengthF = 0.02
-    opts_v@vcRefAnnoOrthogonalPosF   = -1    ; Move reference into plot.
-    opts_v@vcRefAnnoArrowUseVecColor = False    ; Allow us to change ref vec color
-    opts_v@vcRefAnnoArrowLineColor   = "black"  ; Black ref vector
+    opts_v = set_vc_res(opts_v)
 
     contour_th = wrf_contour(a,wks,th_plane(0:zmax_pos,:),opts_th)
     contour_qs = wrf_contour(a,wks,qs_plane(0:zmax_pos,:),opts_pv)
-    vector = gsn_vector(wks,urot_plane(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_v)
-;    vector = wrf_vector(a,wks,urot_plane(0:zmax_pos,:),vrot_plane(0:zmax_pos,:),opts_v)
+    vector = gsn_vector(wks,uproj(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_v)
 
     plot = wrf_overlays(a,wks,(/contour_th,contour_qs,vector/),pltres)
 
