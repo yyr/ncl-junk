@@ -128,10 +128,14 @@ begin
     opts_v = set_no_frame_res(opts_v)
 
     opts_v@vcMonoLineArrowColor = True
-    opts_v@vcMinDistanceF = 0.03 ; Thins the vectors
-    opts_v@vcRefLengthF = 0.03 ; Thins the vectors
-    opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
-    opts@vcRefMagnitudeF = 20.
+    opts_v@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
+    opts_v@vcMinDistanceF = 0.04
+
+    opts_v@vcRefMagnitudeF = 20.
+    opts_v@vcRefLengthF = 0.02
+    opts_v@vcRefAnnoOrthogonalPosF   = -1    ; Move reference into plot.
+    opts_v@vcRefAnnoArrowUseVecColor = False    ; Allow us to change ref vec color
+    opts_v@vcRefAnnoArrowLineColor   = "black"  ; Black ref vector
 
     contour_th = wrf_contour(a,wks,th_plane(0:zmax_pos,:),opts_th)
     contour_qs = wrf_contour(a,wks,qs_plane(0:zmax_pos,:),opts_pv)
