@@ -12,7 +12,7 @@ begin
 ; tvalues = (/ 84,90,96,102,108,114 /)   ;specify desired timestep outputs must be even
   tvalues = (/71, 82, 95, 119 /)   ;specify desired timestep outputs must be even
 
-  type = "X11"
+  type = "png"
   out = "t2_qs_pan"
 
   wks = gsn_open_wks(type,out)
@@ -38,7 +38,6 @@ begin
     vt = tvalues(it)
     print("working with: " + times(vt))
 
-
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
     wgted_var = wgted_var * 1000. ;
     wgted_var@units = "g"
@@ -52,7 +51,6 @@ begin
     delete(opts)
 
 
-;;--------------------------------------------------------------------
 ;;-- t2  --
 
     optsT = res
@@ -67,8 +65,8 @@ begin
     contour_t = wrf_contour(a,wks,t2,optsT)
     delete(optsT)
 
-;;--------------------------------------------------------------------
-;;-- plot/overlay all  --
+;;-- plot/overlay all --
+
     pltres = True ; Plot resources
     pltres@NoTitles = True
     pltres@MainTitlePos= False
@@ -80,7 +78,6 @@ begin
     mpres@mpGeophysicalLineThicknessF = 2.0
     mpres@mpGeophysicalLineColor = "Blue"
 
-
 ;    plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
     plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
 
@@ -89,11 +86,7 @@ begin
 
   end do
 
-
-
-;--------------------------------------------------------------------
-; panalize here
-
+; Panelize
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
   pres@gsnPanelBottom = 0.1              ; add some space at bottom
