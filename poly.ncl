@@ -1,3 +1,6 @@
+; Purpose: make a poly marker line between given points on the domain
+;      (background terrian contour)
+
 load "$nsc/yagUtils.ncl"
 
 begin
@@ -6,10 +9,9 @@ begin
 
   ;; changes here
   angle = 0.
-  plane = new(4,float)
-  plane = (/300,378,56,176/)
+  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/)/)
 
-  type = "X11"
+  type = "png"
   varname = "HGT"
 
   wks = gsn_open_wks(type,"cs_line")
@@ -24,22 +26,32 @@ begin
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-  opts = True
-  lat_plane = wrf_user_intrp2d(xlat,plane,angle,opts)
-  lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
+  do it = 0, dim_len0(planes) - 1
 
-  lnres = True
-  lnres@gsLineThicknessF = 3.0
-  lnres@gsLineColor = "Red"
+    plane = new(4,float)
+    plane = planes(it,:)
 
-  dimsX = dimsizes(lon_plane)
-  xmin  = lon_plane(0)
-  xmax  = lon_plane(dimsX(0)-1)
-  xspan = dimsX(0)-1
-  nx    = floattoint((xmax-xmin)/2 + 1)
+    opts = True
+    lat_plane = wrf_user_intrp2d(xlat,plane,angle,opts)
+    lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
 
-  do ii = 0,dimsX(0)-2
-    gsn_polyline(wks,plot,(/lon_plane(ii),lon_plane(ii+1)/),(/lat_plane(ii),lat_plane(ii+1)/),lnres)
+    lnres = True
+    lnres@gsLineThicknessF = 3.0
+    lnres@gsLineColor = "Red"
+
+    dimsX = dimsizes(lon_plane)
+    xmin  = lon_plane(0)
+    xmax  = lon_plane(dimsX(0)-1)
+    xspan = dimsX(0)-1
+
+    print(lon_plane)
+    do ii = 0,dimsX(0)-2
+      gsn_polyline(wks,plot,(/lon_plane(ii),lon_plane(ii+1)/),(/lat_plane(ii),lat_plane(ii+1)/),lnres)
+    end do
+
+    delete(plane)
+    delete(lon_plane)
+    delete(lat_plane)
   end do
 
   frame(wks)
