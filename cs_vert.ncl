@@ -35,12 +35,13 @@ begin
     print("Working on time: " + times(it) )
     res@TimeLabel = times(it)         ; Set Valid time to use on plots
 
-    th  = wrf_user_getvar(a,"th",it)
-    qs = wrf_user_getvar(a,"QSNOW",it)
-    u   = wrf_user_getvar(a,"ua",it)
-    v   = wrf_user_getvar(a,"va",it)
-    p   = wrf_user_getvar(a, "pressure",it)
-    w   = wrf_user_getvar(a,"wa",it)
+;    th  = wrf_user_getvar(a,"th",it)
+    th  = wrf_my_getvar(a,"th_v",it)
+    qs = wrf_my_getvar(a,"QSNOW",it)
+    u  = wrf_my_getvar(a,"ua",it)
+    v  = wrf_my_getvar(a,"va",it)
+    p  = wrf_my_getvar(a, "pressure",it)
+    w  = wrf_my_getvar(a,"wa",it)
 
     th_plane = wrf_user_intrp3d(th,p,"v",plane,angle,opts)
     qs_plane = wrf_user_intrp3d(qs,p,"v",plane,angle,opts)
