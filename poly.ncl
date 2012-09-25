@@ -9,12 +9,13 @@ begin
 
   ;; changes here
   angle = 0.
-  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/)/)
+  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
+          (/303,382,62,237/)/)
 
   type = "png"
   varname = "HGT"
 
-  wks = gsn_open_wks(type,"cs_line")
+  wks = gsn_open_wks(type,"line")
   set_colormap(wks,varname)
 
   ;; draw height contours
@@ -26,7 +27,7 @@ begin
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-  do it = 0, dim_len0(planes) - 1
+  do it = 3, 3
 
     plane = new(4,float)
     plane = planes(it,:)
