@@ -33,12 +33,11 @@ begin
 
   nd = rank_of_file_var(a,"P")
 
-  do it = 70,99                              ; TIME LOOP
-;  do it = 88,88
+;  do it = 70,99                              ; TIME LOOP
+  do it = 96,96
 
     print("Working on time: " + times(it) )
-    res@TimeLabel = times(it)         ; Set Valid time to use on plots
-    res@ValidTime = times(it)         ; Set Valid time to use on plots
+    res@tiMainString =  times(it) + " UTC"        ; Set Valid time to use on plots
 
     ;th  = wrf_user_getvar(a,"th",it)
     th  = wrf_my_getvar(a,"th_v",it)
