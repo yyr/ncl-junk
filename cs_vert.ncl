@@ -9,9 +9,11 @@ begin
   wks = gsn_open_wks(type,"cs")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
-  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/)/)
+  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
+          (/303,382,62,237/)/)
+;  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/)/)
   plane = new(4,float)
-  plane = planes(1,:)
+  plane = planes(3,:)
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
@@ -31,17 +33,18 @@ begin
 
   nd = rank_of_file_var(a,"P")
 
-;  do it = 70,ntimes-1                              ; TIME LOOP
-  do it = 99,99
+  do it = 70,99                              ; TIME LOOP
+;  do it = 88,88
 
     print("Working on time: " + times(it) )
     res@TimeLabel = times(it)         ; Set Valid time to use on plots
+    res@ValidTime = times(it)         ; Set Valid time to use on plots
 
-    ; th  = wrf_user_getvar(a,"th",it)
-    ; th  = wrf_my_getvar(a,"th_v",it)
-    th_t  = wrf_my_getvar(a,"PH",it)
-    th = th_t(1:,:,:)
-    printVarSummary(th)
+    ;th  = wrf_user_getvar(a,"th",it)
+    th  = wrf_my_getvar(a,"th_v",it)
+;    th_t  = wrf_my_getvar(a,"PH",it)
+;    th = th(1:,:,:)
+    ; printVarSummary(th)
     qs = wrf_my_getvar(a,"QSNOW",it)
     u  = wrf_my_getvar(a,"ua",it)
     v  = wrf_my_getvar(a,"va",it)
@@ -53,6 +56,8 @@ begin
     u_plane  = wrf_user_intrp3d(u,p,"v",plane,angle,opts)
     v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,opts)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
+
+    qs_plane@units = "kg"
 
     ;; perform standard rotation
 ;    urot_plane  = u_plane*cos(angle) ;- v_plane*sin(angle)
