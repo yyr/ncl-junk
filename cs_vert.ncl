@@ -9,8 +9,10 @@ begin
   wks = gsn_open_wks(type,"cs")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
+  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/)/)
   plane = new(4,float)
-  plane = (/300,378,56,176/)
+  plane = planes(1,:)
+
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
@@ -25,18 +27,21 @@ begin
   res@vpHeightF = 1.0
 
   times  = wrf_user_list_times(a)          ; Get times in the file
-  ntimes = dimsizes(times)                    ; Number of times in the file
+  ntimes = dimsizes(times)                 ; Number of times in the file
 
   nd = rank_of_file_var(a,"P")
 
-;  do it = 70,ntimes-1,2                              ; TIME LOOP
-  do it = 98,99
+;  do it = 70,ntimes-1                              ; TIME LOOP
+  do it = 99,99
 
     print("Working on time: " + times(it) )
     res@TimeLabel = times(it)         ; Set Valid time to use on plots
 
-;    th  = wrf_user_getvar(a,"th",it)
-    th  = wrf_my_getvar(a,"th_v",it)
+    ; th  = wrf_user_getvar(a,"th",it)
+    ; th  = wrf_my_getvar(a,"th_v",it)
+    th_t  = wrf_my_getvar(a,"PH",it)
+    th = th_t(1:,:,:)
+    printVarSummary(th)
     qs = wrf_my_getvar(a,"QSNOW",it)
     u  = wrf_my_getvar(a,"ua",it)
     v  = wrf_my_getvar(a,"va",it)
@@ -115,10 +120,10 @@ begin
     opts_th@cnLineLabelFontHeightF   = 0.018
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
-    opts_th@ContourParameters  = (/ 270., 460., 2. /)
+    ;; opts_th@ContourParameters  = (/ 270., 460., 2. /)
 
 ; Vertical Velocity
-;    w_plane = 10.*w_plane
+    ;; w_plane = 10.*w_plane
     opts_w   = res
     opts_w@UnitLabel             = "m/3"
 
@@ -129,8 +134,8 @@ begin
 
     opts_v = res
     opts_v = set_no_frame_res(opts_v)
-
     opts_v = set_vc_res(opts_v)
+    opts_v@vcRefMagnitudeF = 10.
 
     contour_th = wrf_contour(a,wks,th_plane(0:zmax_pos,:),opts_th)
     contour_qs = wrf_contour(a,wks,qs_plane(0:zmax_pos,:),opts_pv)
