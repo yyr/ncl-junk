@@ -1,3 +1,3 @@
 [submodule "ncl-lib"]
 	path = ncl-lib
-	url = ./ncl-lib
+	url = https://github.com/yyr/ncl-lib.git
