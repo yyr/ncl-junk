@@ -9,6 +9,8 @@ begin
   a = addfile("./wrfout_d01_2008-12-25_00:00:00.nc","r")
 
   opts = True
+  opts@tmXBLabelFontHeightF = 0.014
+  opts@tmYLLabelFontHeightF = 0.014
   hgt = hgt_contour(a,wks,opts)
   draw(hgt)
 
@@ -28,7 +30,7 @@ begin
 
   txres = True
   txres@txFont = "helvetica-bold"
-  txres@txJust = "BottomLeft"
+  txres@txJust = ""
   txres@txPerimOn = False
   txres@txFontHeightF = 0.015
 
