@@ -62,8 +62,6 @@ begin
   tc    = wrf_user_getvar(a,"tc",-1)    ; get tc for all times
   uvmet = wrf_user_getvar(a,"uvmet",-1) ; get rotated u and v comp of wind
 
-  print("I came here ----")
-
 ;-----------------------------------------------------------------------
 
   t2_point  = t2(taus,locY,locX)           ; extract a time series at a point
@@ -72,13 +70,11 @@ begin
 
   u_point   = uvmet(0,taus,:,locY,locX)
   v_point   = uvmet(1,taus,:,locY,locX)
-  print("I came here 2")
 
 ; Swap the dimensions as we want to plot time on the X axis later
   tt        = tc_point(bottom_top|:,Time|:)
   ugrid     = u_point(bottom_top|:,Time|:)
   vgrid     = v_point(bottom_top|:,Time|:)
-  print("I came here 3")
 
 ;-----------------------------------------------------------------------
 
@@ -160,7 +156,6 @@ begin
   t2_res@xyLineColor      = "blue"        ; set line color
 
 ;-----------------------------------------------------------------------
-
   ttfill    = gsn_contour(wks,tt,tt_res)
   windlayer = gsn_vector(wks,ugrid,vgrid,uv_res)
   overlay(ttfill,windlayer)
