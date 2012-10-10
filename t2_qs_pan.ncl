@@ -47,14 +47,16 @@ begin
     opts = res
     opts@ContourParameters = (/ 0., 2.6, .4 /)
     opts@InitTime = False
+    opts@cnInfoLabelOn = False
     contour = wrf_contour(a,wks,wgted_var,opts)
     delete(opts)
 
 
-;;-- t2  --
+    ;;-- t2  --
 
     optsT = res
     optsT@cnFillOn         = True
+    optsT@cnInfoLabelOn = False
     optsT@cnFillColor = True
     optsT@ContourParameters = (/ 260.,280., 0.5 /)
     optsT@InitTime = False
@@ -65,7 +67,7 @@ begin
     contour_t = wrf_contour(a,wks,t2,optsT)
     delete(optsT)
 
-;;-- plot/overlay all --
+    ;;-- plot/overlay all --
 
     pltres = True ; Plot resources
     pltres@NoTitles = True
