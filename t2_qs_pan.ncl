@@ -31,6 +31,8 @@ begin
   res@Footer = False
   res@gsnDraw              = False              ; Do not draw plot
   res@gsnFrame             = False              ; Do not advance frame
+  res@tmXBLabelFontHeightF = 0.014
+  res@tmYLLabelFontHeightF = 0.014
 
 
   do it = 0, noft - 1, 1   ; LOOP NAME
@@ -74,7 +76,6 @@ begin
     pltres@MainTitlePos= False
     pltres@PanelPlot = True
     pltres@FramePlot = False
-
     mpres  = True  ; Map resources
     mpres@mpDataBaseVersion    = "HighRes"
     mpres@mpGeophysicalLineThicknessF = 2.0
@@ -95,6 +96,7 @@ begin
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
+  pres@gnsPanelFigureStrings = (/"a", "b", "c" ,"d"/)
 
   pres@txString         = "Integraded column Snow over SAT"
   gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
