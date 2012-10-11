@@ -56,8 +56,6 @@ begin
     v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,opts)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
 
-    qs_plane@units = "kg"
-
     ;; perform standard rotation
 ;    urot_plane  = u_plane*cos(angle) ;- v_plane*sin(angle)
 ;    vrot_plane  = u_plane*sin(angle) ;+ v_plane*cos(angle)
