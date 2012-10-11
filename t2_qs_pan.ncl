@@ -29,8 +29,8 @@ begin
 
   res = True
   res@Footer = False
-  res@gsnDraw              = False              ; Do not draw plot
-  res@gsnFrame             = False              ; Do not advance frame
+  res = set_no_frame_res(res)
+
   res@tmXBLabelFontHeightF = 0.014
   res@tmYLLabelFontHeightF = 0.014
 
@@ -71,7 +71,7 @@ begin
 
     ;;-- plot/overlay all --
 
-    pltres = True ; Plot resources
+    pltres = res ; Plot resources
     pltres@NoTitles = True
     pltres@MainTitlePos= False
     pltres@PanelPlot = True
@@ -98,7 +98,7 @@ begin
   pres@gsnMaximize = True
   pres@gnsPanelFigureStrings = (/"a", "b", "c" ,"d"/)
 
-  pres@txString         = "Integraded column Snow over SAT"
+;  pres@txString         = "Integraded column Snow over SAT"
   gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
 
 end
