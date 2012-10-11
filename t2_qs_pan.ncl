@@ -90,13 +90,15 @@ begin
   end do
 
 ; Panelize
-  pres                = True              ; mod panel plot
+  pres                = res              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
   pres@gsnPanelBottom = 0.1              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
-  pres@gnsPanelFigureStrings = (/"a", "b", "c" ,"d"/)
+  pres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
+  pres@amJust   = "TopLeft"
+
 
 ;  pres@txString         = "Integraded column Snow over SAT"
   gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
