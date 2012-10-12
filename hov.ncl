@@ -19,27 +19,23 @@ begin
 
   varname = "QSNOW"
 
+  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
+          (/303,382,62,237/)/)
+  plane = new(4,float)
+  plane = planes(3,:)
+
 ; get time information and strip out the day and hour
   times_in_file = a->Times
 
-  dim = dimsizes(times_in_file)
-  times = new(dim(0),string)
-
-  xlon = wrf_user_getvar(a, "XLONG",0)
-
   dimt = filevardimsizes(a,varname)
-  nd = dimsizes(dimt)
+  nt = dim_len0(times_in_file)
 
-  dummy = 0
   st_time = 48
+  wgted_var = new((/ nt - st_time ,dimt(2),dimt(3)/),float)
 
-  tmp = dim(0)- st_time
-  taus = fspan(st_time,dim(0)-1,tmp)
-  taus = taus - st_time + 1
-
-  wgted_var = new((/tmp,dimt(2),dimt(3)/),float)
-
-  do it = st_time, dim(0)-1, 1   ;; times
+  times = new(nt,string)
+  do it = st_time, nt-1, 1   ;; times
+    dummy = it - st_time
     wgted_var(dummy,:,:) = wrf_user_getvar_weighted_sum(a,varname,it)
 
     times(dummy) = chartostring(times_in_file(it,8:12))
@@ -51,10 +47,9 @@ begin
 
   dims = dimsizes(wgted_var)
 
-  plane = new(4,float)
-  plane = (/300,378,56,176/)
-  angle = 45.                              ; plot from west to east
   opts = True                             ; start and end point not supplied
+  angle = 0.                    ; intialize
+  angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
   t_plane = wrf_user_intrp2d(wgted_var,plane,angle,opts)
 
@@ -67,16 +62,20 @@ begin
   res@tiMainString = "time series along cross section line"
 
   res@tmYLMode       = "Explicit"    ; Define own tick mark labels.
-  res@tmYLValues     = taus          ; location of explicit labels
+  res@tmYLValues     =  fspan(0,dim_len0(times),dim_len0(times))         ; location of explicit labels
   res@tmYLLabels     = times         ; labels are the locations
-  res@tmYLLabelStride = 6
+  res@tmYLMaxTicks = 10
+  res@tmYLLabelStride = 8
+  res@tmYLMinorOn = False
   res@tmYROn         = False         ; turn off the top tick marks
-
-  res@gsnSpreadColors = True
+  res@tmXBLabelFontHeightF = 0.014
+  res@tmYLLabelFontHeightF = 0.014
 
   res@cnLevelSelectionMode = "ExplicitLevels"
-  res@cnLevels = (/0.,0.2,0.4,.6,.8,1.,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6/)
+  res@cnLevels = fspan(0.,2.6,14)
+
   res@lbOrientation = "vertical"
+  res@gsnSpreadColors = True
 
   plot = gsn_csm_hov(wks,t_plane,res)
 
