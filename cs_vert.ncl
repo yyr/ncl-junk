@@ -1,3 +1,6 @@
+; currently plots snow mixing ratio in a given verticle cross section.
+; intention to make any give variable in any given line, hard coded right now
+
 load "$nsc/yagUtils.ncl"
 
 begin
@@ -11,14 +14,19 @@ begin
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
           (/303,382,62,237/)/)
-;  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/)/)
   plane = new(4,float)
   plane = planes(3,:)
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
+  upper = 850.
+  lower = 970.
+
   res = True
+  res =set_no_frame_res(res)
+  res@tmXBLabelFontHeightF = 0.03
+  res@tmYLLabelFontHeightF = 0.03
   opts = True                   ; Specifying start and end points
   pltres = True
   FirstTime = True              ; for calculating top level
@@ -30,6 +38,7 @@ begin
 
   times  = wrf_user_list_times(a)          ; Get times in the file
   ntimes = dimsizes(times)                 ; Number of times in the file
+  wks2 = gsn_open_wks(type,"line")
 
   nd = rank_of_file_var(a,"P")
 
@@ -37,10 +46,14 @@ begin
   do it = 96,96
 
     print("Working on time: " + times(it) )
-    res@tiMainString =  times(it) + " UTC"        ; Set Valid time to use on plots
+;    res@tiMainString =  times(it) + " UTC"        ; Set Valid time to use on plots
+    res@tiMainString = ""
 
-    ;th  = wrf_user_getvar(a,"th",it)
-    th  = wrf_my_getvar(a,"th_v",it)
+    th  = wrf_user_getvar(a,"th",it)
+;    th  = wrf_my_getvar(a,"th_v",it)
+
+    ge = wrf_user_getvar(a,"geopt",it)
+
 ;    th_t  = wrf_my_getvar(a,"PH",it)
 ;    th = th(1:,:,:)
     ; printVarSummary(th)
@@ -50,11 +63,26 @@ begin
     p  = wrf_my_getvar(a, "pressure",it)
     w  = wrf_my_getvar(a,"wa",it)
 
+
+
     th_plane = wrf_user_intrp3d(th,p,"v",plane,angle,opts)
     qs_plane = wrf_user_intrp3d(qs,p,"v",plane,angle,opts)
     u_plane  = wrf_user_intrp3d(u,p,"v",plane,angle,opts)
     v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,opts)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
+
+    ge_lower = wrf_user_intrp3d(ge,p,"h",lower,0.,opts)
+    ge_upper = wrf_user_intrp3d(ge,p,"h",upper,0.,opts)
+
+    ge_lower_line = wrf_user_intrp2d(ge_lower,plane,angle,opts)
+    ge_upper_line = wrf_user_intrp2d(ge_upper,plane,angle,opts)
+
+    ge_diff = ge_upper_line - ge_lower_line
+
+    printVarSummary(ge_lower)
+    printVarSummary(ge_lower_line)
+    print(ge_lower_line)
+
 
     ;; perform standard rotation
 ;    urot_plane  = u_plane*cos(angle) ;- v_plane*sin(angle)
@@ -88,6 +116,8 @@ begin
 
     opts_xy                         = res
 
+    opts_xy@tmXBLabelFontHeightF = 0.014
+    opts_xy@tmYLLabelFontHeightF = 0.014
     opts_xy@tiYAxisString           = "Pressure (mb)"
     opts_xy@trYLog                  = True  ; use a logarithmic coordinate system for the Y-axis
     opts_xy@gsnLeftString           = "Logarithmic Y-axis"
@@ -117,6 +147,7 @@ begin
     opts_th = opts_xy
     opts_th@cnSmoothingOn = True
     opts_th@cnLineColor = "Blue"
+    opts_th@cnInfoLabelOn = False
     opts_th@gsnContourLineThicknessesScale = 2.0
     opts_th@cnLineLabelBackgroundColor = "white"
     opts_th@cnLineLabelFontHeightF   = 0.018
@@ -143,7 +174,15 @@ begin
     contour_qs = wrf_contour(a,wks,qs_plane(0:zmax_pos,:),opts_pv)
     vector = gsn_vector(wks,uproj(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_v)
 
+;    plot = new(2,graphic)
+;    plot(0) = wrf_overlays(a,wks,(/contour_th,contour_qs,vector/),pltres)
     plot = wrf_overlays(a,wks,(/contour_th,contour_qs,vector/),pltres)
+
+    ; slp = p(0,:,:)
+    ; slp = wrf_my_getvar(a,"slp",it)
+    ; slp_plane = wrf_user_intrp2d(t(0,:,:),plane,0.,True)
+
+    plot = gsn_csm_y(wks2,ge_diff(40:),True)
 
     delete(opts_th)
     delete(opts_pv)
