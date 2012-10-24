@@ -31,9 +31,6 @@ begin
   res@Footer = False
   res = set_no_frame_res(res)
 
-  res@tmXBLabelFontHeightF = 0.014
-  res@tmYLLabelFontHeightF = 0.014
-
 
   do it = 0, noft - 1, 1   ; LOOP NAME
 
@@ -90,7 +87,7 @@ begin
   end do
 
 ; Panelize
-  pres                = res              ; mod panel plot
+  pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
   pres@gsnPanelBottom = 0.1              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
