@@ -9,37 +9,24 @@
 ; Description:
 ;
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
 ;--------------------------------------------------------------------
 ; input file
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
-
-  ; four_day = "yes"               ; yes or comment out
-  if ( isdefined("four_day") ) then
-    a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
-    tvalues = tvalues + 96
-  end if
+  tvalues = (/71, 82, 95, 119 /)   ;specify desired timestep outputs must be even
                                 ; type = "x11"
-  type = "ps"
+  type = "pdf"
   out  = "wind10"       ;out put file name
 
-;--------------------------------------------------------------------
-; Workstation settings
-
   wks = gsn_open_wks(type,out)
-  ; gsn_define_colormap(wks,"BlAqGrYeOrReVi200")            ; choose color map
-
-;--------------------------------------------------------------------
-; some initial resources
+  gsn_define_colormap(wks,"WhiteYellowOrangeRed")            ; choose color map
 
   res = True
-                                ; res@MainTitle = "Water Vapour Mixing Ration"
+  res = set_no_frame_res(res)
+
   res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
 
@@ -80,26 +67,18 @@ begin
     ; opts@NumVectors = 40           ; density of wind barbs
     opts@InitTime = False
     opts@vcGlyphStyle = "LineArrow"
-    opts@vcMonoLineArrowColor = true
     opts@gsnSpreadColors     = True      ; use full colormap
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
+    opts = set_no_frame_res(opts)
+    opts = set_vc_res(opts)
+    opts@vcRefMagnitudeF = 10.
+    opts@vcMonoLineArrowColor = False
 
-
-;--------------------------------------------------------------------
-; plot resources
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
     pltres@MainTitlePos= False
-
-;--------------------------------------------------------------------
-; map resources
-
-    mpres@gsnMaximize = True
-                                ; mpres@MainTitlePos= False
-
-;--------------------------------------------------------------------
-; plot each one
+    mpres@MainTitlePos= False
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector/),pltres,mpres)
@@ -107,16 +86,13 @@ begin
 
   end do
 
-;--------------------------------------------------------------------
-; panalize here
-
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 6                ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
 
-  pres@txString         = "Wind at 10"
+;  pres@txString         = "Wind at 10"
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
