@@ -13,11 +13,12 @@ load "$nsc/yagUtils.ncl"
 begin
 
   directories=(/ "/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo_saka/d3" \
           , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
           , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3"/)
+          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
+          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
+          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo_saka/d3" \
+          /)
 
 
   type = "png"
@@ -98,7 +99,7 @@ begin
     res@gsnSpreadColors = True
     res@tmYLLabelsOn = False
 
-    if ( i .eq. 0 .or. i .eq. 3 ) then
+    if ( any(i .eq. (/0,3/)) ) then
       res@tmYLLabelsOn = True
     end if
 
