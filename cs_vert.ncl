@@ -7,9 +7,10 @@ begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
-  type = "png"
+  type = "pdf"
 
   wks = gsn_open_wks(type,"cs")
+  wks2 = gsn_open_wks(type,"cs1")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
@@ -152,17 +153,28 @@ begin
     res_xy@vpWidthF = 0.9
     res_xy@vpHeightF = 0.22
     res_xy@gsnMaximize = True
+    res_xy@xyLineColor = "orange"
 
-    plot2 = gsn_csm_y(wks,phi_diff,res_xy)
-    res_xy@vpYF             = 0.24                  ; for XY plot
-    res_xy@tiYAxisString = "T"
-    plot3 = gsn_csm_y(wks,T_0_line,res_xy)
+    res_xy2 = res_xy
+    res_xy2@vpYF             = 0.24                  ; for XY plot
+    res_xy2@tiYAxisString = "SAT"
+    res_xy2@xyLineColor = "blue"
 
-    pnlres = True
-    pnlres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
-    pnlres@amJust   = "TopLeft"
-    pnlres@gsnMaximize = True
-    maximize_output(wks,pnlres)
+
+    plot2 = gsn_csm_xy2(wks2,ispan(0,dim_len0(phi_diff),1),phi_diff,T_0_line,res_xy,res_xy2)
+    plot2 = gsn_csm_xy2(wks2,ispan(0,dim_len0(phi_diff),1),phi_diff,T_0_line,res_xy,res_xy2)
+;    plot3 = gsn_csm_xy2(wks,phi_diff,T_0_line,res_xy,res_xy2)
+
+    draw(contour_th)
+    draw(plot2)
+    frame(wks)
+    frame(wks2)
+
+    ; pnlres = True
+    ; pnlres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
+    ; pnlres@amJust   = "TopLeft"
+    ; pnlres@gsnMaximize = True
+    ; maximize_output(wks,pnlres)
 
     ; pnlres@gsnPanelDebug = True
     ; gsn_panel(wks,(/contour_th,plot2,plot3/),(/3,1/),pnlres)
