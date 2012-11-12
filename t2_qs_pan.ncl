@@ -43,11 +43,16 @@ begin
 
     res@TimeLabel = times(vt)   ; Set Valid time to use on plots
 
+
     opts = res
+    opts = wrf_map_resources(a,opts)
+    opts = set_mp_wrf_map_resources(a,opts)
+
     opts@ContourParameters = (/ 0., 2.6, .4 /)
     opts@InitTime = False
     opts@cnInfoLabelOn = False
-    contour = wrf_contour(a,wks,wgted_var,opts)
+
+    contour = gsn_csm_contour_map(wks,wgted_var,opts)
     delete(opts)
 
 
@@ -63,7 +68,7 @@ begin
     optsT@cnInfoLabelOn = False        ; turn off contour info label
 
     t2 = wrf_user_getvar(a,"T2",vt)
-    contour_t = wrf_contour(a,wks,t2,optsT)
+    contour_t = gsn_csm_contour(wks,t2,optsT)
     delete(optsT)
 
     ;;-- plot/overlay all --
@@ -79,7 +84,10 @@ begin
     mpres@mpGeophysicalLineColor = "Blue"
 
 ;    plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
-    plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
+    overlay(contour_t,contour)
+
+;    plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
+    plot(it) = contour_t
 
     delete(pltres)
     delete(mpres)
