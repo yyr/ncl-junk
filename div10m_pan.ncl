@@ -8,9 +8,7 @@
 ; Description:
 ;
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
 
@@ -18,20 +16,14 @@ begin
   type = "png"
   out = "div10_pan"     ;out put file name
 
-  tvalues = (/ 48,72,96 /)   ;specify desired timestep outputs must be even
-
-;;--------------------------------------------------------------------
-; Workstation settings
+  tvalues = (/71, 82, 95, 119 /)
 
   wks = gsn_open_wks(type,out)
   gsn_reverse_colormap(wks)
 
-;--------------------------------------------------------------------
-; some initial resources
   res = True
   res@cnInfoLabelOn = False        ; turn off contour info label
 
-  res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
   res@lbLabelBarOn        = False           ; turn off individual cb's
 
@@ -45,23 +37,16 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;;--------------------------------------------------------------------
-; Do looping
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ; LOOP NAME
 
-    ;;-- notify about time  --
     print("tvalue: " + tvalues(it))
     print("Working on time: " + times(tvalues(it)))
 
-;;--------------------------------------------------------------------
-; calculation
-
     u = a->U10(tvalues(it),:,:)
-; v = a->V10(tstep,:,:)
-    v = wrf_user_getvar(a,"V10",tvalues(it))
+    v = a->V10(tvalues(it),:,:)
     dim=dimsizes(u)
 
     dx = 1500                  ; horizontal grid distance in x direction
@@ -71,8 +56,6 @@ begin
     div = uv2dvG(u,v)
     div = div * dx
 
-;;--------------------------------------------------------------------
-; set resorces for this iteration
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
     res@cnInfoLabelOn = False        ; turn off contour info label
@@ -88,7 +71,7 @@ begin
     mpres@NoHeaderFooter = True
     opts@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
 
-   ;;-- plot res  --
+    ;;-- plot res  --
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
@@ -100,7 +83,6 @@ begin
 
   end do
 
-  print("I came")
   pres                = res              ; mod panel plot
   pres@lbLabelStride  = 4         ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
@@ -108,10 +90,8 @@ begin
   pres@gsnMaximize = True
   pres@gsnPanelLabelBar = True
   pres@lbOrientation = "vertical"
-  pres@lbOrientation = "vertical"
+;  pres@txString         = "Divergenge at 10m"
 
-  pres@txString         = "Divergenge at 10m"
   gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
-
 
 end
