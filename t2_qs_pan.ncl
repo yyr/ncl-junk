@@ -28,6 +28,10 @@ begin
   mpres  = set_high_res_coast(res)
   mpres = set_tm_size_res(mpres)
 
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+  angle = 0.
+
   do it = 0, noft - 1, 1
 
     vt = tvalues(it)
@@ -59,17 +63,18 @@ begin
 
     if ( it .eq. 2 ) then
 
-      plane = (/303,382,62,237/)
-      lonlat = wrf_line_coords_between_pts(a,plane)
+      planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
+              (/303,382,62,237/)/)
+      plane = new(4,float)
+      plane = planes(3,:)
 
-      lat_plane = lonlat(0,:)
-      lon_plane = lonlat(1,:)
+      opts = True
+      lat_plane = wrf_user_intrp2d(xlat,plane,angle,opts)
+      lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
 
       lnres = True
       lnres@gsLineThicknessF = 3.0
       lnres@gsLineColor = "Red"
-
-      print(lat_plane)
 
       dum = new(dim_len0(lon_plane),graphic)
 
