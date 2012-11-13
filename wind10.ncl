@@ -26,12 +26,14 @@ begin
 
   res = True
   res = set_no_frame_res(res)
+  res = set_no_frame_res(res)
+  res = set_wrf_no_headers(res)
 
   res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
 
-  mpres  = True  ; Map resources
-  pltres = True ; Plot resources
+  mpres  = res
+  pltres = res
   mpres@mpDataBaseVersion    = "HighRes"
   mpres@mpGeophysicalLineThicknessF = 2.0
   mpres@mpGeophysicalLineColor = "Blue"
@@ -45,44 +47,34 @@ begin
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ; LOOP NAME
-                                ; do it = 60, ntimes-1, 2  ; LOOP NAME
     print("tvalue: " + tvalues(it))
 
     print("Working on time: " + times(tvalues(it)))
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-                                ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
+    ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     u10 = wrf_user_getvar(a,"U10",tvalues(it))   ; U component of the wind at 10m
     v10 = wrf_user_getvar(a,"V10",tvalues(it))   ; V component of the wind at 10m
 
-;--------------------------------------------------------------------
-;
-    res@gsnDraw              = False              ; Do not draw plot
-    res@gsnFrame             = False              ; Do not advance frame
-
-;--------------------------------------------------------------------
-; Plotting options for Wind Vectors
     opts = res
+    opts = set_vc_res(opts)
+
     opts@FieldTitle = "Wind"       ; overwrite Field Title
-    ; opts@NumVectors = 40           ; density of wind barbs
-    opts@InitTime = False
     opts@vcGlyphStyle = "LineArrow"
     opts@gsnSpreadColors     = True      ; use full colormap
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
-    opts = set_no_frame_res(opts)
-    opts = set_vc_res(opts)
     opts@vcRefMagnitudeF = 10.
-    opts@vcMonoLineArrowColor = False
 
-    pltres@NoTitles = True
-    pltres@PanelPlot = True
-    pltres@FramePlot = False
-    pltres@MainTitlePos= False
-    mpres@MainTitlePos= False
+    opts_c  = set_cn_resorces(res)
+    opts_c@cnLevels = fspan(2.,20.,18)
+    opts_c@cnLinesOn = False
+
+
+    v_mag = sqrt(v10 ^ 2 + u10 ^ 2)
+;    cn = wrf_contour(a,wks,v_mag,opts_c)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector/),pltres,mpres)
-    delete(vector)
 
   end do
 
@@ -92,7 +84,6 @@ begin
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
 
-;  pres@txString         = "Wind at 10"
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 
 end
