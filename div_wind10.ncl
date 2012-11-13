@@ -23,6 +23,7 @@ begin
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"BlueWhiteOrangeRed")            ; choose color map
+  gsn_reverse_colormap(wks)
 
   res = True
   res = set_no_frame_res(res)
@@ -71,8 +72,9 @@ begin
     div = div * dx
 
     opts_c  = set_cn_resorces(res)
+    opts_c@lbLabelBarOn = False
     opts_c@cnLinesOn = False
-    opts_c@ContourParameters = fspan(-0.1,.1,21)
+    opts_c@ContourParameters = fspan(-0.6,.0,25)
     cn = wrf_contour(a,wks,div,opts_c)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
@@ -81,7 +83,7 @@ begin
   end do
 
   pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 6                ; skip every other label
+  pres@lbLabelStride  = 3                ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
