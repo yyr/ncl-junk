@@ -29,9 +29,6 @@ begin
   res = set_no_frame_res(res)
   res = set_wrf_no_headers(res)
 
-  res@Footer = False
-  res@gsnSpreadColors = True    ;spread Colors
-
   mpres  = res
   pltres = res
   mpres@mpDataBaseVersion    = "HighRes"
@@ -61,7 +58,6 @@ begin
 
     opts@FieldTitle = "Wind"       ; overwrite Field Title
     opts@vcGlyphStyle = "LineArrow"
-    opts@gsnSpreadColors     = True      ; use full colormap
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
     opts@vcRefMagnitudeF = 10.
 
@@ -69,11 +65,11 @@ begin
     opts_c@cnLevels = fspan(2.,20.,18)
     opts_c@cnLinesOn = False
 
-
     v_mag = sqrt(v10 ^ 2 + u10 ^ 2)
 ;    cn = wrf_contour(a,wks,v_mag,opts_c)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
+    print("I came here")
     plot(it) = wrf_map_overlays(a,wks,(/vector/),pltres,mpres)
 
   end do
