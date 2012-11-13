@@ -8,7 +8,7 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/71, 82, 95, 119 /)
-  type = "png"
+  type = "X11"
   out = "t2_qs_pan"
 
   wks = gsn_open_wks(type,out)
@@ -58,16 +58,12 @@ begin
     plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
 
     if ( it .eq. 2 ) then
-      xlat = a->XLAT(0,:,:)
-      xlon = a->XLONG(0,:,:)
 
       plane = (/303,382,62,237/)
-      angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
-      print(angle)
+      lonlat = wrf_line_coords_between_pts(a,plane)
 
-      opts = True
-      lat_plane = wrf_user_intrp2d(xlat,plane,angle,opts)
-      lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
+      lat_plane = lonlat(0,:)
+      lon_plane = lonlat(1,:)
 
       lnres = True
       lnres@gsLineThicknessF = 3.0
