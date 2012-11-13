@@ -26,6 +26,7 @@ begin
   res = set_wrf_no_headers(res)
   pltres = set_tm_size_res(res)
   mpres  = set_high_res_coast(res)
+  mpres = set_tm_size_res(mpres)
 
   do it = 0, noft - 1, 1
 
@@ -55,6 +56,34 @@ begin
     contour_t = wrf_contour(a,wks,t2,optsT)
 
     plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
+
+    if ( it .eq. 2 ) then
+      xlat = a->XLAT(0,:,:)
+      xlon = a->XLONG(0,:,:)
+
+      plane = (/303,382,62,237/)
+      angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
+      print(angle)
+
+      opts = True
+      lat_plane = wrf_user_intrp2d(xlat,plane,angle,opts)
+      lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
+
+      lnres = True
+      lnres@gsLineThicknessF = 3.0
+      lnres@gsLineColor = "Red"
+
+      print(lat_plane)
+
+      dum = new(dim_len0(lon_plane),graphic)
+
+      do ii = 0,dim_len0(lon_plane)-2
+        dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
+                (/lat_plane(ii),lat_plane(ii+1)/),lnres)
+      end do
+
+    end if
+
 
   end do
 
