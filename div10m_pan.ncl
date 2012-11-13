@@ -13,8 +13,8 @@ load "$nsc/yagUtils.ncl"
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "png"
-  out = "div10_pan"     ;out put file name
+  type = "pdf"
+  out = "div"     ;out put file name
 
   tvalues = (/71, 82, 95, 119 /)
 
@@ -22,6 +22,8 @@ begin
   gsn_reverse_colormap(wks)
 
   res = True
+  res = set_no_frame_res(res)
+
   res@cnInfoLabelOn = False        ; turn off contour info label
 
   res@gsnSpreadColors = True    ;spread Colors
@@ -37,7 +39,7 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-  noft = dimsizes(tvalues)
+  noft = dim_len0(tvalues)
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ; LOOP NAME
@@ -65,7 +67,7 @@ begin
     opts@cnFillOn         = True
     opts@cnFillColor = True
     opts@InitTime = False
-    opts@ContourParameters = (/-.2, 0.2 , .01 /)
+    opts@ContourParameters = (/-.2, 0.2 , .1 /)
 
     ;;-- map res  --
     mpres@NoHeaderFooter = True
@@ -90,8 +92,9 @@ begin
   pres@gsnMaximize = True
   pres@gsnPanelLabelBar = True
   pres@lbOrientation = "vertical"
-;  pres@txString         = "Divergenge at 10m"
 
-  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
+  pres@gsnPanelDebug = True
+
+  gsn_panel(wks,plot,(/2,noft/2/),pres)        ; create panel plot
 
 end
