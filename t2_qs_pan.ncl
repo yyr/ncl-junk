@@ -8,7 +8,6 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/71, 82, 95, 119 /)
-
   type = "png"
   out = "t2_qs_pan"
 
@@ -19,17 +18,16 @@ begin
   noflevels = 32                ; how many layers should be added
 
   times  = wrf_user_list_times(a)  ; get times in the file
-  ntimes = dimsizes(times)         ; number of times in the file
-
-  noft = dimsizes(tvalues)
+  noft = dim_len0(tvalues)
   plot = new(noft,graphic)
 
   res = True
-  res@Footer = False
   res = set_no_frame_res(res)
+  res = set_wrf_no_headers(res)
+  pltres = set_tm_size_res(res)
+  mpres  = set_high_res_coast(res)
 
-  do it = 0, noft - 1, 1   ; LOOP NAME
-
+  do it = 0, noft - 1, 1
 
     vt = tvalues(it)
     res@TimeLabel = times(vt)   ; Set Valid time to use on plots
@@ -40,37 +38,23 @@ begin
     wgted_var@units = "g"
 
     opts = res
-    opts = wrf_map_resources(a,opts)
-    opts = set_mp_wrf_map_resources(a,opts)
-
     opts@ContourParameters = (/ 0., 2.6, .4 /)
-    opts@InitTime = False
+    opts@cnLinesOn = True
     opts@cnInfoLabelOn = False
+    contour = wrf_contour(a,wks,wgted_var,opts)
 
-    contour = gsn_csm_contour_map(wks,wgted_var,opts)
-    delete(opts)
-
-
-    optsT = res
-    optsT@cnFillOn         = True
-    optsT@cnInfoLabelOn = False
-    optsT@cnFillColor = True
+    optsT = set_cn_resorces(res)
     optsT@ContourParameters = (/ 260.,280., 0.5 /)
-    optsT@InitTime = False
+
+    optsT@cnFillOn         = True
+    optsT@cnLinesOn = False
     optsT@lbLabelBarOn = False
-    optsT@cnInfoLabelOn = False        ; turn off contour info label
+    optsT@cnInfoLabelOn = False
 
     t2 = wrf_user_getvar(a,"T2",vt)
-    contour_t = gsn_csm_contour(wks,t2,optsT)
-    delete(optsT)
+    contour_t = wrf_contour(a,wks,t2,optsT)
 
-    overlay(contour_t,contour)
-
-;    plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
-    plot(it) = contour_t
-
-    delete(pltres)
-    delete(mpres)
+    plot(it) = wrf_map_overlays(a,wks,(/contour_t,contour/),pltres,mpres)
 
   end do
 

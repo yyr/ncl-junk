@@ -23,18 +23,14 @@ begin
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"BlueWhiteOrangeRed")            ; choose color map
-  gsn_reverse_colormap(wks)
+;  gsn_reverse_colormap(wks)
 
   res = True
   res = set_no_frame_res(res)
-  res = set_no_frame_res(res)
   res = set_wrf_no_headers(res)
 
-  mpres  = res
   pltres = res
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
-  mpres@mpGeophysicalLineColor = "Blue"
+  mpres  = set_high_res_coast(res)
 
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
@@ -48,13 +44,12 @@ begin
     print("tvalue: " + tvalues(it))
 
     print("Working on time: " + times(tvalues(it)))
-    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-    ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     u10 = wrf_user_getvar(a,"U10",tvalues(it))   ; U component of the wind at 10m
     v10 = wrf_user_getvar(a,"V10",tvalues(it))   ; V component of the wind at 10m
 
     opts = res
+    opts@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
     opts = set_vc_res(opts)
 
     opts@FieldTitle = "Wind"       ; overwrite Field Title
@@ -74,7 +69,8 @@ begin
     opts_c  = set_cn_resorces(res)
     opts_c@lbLabelBarOn = False
     opts_c@cnLinesOn = False
-    opts_c@ContourParameters = fspan(-0.6,.0,25)
+    opts_c@ContourParameters = (/0,.3,.025/)
+    opts_c@gsnSpreadColors = True
     cn = wrf_contour(a,wks,div,opts_c)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
