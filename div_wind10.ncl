@@ -17,28 +17,24 @@ begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/71, 82, 95, 119 /)   ;specify desired timestep outputs must be even
-                                ; type = "x11"
-  type = "pdf"
   out  = "div_wind"       ;out put file name
+  type = "pdf"
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"BlueWhiteOrangeRed")            ; choose color map
+  gsn_define_colormap(wks,"nrl_sirkes")            ; choose color map
 ;  gsn_reverse_colormap(wks)
+
+
+  times  = wrf_user_list_times(a)  ; get times in the file
+  noft = dim_len0(tvalues)
+  plot = new(noft,graphic)
 
   res = True
   res = set_no_frame_res(res)
   res = set_wrf_no_headers(res)
-
   pltres = res
   mpres  = set_high_res_coast(res)
 
-  times  = wrf_user_list_times(a)  ; get times in the file
-  ntimes = dimsizes(times)         ; number of times in the file
-
-;--------------------------------------------------------------------
-; Do looping
-  noft = dimsizes(tvalues)
-  plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ; LOOP NAME
     print("tvalue: " + tvalues(it))
@@ -67,10 +63,9 @@ begin
     div = div * dx
 
     opts_c  = set_cn_resorces(res)
+    opts_c@ContourParameters = (/-.05,.1,.02/)
     opts_c@lbLabelBarOn = False
     opts_c@cnLinesOn = False
-    opts_c@ContourParameters = (/0,.3,.025/)
-    opts_c@gsnSpreadColors = True
     cn = wrf_contour(a,wks,div,opts_c)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
