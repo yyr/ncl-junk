@@ -21,7 +21,7 @@ begin
           /)
 
 
-  type = "png"
+  type = "pdf"
   wks = gsn_open_wks(type,"hov")
   gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
 
@@ -34,12 +34,12 @@ begin
 
   plot = new(dim_len0(directories),graphic)
 
-  do i = 0, dim_len0(directories) - 1, 1   ;; dir
+  do i = 0, dim_len0(directories) - 1, 1
 
     a = addfile(directories(i)+"/wrfout_d03_2008-12-25_00:00:00.nc","r")
     system("echo $(pwd)" )
 
-; get time information and strip out the day and hour
+    ; get time information and strip out the day and hour
     times_in_file = a->Times
 
     dimt = filevardimsizes(a,varname)
@@ -54,12 +54,11 @@ begin
       wgted_var(dummy,:,:) = wrf_user_getvar_weighted_sum(a,varname,it)
 
       times(dummy) = chartostring(times_in_file(it,8:12))
-;      print("working with time:" + times(dummy))
+      ; print("working with time:" + times(dummy))
       dummy = dummy + 1
     end do
 
     wgted_var = wgted_var * 1000.
-
     dims = dimsizes(wgted_var)
 
     opts = True                             ; start and end point not supplied
@@ -69,12 +68,9 @@ begin
     t_plane = wrf_user_intrp2d(wgted_var,plane,angle,opts)
 
     res = True
+    res@gsnDraw = False
+    res@gsnFrame = False
     res@trYReverse          = True                ; reverse y axis
-
-    res@cnLineLabelAngleF   = 0.0                 ; [cn] label horizontal
-    res@cnFillOn = True
-
-;  res@tiMainString = "time series along cross section line"
 
     res@tmYLMode       = "Explicit"    ; Define own tick mark labels.
     res@tmYLValues     =  fspan(0,dim_len0(times),dim_len0(times))         ; location of explicit labels
@@ -83,27 +79,27 @@ begin
     res@tmYLLabelStride = 12
     res@tmYLMinorOn = False
     res@tmYROn         = False         ; turn off the top tick marks
-    res@tmXBLabelFontHeightF = 0.025
+    res@tmYLLabelsOn = False
     res@tmYLLabelFontHeightF = 0.025
 
-    res@gsnDraw = False
-    res@gsnFrame = False
-    res@cnInfoLabelOn = False
-    res@lbLabelBarOn = False
-    res@cnLevelFlags = "LineOnly"
+    res@tmYLMaxTicks = 16
 
+    res@cnInfoLabelOn = False
+    res@cnLinesOn = True
+    res@cnFillOn = True
     res@cnLevelSelectionMode = "ExplicitLevels"
     res@cnLevels = fspan(0.4,2.6,12)
 
-    res@lbOrientation = "vertical"
-    res@gsnSpreadColors = True
-    res@tmYLLabelsOn = False
+    res@lbLabelBarOn = False
+    res@tmXBLabelFontHeightF = 0.025
+    ; res@tmXBLabelsOn = False
 
     if ( any(i .eq. (/0,3/)) ) then
       res@tmYLLabelsOn = True
     end if
 
-    plot(i) = gsn_csm_hov(wks,t_plane,res)
+;    plot(i) = gsn_csm_hov(wks,t_plane,res)
+    plot(i) = gsn_csm_hov(wks,t_plane(:,0:140),res)
   end do
 
 ; Panelize
@@ -111,12 +107,10 @@ begin
   pres@lbLabelStride  = 2                ; skip every other label
   pres@gsnPanelBottom = 0.1              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
-  ; pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
   pres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d", "e", "f"/)
   pres@amJust   = "TopLeft"
 
-;  pres@txString         = "Integraded column Snow over SAT"
   gsn_panel(wks,plot,(/2, dim_len0(directories)/2 /),pres)        ; create panel plot
 
 end
