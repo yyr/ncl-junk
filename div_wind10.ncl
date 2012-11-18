@@ -21,7 +21,7 @@ begin
   type = "pdf"
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"nrl_sirkes")            ; choose color map
+  gsn_define_colormap(wks,"hotcold_18lev")            ; choose color map
 ;  gsn_reverse_colormap(wks)
 
 
@@ -33,8 +33,15 @@ begin
   res = set_no_frame_res(res)
   res = set_wrf_no_headers(res)
   pltres = res
+  pltres@LatLonOverlay = True ; Don't do an NDC overlay
   mpres  = set_high_res_coast(res)
+  mpres = set_map_latlon_res(mpres,139.,145.5,43.,48.)
 
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+
+  dx = 1500
+  dy = dx
 
   do it = 0, noft - 1, 1   ; LOOP NAME
     print("tvalue: " + tvalues(it))
@@ -43,29 +50,30 @@ begin
 
     u10 = wrf_user_getvar(a,"U10",tvalues(it))   ; U component of the wind at 10m
     v10 = wrf_user_getvar(a,"V10",tvalues(it))   ; V component of the wind at 10m
+    mx = wrf_user_getvar(a,"MAPFAC_M",10)
 
     opts = res
-    opts@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
     opts = set_vc_res(opts)
-
-    opts@FieldTitle = "Wind"       ; overwrite Field Title
-    opts@vcGlyphStyle = "LineArrow"
-    opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
     opts@vcRefMagnitudeF = 10.
+    opts@sfXArray = xlon
+    opts@sfYArray = xlat
 
-;    v_mag = sqrt(v10 ^ 2 + u10 ^ 2)
-
+    opts@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
+    opts@FieldTitle = "Wind"       ; overwrite Field Title
 
     dim=dimsizes(u10)
-    dx = 1500                  ; horizontal grid distance in x direction
     div=new( (/ dim(0), dim(1) /) , typeof(u10))
+
+    ; div = wrf_div(u10,v10,dx,dy,mx)
     div = uv2dvG(u10,v10)
     div = div * dx
 
     opts_c  = set_cn_resorces(res)
-    opts_c@ContourParameters = (/-.05,.1,.02/)
+;    opts_c@ContourParameters = (/-.1,.1,.02/)
     opts_c@lbLabelBarOn = False
     opts_c@cnLinesOn = False
+    opts_c@sfXArray = xlon
+    opts_c@sfYArray = xlat
     cn = wrf_contour(a,wks,div,opts_c)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
