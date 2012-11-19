@@ -30,16 +30,10 @@ begin
   type = "ps"
   out = "air_temp_at_level_" + level      ;out put file name
 
-;--------------------------------------------------------------------
-; Workstation settings
   wks = gsn_open_wks(type,out)
-; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-; gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
 
-;--------------------------------------------------------------------
-; some initial resources
   res = True
-; res@MainTitle = "Water Vapour Mixing Ration"
+  ; res@MainTitle = "Water Vapour Mixing Ration"
   res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
   res@lbLabelBarOn        = False           ; turn off individual cb's
@@ -52,8 +46,6 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
-; Do looping
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
@@ -64,49 +56,34 @@ begin
 
     print("Working on time: " + times(tvalues(it)))
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
+    ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     tc = wrf_user_getvar(a,"tk",tvalues(it))
 
-;--------------------------------------------------------------------
-;
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
-
     res@cnInfoLabelOn = False        ; turn off contour info label
 
-;--------------------------------------------------------------------
-; contour resources
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
     opts@ContourParameters = (/ 265.,275., 0.5 /)
     opts@InitTime = False
-; opts@ValidTime = False
 
-;--------------------------------------------------------------------
-; plot resources
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
     pltres@MainTitlePos= False
 
-;--------------------------------------------------------------------
-; map resources
     mpres@gsnMaximize = True
-; mpres@MainTitlePos= False
 
-;--------------------------------------------------------------------
-; plot each one
-; contour = wrf_contour(a,wks,tc(level,:,:),opts)
+    ; contour = wrf_contour(a,wks,tc(level,:,:),opts)
     contour = wrf_contour(a,wks,tc(level,:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
 
   end do
 
-;--------------------------------------------------------------------
-; panalize here
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 10              ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom

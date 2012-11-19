@@ -61,7 +61,7 @@ begin
     res@gsnFrame  = False              ; Do not advance frame
     res@cnInfoLabelOn = False        ; turn off contour info label
 
-;;--------------------------------------------------------------------
+    ;;--------------------------------------------------------------------
     ;; contour resources
     opts = res
     opts@cnFillOn         = True
@@ -76,7 +76,7 @@ begin
     pltres@PanelPlot = True
     pltres@FramePlot = False
 
-;;--------------------------------------------------------------------
+    ;;--------------------------------------------------------------------
     ;; map resources
     ;; mpres@gsnMaximize = True
     mpres@NoHeaderFooter = True
