@@ -1,42 +1,40 @@
-;; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;;    File: div.ncl
 ;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ;; Created: Tuesday, September 20 2011
 ;; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;;
 
-;; Description:
-;;
-
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
-external wrfDiv "$nsc/wrf.div.xy.so"
-;; external wrfDiv "$nsc/wrf.div.xy.test.so"
+load "$nsc/yagUtils.ncl"
 
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
-  u = wrf_user_getvar(a,"U10",1)
-  v = wrf_user_getvar(a,"V10",1)
-  msft = wrf_user_getvar(a,"MAPFAC_V",1)
-  printVarSummary(msft)
-  dim=dimsizes(u)
+  u = wrf_user_getvar(a,"U10",95)
+  v = wrf_user_getvar(a,"V10",95)
+  msft = wrf_user_getvar(a,"MAPFAC_M",1)
 
-  printVarSummary(dim)
-  print(dim)
-  dx = 1500                  ; horizontal grid distance in x direction
-  dy = 1500                  ; horizontal grid distance in y direction
+  dx = 1500
+  dy = 1500
 
-  div=new( (/ dim(0), dim(1) /) , float)
+  dim = dimsizes(u)
+  div = new( (/ dim(0), dim(1) /) , typeof(u))
 
-  div(:,:) = 0.
+  div = wrf_div(u,v,dx,dy,msft)
 
-  printVarSummary(div)
+  wks = gsn_open_wks("X11","temp")
+;  gsn_define_colormap(wks,"hotcold_18lev")            ; choose color map
 
-  wrfDiv :: DCOMPUTEDIV( div, u, u, msft,dx,dy, dim(0), dim(1) )
-  ;; wrfDiv :: DCOMPUTEDIV( div, dim(0), dim(1) )
+  res = True
+  res@Footer = False
+  res@gsnSpreadColors = True    ;spread Colors
 
+  opts = res
+  opts = set_no_frame_res(opts)
+  opts = set_cn_resorces(opts)
+  opts@ContourParameters = (/-.02,.02,.002/)
+
+  cn  = wrf_contour(a,wks,div,opts)
+  plot = wrf_map_overlays(a,wks,(/cn/),True,True)
 
 end
