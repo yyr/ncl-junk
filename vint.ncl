@@ -5,7 +5,7 @@
 ;
 
 ; Description:
-; vertical integration
+; compute vertical integation of a given variable
 
 load "$nsc/yagUtils.ncl"
 

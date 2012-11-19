@@ -9,21 +9,15 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
-  ;;--------------------------------------------------------------------
-  ;; USER OPTIONS
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
   type = "ps"
   out = "snowc"       ;out put file name
 
   tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 
   wks = gsn_open_wks(type,out)
-  ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
-  ;; gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
 
   res = True
-  ;; res@MainTitle = "Water Vapour Mixing Ration"
   res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
   res@lbLabelBarOn        = False           ; turn off individual cb's
@@ -40,20 +34,16 @@ begin
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ;; LOOP NAME
-  ;; do it = 60, ntimes-1, 2  ;; LOOP NAME
     print("tvalue: " + tvalues(it))
 
 
     print("Working on time: " + times(tvalues(it)))
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-    ;; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     if(isfilevar(a,"SNOWC"))
       snowc = wrf_user_getvar(a,"SNOWC",tvalues(it))
     end if
 
-    ;;--------------------------------------------------------------------
-    ;;
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
 
