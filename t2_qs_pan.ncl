@@ -8,7 +8,7 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/71, 82, 95, 119 /)
-  type = "X11"
+  type = "pdf"
   out = "t2_qs_pan"
 
   wks = gsn_open_wks(type,out)
@@ -25,8 +25,11 @@ begin
   res = set_no_frame_res(res)
   res = set_wrf_no_headers(res)
   pltres = set_tm_size_res(res)
+  pltres@LatLonOverlay = True ; Don't do an NDC overlay
+
   mpres  = set_high_res_coast(res)
   mpres = set_tm_size_res(mpres)
+  mpres = set_map_latlon_res(mpres,139.,145.5,43.,48.)
 
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
@@ -46,6 +49,8 @@ begin
     opts@ContourParameters = (/ 0., 2.6, .4 /)
     opts@cnLinesOn = True
     opts@cnInfoLabelOn = False
+    opts@sfXArray = xlon
+    opts@sfYArray = xlat
     contour = wrf_contour(a,wks,wgted_var,opts)
 
     optsT = set_cn_resorces(res)
@@ -54,6 +59,8 @@ begin
     optsT@cnFillOn         = True
     optsT@cnLinesOn = False
     optsT@lbLabelBarOn = False
+    optsT@sfXArray = xlon
+    optsT@sfYArray = xlat
     optsT@cnInfoLabelOn = False
 
     t2 = wrf_user_getvar(a,"T2",vt)
@@ -73,12 +80,15 @@ begin
       lon_plane = wrf_user_intrp2d(xlon,plane,angle,opts)
 
       lnres = True
-      lnres@gsLineThicknessF = 3.0
+      lnres@gsLineThicknessF = 5.0
       lnres@gsLineColor = "Red"
+      lnres@sfXArray = xlon
+      lnres@sfYArray = xlat
 
       dum = new(dim_len0(lon_plane),graphic)
 
-      do ii = 0,dim_len0(lon_plane)-2
+;      do ii = 0,dim_len0(lon_plane)-2
+      do ii = 0, 180
         dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
                 (/lat_plane(ii),lat_plane(ii+1)/),lnres)
       end do
