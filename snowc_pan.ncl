@@ -4,9 +4,7 @@
 ;; License: GPL v3 or later.
 ;;
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
