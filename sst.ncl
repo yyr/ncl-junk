@@ -3,16 +3,11 @@
 ;; Created: Friday, September  9 2011
 ;;
 
-;; Description:
-;;
-
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
+
   ;; type = "x11"
   type = "ps"
 
@@ -23,7 +18,6 @@ begin
   res@Title = False
   res@MainTitle = "Sea Surface Temepature SST"
   res@Footer = False
-  ;; res@gsnSpreadColors = True    ;spread Colors
 
   mpres  = True  ; Map resources
   pltres = True ; Plot resources

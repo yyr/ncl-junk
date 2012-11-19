@@ -1,12 +1,10 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: wps_draw_geo2d.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Saturday, October 22 2011
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
-;
 
 ; Description:
-;
+; draw 2d fields from wrfout
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
@@ -29,9 +27,8 @@ begin
 
   do while ( dummy .eq. "y" )
 
-    ;;-- get the variable name display  --
     type = "x11"
-; type = "ps"
+    ; type = "ps"
     wks = gsn_open_wks(type,"plt_geo")       ; Create a plot workstation
 
 

@@ -1,4 +1,3 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: mflux.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Tuesday, December 20 2011
@@ -30,7 +29,7 @@ begin
   v1     = in->V (:,1,:,:)
   u      = in->U(tStrt:tLast,lev,:,:)
   v2     = in->V (1,1,:,:)
- ;printVarSummary(q)
+  ;printVarSummary(q)
 
   ;***********************************************
 ; Deviation of v from time mean

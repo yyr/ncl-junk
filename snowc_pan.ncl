@@ -1,12 +1,7 @@
-;; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;;    File: panel_t.ncl
 ;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ;; Created: Friday, September  9 2011
 ;; License: GPL v3 or later.
-;;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
-;;
-
-;; Description:
 ;;
 
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
@@ -18,20 +13,15 @@ begin
   ;; USER OPTIONS
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   ;; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
-  ;; type = "x11"
   type = "ps"
   out = "snowc"       ;out put file name
 
   tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 
-  ;;--------------------------------------------------------------------
-  ;; Workstation settings
   wks = gsn_open_wks(type,out)
   ;; gsn_define_colormap(wks,"BlueRedGray")   ; overwrite the .hluresfile color map
   ;; gsn_define_colormap(wks,"BlWhSmall")   ; overwrite the .hluresfile color map
 
-  ;;--------------------------------------------------------------------
-  ;; some initial resources
   res = True
   ;; res@MainTitle = "Water Vapour Mixing Ration"
   res@Footer = False
@@ -46,8 +36,6 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-  ;;--------------------------------------------------------------------
-  ;; Do looping
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
@@ -71,8 +59,6 @@ begin
 
     res@cnInfoLabelOn = False        ; turn off contour info label
 
-;;--------------------------------------------------------------------
-    ;; contour resourcesx
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
@@ -81,20 +67,14 @@ begin
     ;; opts@ValidTime = False
     level =5
 
-    ;;--------------------------------------------------------------------
-    ;; plot resources
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
     pltres@MainTitlePos= False
 
-;;--------------------------------------------------------------------
-    ;; map resources
     mpres@gsnMaximize = True
     ;; mpres@MainTitlePos= False
 
-    ;;--------------------------------------------------------------------
-    ;; plot each one
     if (isvar("snowc"))
       ;; contour = wrf_contour(a,wks,snowc(level,:,:),opts)
       contour = wrf_contour(a,wks,snowc(:,:),opts)
@@ -104,8 +84,6 @@ begin
 
   end do
 
-  ;;--------------------------------------------------------------------
-  ;; panalize here
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 2                ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom

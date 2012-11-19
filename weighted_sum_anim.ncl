@@ -1,4 +1,3 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: weighted_sum.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Wednesday, October 12 2011
@@ -8,13 +7,11 @@
 ; Description:
 ; weithted sum: from Hydrostatic equation
 ; dP/dz = - ro * g (ro = density )
-;
 
 load "$nsc/yagUtils.ncl"
 
 begin
-;--------------------------------------------------------------------
-; USER OPTIONS
+
  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "ps"
 
@@ -30,13 +27,9 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
-
   do it = 44, 144, 1   ;; LOOP NAME
-;  notify time
 
     vt = it
-;     vt = it + 96
     print("working with: " + times(vt))
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
@@ -44,15 +37,11 @@ begin
     wgted_var = wgted_var * 1000. ;
     wgted_var@units = "g"
 
-;--------------------------------------------------------------------
-; some initial resources
     res = True
     res@gsnSpreadColors = True    ;spread Colors
     res@TimeLabel = times(vt)   ; Set Valid time to use on plots
     res@Footer = False
 
-;--------------------------------------------------------------------
-; contour resources
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
@@ -63,7 +52,7 @@ begin
       opts@ContourParameters = (/ 0., 0.01, .001 /)
     end if
 
-;  opts@lbLabelBarOn        = False           ; turn off individual cb's
+    ;  opts@lbLabelBarOn        = False           ; turn off individual cb's
     opts@InitTime = False
 
     mpres  = True  ; Map resources
