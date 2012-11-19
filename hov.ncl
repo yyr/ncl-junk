@@ -1,4 +1,3 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: hov.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Monday, November 14 2011
@@ -6,15 +5,15 @@
 ;
 
 ; Description:
-;
+; ho
 
 load "$nsc/yagUtils.ncl"
 
 begin
 
   directories=(/ "/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
           , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
+          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
           , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
           , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
           , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo_saka/d3" \
@@ -81,11 +80,13 @@ begin
     res@tmYROn         = False         ; turn off the top tick marks
     res@tmYLLabelsOn = False
     res@tmYLLabelFontHeightF = 0.025
+    res@cnInfoLabelOn = False
 
     res@tmYLMaxTicks = 16
 
     res@cnInfoLabelOn = False
-    res@cnLinesOn = True
+    res@cnLevelFlag = "LineOnly"
+    res@cnLinesOn = False
     res@cnFillOn = True
     res@cnLevelSelectionMode = "ExplicitLevels"
     res@cnLevels = fspan(0.4,2.6,12)
@@ -99,7 +100,16 @@ begin
     end if
 
 ;    plot(i) = gsn_csm_hov(wks,t_plane,res)
-    plot(i) = gsn_csm_hov(wks,t_plane(:,0:140),res)
+    plot(i) = gsn_csm_hov(wks,t_plane(:,0:130),res)
+    res@cnFillOn = False
+    delete(res@cnLevels)
+    res@cnLevels = (/0.4,0.6/)
+    dummy1 = gsn_csm_hov(wks,t_plane(:,0:130),res)
+
+    overlay(plot(i),dummy1)
+    delete(dummy1)
+    delete(res)
+
   end do
 
 ; Panelize
@@ -109,9 +119,11 @@ begin
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
   pres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d", "e", "f"/)
-  pres@amJust   = "TopLeft"
+  pres@gsnPanelFigureStringsFontHeightF = .028
+  pres@amJust   = "TopRight"
 
-  gsn_panel(wks,plot,(/2, dim_len0(directories)/2 /),pres)        ; create panel plot
+;  panel_style = panel_sensibly(dim_len0(plot))
+ gsn_panel(wks,plot,(/2, dim_len0(directories)/2 /),pres)        ; create panel plot
 
 end
 ;;; hov.ncl ends here
