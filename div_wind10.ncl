@@ -1,13 +1,8 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: wind10.ncl
 ;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Friday, September 22 2011
-; License: GPL v3 or later.
-;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
-;
+; License: GPL v3 or later.  <http://www.gnu.org/licenses/gpl.html>
 
-; Description:
-;
 
 load "$nsc/yagUtils.ncl"
 
@@ -21,7 +16,7 @@ begin
   type = "pdf"
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"hotcold_18lev")            ; choose color map
+;  gsn_define_colormap(wks,"hotcold_18lev")            ; choose color map
 ;  gsn_reverse_colormap(wks)
 
 
@@ -40,8 +35,8 @@ begin
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-  dx = 1500
-  dy = dx
+  dx        = a@DX
+  dy        = a@DY
 
   do it = 0, noft - 1, 1   ; LOOP NAME
     print("tvalue: " + tvalues(it))
@@ -55,6 +50,7 @@ begin
     opts = res
     opts = set_vc_res(opts)
     opts@vcRefMagnitudeF = 10.
+    opts@vcMinDistanceF = 0.015
     opts@sfXArray = xlon
     opts@sfYArray = xlat
 
@@ -64,12 +60,12 @@ begin
     dim=dimsizes(u10)
     div=new( (/ dim(0), dim(1) /) , typeof(u10))
 
-    ; div = wrf_div(u10,v10,dx,dy,mx)
-    div = uv2dvG(u10,v10)
-    div = div * dx
+    div = wrf_div(u10,v10,dx,dy,mx)
+    ; div = uv2dvG(u10,v10)
+    ; div = div * dx
 
     opts_c  = set_cn_resorces(res)
-;    opts_c@ContourParameters = (/-.1,.1,.02/)
+    opts_c@ContourParameters = (/-.02,.02,.001/)
     opts_c@lbLabelBarOn = False
     opts_c@cnLinesOn = False
     opts_c@sfXArray = xlon
