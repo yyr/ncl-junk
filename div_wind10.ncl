@@ -82,6 +82,8 @@ begin
   pres@gsnPanelBottom = 0.05              ; add some space at bottom
   pres@gsnPanelLabelBar = True                   ; add common colorbar
   pres@gsnMaximize = True
+  pres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
+  pres@amJust   = "TopLeft"
 
   gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
 

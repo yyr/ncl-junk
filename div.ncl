@@ -14,8 +14,8 @@ begin
   v = wrf_user_getvar(a,"V10",95)
   msft = wrf_user_getvar(a,"MAPFAC_M",1)
 
-  dx = 1500
-  dy = 1500
+  dx        = a@DX
+  dy        = a@DY
 
   dim = dimsizes(u)
   div = new( (/ dim(0), dim(1) /) , typeof(u))

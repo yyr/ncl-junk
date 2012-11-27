@@ -26,17 +26,12 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
+  print(times)
 
-  do it = 90, 99, 1   ;; LOOP NAME
+  do it = 0, dim_len0(times), 1   ;; LOOP NAME
     vt = it
-;     vt = it + 96
-;  notify time
     print("working with: " + times(vt))
 
-
-;;--------------------------------------------------------------------
-;;-- qsnow  --
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
     wgted_var = wgted_var * 1000. ;
     wgted_var@units = "g"
@@ -44,17 +39,12 @@ begin
     res = True
     res@TimeLabel = times(vt)   ; Set Valid time to use on plots
     res@Footer = False
-;    res@gsnDraw              = False              ; Do not draw plot
-;    res@gsnFrame             = False              ; Do not advance frame
 
     opts = res
     opts@ContourParameters = (/ 0., 2.6, .2 /)
     opts@InitTime = False
     contour = wrf_contour(a,wks,wgted_var,opts)
     delete(opts)
-
-;;--------------------------------------------------------------------
-;;-- t2  --
 
     optsT = res
     optsT@cnFillOn         = True
@@ -69,8 +59,7 @@ begin
     delete(optsT)
 
 
-;;--------------------------------------------------------------------
-;;-- wind10  --
+    ;;-- wind10  --
 
     u10 = wrf_user_getvar(a,"U10",vt)   ; U component of the wind at 10m
     v10 = wrf_user_getvar(a,"V10",vt)   ; V component of the wind at 10m
@@ -85,8 +74,7 @@ begin
     vector = wrf_vector(a,wks,u10,v10,optsW)
     delete(optsW)
 
-;;--------------------------------------------------------------------
-;;-- plot/overlay all  --
+    ;;-- plot/overlay all  --
     pltres = True ; Plot resources
     pltres@NoTitles = True
     pltres@MainTitlePos= False
@@ -96,7 +84,7 @@ begin
     mpres@mpGeophysicalLineThicknessF = 2.0
 
 
-   ;; plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
+    ;; plot = wrf_map_overlays(a,wks,(/contour,contour_t/),pltres,mpres)
     plot = wrf_map_overlays(a,wks,(/vector,contour_t,contour/),pltres,mpres)
     delete(pltres)
     delete(mpres)
