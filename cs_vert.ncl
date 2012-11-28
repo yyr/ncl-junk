@@ -7,10 +7,9 @@ begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
-  type = "pdf"
+  type = "X11"
 
   wks = gsn_open_wks(type,"cs")
-  wks2 = gsn_open_wks(type,"cs1")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
@@ -32,11 +31,6 @@ begin
   opts = True                   ; Specifying start and end points
   pltres = True
   FirstTime = True              ; for calculating top level
-
-  res@vpXF             = 0.08                  ; position and sizes
-  res@vpYF             = 0.94                  ; for XY plot
-  res@vpWidthF = .9
-  res@vpHeightF = .4
 
   times  = wrf_user_list_times(a)          ; Get times in the file
   ntimes = dimsizes(times)                 ; Number of times in the file
@@ -103,7 +97,6 @@ begin
     end if
 
     opts_xy                         = res
-
     opts_xy@tiYAxisString           = "Pressure (mb)"
     opts_xy@trYLog                  = True  ; use a logarithmic coordinate system for the Y-axis
     opts_xy@cnMissingValPerimOn     = True
@@ -114,6 +107,7 @@ begin
     opts_xy@tmYLLabels              = sprintf("%.0f",fspan(zmin,zmax,nz))
     opts_xy@tiXAxisFontHeightF      = 0.02
     opts_xy@tiYAxisFontHeightF      = 0.02
+    opts_xy@tfDoNDCOverlay = True
 
 
 ; Plotting options for PV
@@ -132,52 +126,20 @@ begin
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
 
-; Vertical Velocity
-
     opts_v = res
     opts_v = set_no_frame_res(opts_v)
     opts_v = set_vc_res(opts_v)
     opts_v@vcRefMagnitudeF = 10.
 
-    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
-    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
-    vector = gsn_vector(wks,uproj(0:zmax_pos,:),w_plane(0:zmax_pos,:),opts_v)
+    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:179),opts_th)
+    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:179),opts_pv)
+    vector = gsn_vector(wks,uproj(0:zmax_pos,0:179),w_plane(0:zmax_pos,0:179),opts_v)
 
-    overlay(contour_th,contour_qs)
-    overlay(contour_th,vector)
+    overlay(contour_qs,contour_th)
+    overlay(contour_qs,vector)
 
-    res_xy = True
-    res_xy = set_no_frame_res(res_xy)
-    res_xy@vpXF             = 0.08                  ; position and sizes
-    res_xy@vpYF             = 0.48                  ; for XY plot
-    res_xy@vpWidthF = 0.9
-    res_xy@vpHeightF = 0.22
-    res_xy@gsnMaximize = True
-    res_xy@xyLineColor = "orange"
-
-    res_xy2 = res_xy
-    res_xy2@vpYF             = 0.24                  ; for XY plot
-    res_xy2@tiYAxisString = "SAT"
-    res_xy2@xyLineColor = "blue"
-
-
-    plot2 = gsn_csm_xy2(wks2,ispan(0,dim_len0(phi_diff),1),phi_diff,T_0_line,res_xy,res_xy2)
-    plot2 = gsn_csm_xy2(wks2,ispan(0,dim_len0(phi_diff),1),phi_diff,T_0_line,res_xy,res_xy2)
-;    plot3 = gsn_csm_xy2(wks,phi_diff,T_0_line,res_xy,res_xy2)
-
-    draw(contour_th)
-    draw(plot2)
+    draw(contour_qs)
     frame(wks)
-    frame(wks2)
-
-    ; pnlres = True
-    ; pnlres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
-    ; pnlres@amJust   = "TopLeft"
-    ; pnlres@gsnMaximize = True
-    ; maximize_output(wks,pnlres)
-
-    ; pnlres@gsnPanelDebug = True
-    ; gsn_panel(wks,(/contour_th,plot2,plot3/),(/3,1/),pnlres)
 
   end do                                                     ; END OF TIME LOOP
 end
