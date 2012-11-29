@@ -76,16 +76,6 @@ begin
 
     plot = wrf_map_overlays(a,wks,(/contour_t,vector,contour/),pltres,mpres)
 
-    draw(wks)
-    frame(wks)
-
-    delete(pltres)
-    delete(mpres)
-    delete(optsW)
-    delete(optsT)
-    delete(opts)
-
-
   end do
 
 end
