@@ -17,15 +17,15 @@ begin
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-  do it = 0, dim_len0(times) - 1 , 1
-;  do it = 110,111,1
+;  do it = 0, dim_len0(times) - 1 , 1
+  do it = 110,111,1
     vt = it
     print("working with: " + times(vt))
 
     out = "qs_over" + it
     wks = gsn_open_wks(type,out)
-    gsn_define_colormap(wks,"WhiteBlue")
-    gsn_reverse_colormap(wks)
+;    gsn_define_colormap(wks,"WhiteBlue")
+;    gsn_reverse_colormap(wks)
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
     wgted_var = wgted_var * 1000. ;
@@ -47,12 +47,17 @@ begin
     optsT@cnFillColor = True
     optsT@ContourParameters = (/ 250.,270., 0.5 /)
 
-    tk  = wrf_user_getvar(a,"tk",it)     ; T in C
-    contour_t = wrf_contour(a,wks,tk(3,:,:),optsT)
+;    tk  = wrf_user_getvar(a,"tk",it)     ; T in C
+    t2 = wrf_user_getvar(a,"T2",vt)
+    contour_t = wrf_contour(a,wks,t2,optsT)
+;    tk  = wrf_user_getvar(a,"tk",it)     ; T in C
+;    contour_t = wrf_contour(a,wks,tk(3,:,:),optsT)
 
     ;;-- wind10  --
     u10 = wrf_user_getvar(a,"U10",vt)   ; U component of the wind at 10m
     v10 = wrf_user_getvar(a,"V10",vt)   ; V component of the wind at 10m
+    p  = wrf_user_getvar(a,"pressure",tvalues(it)) ; total pressure
+
 
     optsW = res
     optsW@FieldTitle = "Wind"       ; overwrite Field Title
