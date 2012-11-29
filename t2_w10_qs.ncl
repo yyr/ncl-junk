@@ -38,6 +38,7 @@ begin
     opts@ContourParameters = (/ 0., 1.6, .1 /)
     opts@sfXArray = xlon
     opts@sfYArray = xlat
+    opts@cnLevelFlags = False
     contour = wrf_contour(a,wks,wgted_var,opts)
 
     optsT = res
@@ -46,19 +47,33 @@ begin
     optsT@cnFillOn  = True
     optsT@cnFillColor = True
     optsT@ContourParameters = (/ 250.,270., 0.5 /)
+    optsT = set_no_frame_res(optsT)
 
     t2 = wrf_user_getvar(a,"T2",vt)
-    contour_t = wrf_contour(a,wks,t2,optsT)
+   contour_t = wrf_contour(a,wks,t2,optsT)
 
     ;;-- wind10  --
-    u10 = wrf_user_getvar(a,"U10",vt)   ; U component of the wind at 10m
-    v10 = wrf_user_getvar(a,"V10",vt)   ; V component of the wind at 10m
+    ; u10 = wrf_user_getvar(a,"U10",vt)   ; U component of the wind at 10m
+    ; v10 = wrf_user_getvar(a,"V10",vt)   ; V component of the wind at 10m
 
-    optsW = res
-    optsW@FieldTitle = "Wind"       ; overwrite Field Title
-    optsW  = set_vc_res(optsW)
-    vector = wrf_vector(a,wks,u10,v10,optsW)
+    ; optsW = res
+    ; optsW@FieldTitle = "Wind"       ; overwrite Field Title
+    ; optsW@sfXArray = xlon
+    ; optsW@sfYArray = xlat
+    ; optsW  = set_vc_res(optsW)
+    ; vector = wrf_vector(a,wks,u10,v10,optsW)
 
+    cres = res
+    cres@cnFillOn         = False
+    cres@cnLevelFlags = True
+    cres@cnLineColor = "White"
+    cres@cnLineThicknessF = 2.5
+    cres@sfXArray = xlon
+    cres@sfYArray = xlat
+
+    slp = wrf_user_getvar(a,"slp",it)
+    cres@ContourParameters = (/ 970., 1035., 2 /)
+    contour_slp = wrf_contour(a,wks,slp,cres)
 
     ;;-- plot/overlay all  --
     pltres = True ; Plot resources
