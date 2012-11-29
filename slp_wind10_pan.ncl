@@ -54,7 +54,7 @@ begin
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector,contour/),pltres,mpres)
 
-    out = chartostring(times_in_file(it,5:15))
+    out = chartostring(times_in_file(tvalues(it),5:15))
 
     txt = create "map_titles" textItemClass wks
       "txString"      : out
