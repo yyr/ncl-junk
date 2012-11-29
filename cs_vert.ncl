@@ -5,17 +5,17 @@ load "$nsc/yagUtils.ncl"
 
 begin
 
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
+  a = set_inputfile()
 
-  type = "X11"
+  type = "png"
 
-  wks = gsn_open_wks(type,"cs")
+  wks = gsn_open_wks(type,"cs_weak3")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-          (/303,382,62,237/)/)
+          (/303,382,62,237/), (/191,215,122,168/)/)
   plane = new(4,float)
-  plane = planes(3,:)
+  plane = planes(4,:)
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
@@ -42,7 +42,6 @@ begin
     print("Working on time: " + times(it) )
 
     th  = wrf_user_getvar(a,"th",it)
-    phi = wrf_user_getvar(a,"geopt",it)
 
     T = wrf_user_getvar(a,"tc",it)
     qs = wrf_my_getvar(a,"QSNOW",it)
