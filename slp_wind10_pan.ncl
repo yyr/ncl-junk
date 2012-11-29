@@ -1,35 +1,18 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: wind10.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 ; Created: Friday, September 22 2011
 ; License: GPL v3 or later.
-;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
-;
 
-; Description:
-;
-
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
-;--------------------------------------------------------------------
-; input file
 
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-;  tvalues = (/ 48,60,72,84,90,96 /)   ;specify desired timestep outputs must be even
- tvalues = (/ 48,72,90/)   ;specify desired timestep outputs must be even
+  a = addfile("./wrfout_d01_2008-01-02_12:00:00.nc", "r")
+  tvalues = (/ 48,72,90/)   ;specify desired timestep outputs must be even
 
   type = "png"
   out  = "slp_wind10_pan"       ;out put file name
 
-
-;--------------------------------------------------------------------
   wks = gsn_open_wks(type,out)
-
-;--------------------------------------------------------------------
-; some initial resources
 
   res = True
   res@Footer = False
@@ -44,30 +27,22 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
-; Do looping
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
-  do it = 0, noft - 1, 1   ; LOOP NAME
-                                ; do it = 60, ntimes-1, 2  ; LOOP NAME
-    print("tvalue: " + tvalues(it))
+  do it = 750, 850, 2   ;; LOOP NAME
+    print("tvalue: " + it)
 
-    print("Working on time: " + times(tvalues(it)))
-    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-                                ; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
+    print("Working on time: " + times(it))
+    res@TimeLabel = times(it)   ; Set Valid time to use on plots
 
-    u10 = wrf_user_getvar(a,"U10",tvalues(it))   ; U component of the wind at 10m
-    v10 = wrf_user_getvar(a,"V10",tvalues(it))   ; V component of the wind at 10m
-    slp = wrf_user_getvar(a,"slp",tvalues(it))
+    u10 = wrf_user_getvar(a,"U10",it)   ; U component of the wind at 10m
+    v10 = wrf_user_getvar(a,"V10",it)   ; V component of the wind at 10m
+    slp = wrf_user_getvar(a,"slp",it)
 
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
 
-
-
-;--------------------------------------------------------------------
-; resources for contour plot
     cres = res
     cres@cnFillOn         = False
     cres@cnLevelFlags = True
@@ -78,13 +53,8 @@ begin
     contour = wrf_contour(a,wks,slp,cres)
     delete(cres)
 
-
-
-;--------------------------------------------------------------------
-; Plotting options for Wind Vectors
     opts = res
     opts@FieldTitle = "Wind"       ; overwrite Field Title
-                                ; opts@NumVectors = 40           ; density of wind barbs
     opts@InitTime = False
     opts@ValidTime = False
     opts@vcGlyphStyle = "LineArrow"
@@ -92,22 +62,10 @@ begin
     opts@gsnSpreadColors     = True      ; use full colormap
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
 
-
-;--------------------------------------------------------------------
-; plot resources
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
     pltres@MainTitlePos= False
-
-;--------------------------------------------------------------------
-; map resources
-
-
-;; mpres@MainTitlePos= False
-
-;--------------------------------------------------------------------
-; plot each one
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector,contour/),pltres,mpres)
@@ -115,19 +73,13 @@ begin
 
   end do
 
-;--------------------------------------------------------------------
-; panalize here
-
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
   pres@gsnMaximize = True
-;  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-; pres@gsnPanelLabelBar = False                   ; add common colorbar
-  pres@lbOrientation = "vertical"
   pres@gsnMaximize = True
-
-
   pres@txString         = "slp and Wind at 10m"
+  pres@lbOrientation = "vertical"
+
   gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
 
 end
