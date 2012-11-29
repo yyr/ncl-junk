@@ -51,18 +51,7 @@ begin
     optsT = set_no_frame_res(optsT)
 
     t2 = wrf_user_getvar(a,"T2",vt)
-   contour_t = wrf_contour(a,wks,t2,optsT)
-
-    ;;-- wind10  --
-    ; u10 = wrf_user_getvar(a,"U10",vt)   ; U component of the wind at 10m
-    ; v10 = wrf_user_getvar(a,"V10",vt)   ; V component of the wind at 10m
-
-    ; optsW = res
-    ; optsW@FieldTitle = "Wind"       ; overwrite Field Title
-    ; optsW@sfXArray = xlon
-    ; optsW@sfYArray = xlat
-    ; optsW  = set_vc_res(optsW)
-    ; vector = wrf_vector(a,wks,u10,v10,optsW)
+    contour_t = wrf_contour(a,wks,t2,optsT)
 
     cres = res
     cres@cnFillOn         = False
@@ -92,6 +81,9 @@ begin
 
 ;    plot = wrf_map_overlays(a,wks,(/contour_t,vector,contour/),pltres,mpres)
     plot = wrf_map_overlays(a,wks,(/contour_t,contour_slp,contour/),pltres,mpres)
+
+    tit = chartostring(times_in_file(it,5:15))
+    anno_top_left(wks,plot,tit)
 
     draw(wks)
     frame(wks)
