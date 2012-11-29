@@ -34,33 +34,33 @@ begin
     print("tvalue: " + it)
 
     print("Working on time: " + times(it))
-    res@TimeLabel = times(it)   ; Set Valid time to use on plots
+    res@TimeLabel = times(it)
 
-    u10 = wrf_user_getvar(a,"U10",it)   ; U component of the wind at 10m
-    v10 = wrf_user_getvar(a,"V10",it)   ; V component of the wind at 10m
+    u10 = wrf_user_getvar(a,"U10",it)
+    v10 = wrf_user_getvar(a,"V10",it)
     slp = wrf_user_getvar(a,"slp",it)
 
-    res@gsnDraw              = False              ; Do not draw plot
-    res@gsnFrame             = False              ; Do not advance frame
+    res@gsnDraw              = False
+    res@gsnFrame             = False
 
     cres = res
     cres@cnFillOn         = False
     cres@cnLevelFlags = True
-    cres@ContourParameters = (/ 972., 996., 3 /)
-    cres@InitTime = False
     cres@gsnPanelRight = True
+    cres@InitTime = False
+    cres@ContourParameters = (/ 972., 996., 3 /)
 
     contour = wrf_contour(a,wks,slp,cres)
     delete(cres)
 
     opts = res
-    opts@FieldTitle = "Wind"       ; overwrite Field Title
-    opts@InitTime = False
-    opts@ValidTime = False
     opts@vcGlyphStyle = "LineArrow"
     opts@vcMonoLineArrowColor = True
-    opts@gsnSpreadColors     = True      ; use full colormap
-    opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
+    opts@gsnSpreadColors     = True          ; use full colormap
+    opts@vcGlyphStyle        = "CurlyVector" ; turn on curly vectors
+    opts@InitTime = False
+    opts@ValidTime = False
+    opts@FieldTitle = "Wind"    ; overwrite Field Title
 
     pltres@NoTitles = True
     pltres@PanelPlot = True
@@ -73,13 +73,13 @@ begin
 
   end do
 
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 4                ; skip every other label
+  pres                = True    ; mod panel plot
+  pres@lbLabelStride  = 4       ; skip every other label
   pres@gsnMaximize = True
   pres@gsnMaximize = True
   pres@txString         = "slp and Wind at 10m"
   pres@lbOrientation = "vertical"
 
-  gsn_panel(wks,plot,(/1,noft/),pres)        ; create panel plot
+  gsn_panel(wks,plot,(/1,noft/),pres)
 
 end
