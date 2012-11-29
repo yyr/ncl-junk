@@ -8,11 +8,10 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/71, 82, 95, 119 /)
-  type = "pdf"
-  out = "t2_qs_pan"
 
+  type = "png"
+  out = "t2_qs_pan"
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"temp_19lev")
 
   varname = "QSNOW"
   noflevels = 32                ; how many layers should be added
@@ -48,7 +47,7 @@ begin
     opts = res
     opts@ContourParameters = (/ 0., 2.6, .4 /)
     opts@cnLinesOn = True
-    opts@cnInfoLabelOn = False
+    opts@cnLevelFlags = False
     opts@sfXArray = xlon
     opts@sfYArray = xlat
     contour = wrf_contour(a,wks,wgted_var,opts)
@@ -92,10 +91,7 @@ begin
         dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
                 (/lat_plane(ii),lat_plane(ii+1)/),lnres)
       end do
-
     end if
-
-
   end do
 
 ; Panelize
