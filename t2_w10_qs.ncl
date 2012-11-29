@@ -13,19 +13,20 @@ begin
   varname = "QSNOW"
   noflevels = 32                ; how many layers should be added
 
-  times  = wrf_user_list_times(a)  ; get times in the file
+  times  = wrf_user_list_times(a)
+  times_in_file = a->Times
+
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-;  do it = 0, dim_len0(times) - 1 , 1
-  do it = 110,111,1
+  do it = 0, dim_len0(times) - 1 , 1
+;  do it = 110,110,1
     vt = it
     print("working with: " + times(vt))
 
-    out = "qs_over" + it
+    out = "qs_over" + chartostring(times_in_file(it,4:12)) + "_" + \
+            chartostring(times_in_file(it,14:15))
     wks = gsn_open_wks(type,out)
-;    gsn_define_colormap(wks,"WhiteBlue")
-;    gsn_reverse_colormap(wks)
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
     wgted_var = wgted_var * 1000. ;
@@ -46,7 +47,7 @@ begin
     optsT@sfYArray = xlat
     optsT@cnFillOn  = True
     optsT@cnFillColor = True
-    optsT@ContourParameters = (/ 250.,270., 0.5 /)
+    optsT@ContourParameters = (/ 250.,285., 0.5 /)
     optsT = set_no_frame_res(optsT)
 
     t2 = wrf_user_getvar(a,"T2",vt)
@@ -67,12 +68,12 @@ begin
     cres@cnFillOn         = False
     cres@cnLevelFlags = True
     cres@cnLineColor = "White"
-    cres@cnLineThicknessF = 2.5
+    cres@cnLineThicknessF = 1.7
     cres@sfXArray = xlon
     cres@sfYArray = xlat
 
     slp = wrf_user_getvar(a,"slp",it)
-    cres@ContourParameters = (/ 970., 1035., 2 /)
+    cres@ContourParameters = (/ 970., 1035., 1 /)
     contour_slp = wrf_contour(a,wks,slp,cres)
 
     ;;-- plot/overlay all  --
@@ -89,7 +90,11 @@ begin
     mpres = set_tm_size_res(mpres)
     mpres@lbOrientation = "vertical"
 
-    plot = wrf_map_overlays(a,wks,(/contour_t,vector,contour/),pltres,mpres)
+;    plot = wrf_map_overlays(a,wks,(/contour_t,vector,contour/),pltres,mpres)
+    plot = wrf_map_overlays(a,wks,(/contour_t,contour_slp,contour/),pltres,mpres)
+
+    draw(wks)
+    frame(wks)
 
   end do
 
