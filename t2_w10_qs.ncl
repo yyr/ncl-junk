@@ -43,27 +43,22 @@ begin
     optsT = res
     optsT@sfXArray = xlon
     optsT@sfYArray = xlat
-    optsT@cnFillOn         = True
+    optsT@cnFillOn  = True
     optsT@cnFillColor = True
     optsT@ContourParameters = (/ 250.,270., 0.5 /)
 
-;    tk  = wrf_user_getvar(a,"tk",it)     ; T in C
     t2 = wrf_user_getvar(a,"T2",vt)
     contour_t = wrf_contour(a,wks,t2,optsT)
-;    tk  = wrf_user_getvar(a,"tk",it)     ; T in C
-;    contour_t = wrf_contour(a,wks,tk(3,:,:),optsT)
 
     ;;-- wind10  --
     u10 = wrf_user_getvar(a,"U10",vt)   ; U component of the wind at 10m
     v10 = wrf_user_getvar(a,"V10",vt)   ; V component of the wind at 10m
-    p  = wrf_user_getvar(a,"pressure",tvalues(it)) ; total pressure
-
 
     optsW = res
     optsW@FieldTitle = "Wind"       ; overwrite Field Title
     optsW  = set_vc_res(optsW)
-
     vector = wrf_vector(a,wks,u10,v10,optsW)
+
 
     ;;-- plot/overlay all  --
     pltres = True ; Plot resources
