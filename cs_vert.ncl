@@ -57,21 +57,9 @@ begin
     v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,opts)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,opts)
 
-;-- calculate phi_diff along the line (geo potential difference between two levels)
-    phi_lower = wrf_user_intrp3d(phi,p,"h",lower,0.,opts)
-    phi_upper = wrf_user_intrp3d(phi,p,"h",upper,0.,opts)
-
-    phi_lower_line = wrf_user_intrp2d(phi_lower,plane,angle,opts)
-    phi_lower_line = where(phi_lower_line.ge.5000,phi_lower_line@_FillValue,phi_lower_line)
-    phi_upper_line = wrf_user_intrp2d(phi_upper,plane,angle,opts)
-
-    phi_diff = phi_upper_line - phi_lower_line
-
     ; project on to the cross section line (to make a plot vertical plane)
     ; uproj will horizontal component and w will be vertical component
     uproj = u_plane*cos(angle) + v_plane*sin(angle)
-
-    T_0_line = wrf_user_intrp2d(T(0,:,:),plane,angle,opts)
 
     ;;-- calculate the height of the plot  --
     if ( FirstTime ) then
@@ -115,6 +103,16 @@ begin
     opts_pv@pmLabelBarOrthogonalPosF = -0.07
     opts_pv@cnFillOn = True
     opts_pv@gsnSpreadColors = True
+    opts_pv@cnLevelSelectionMode = "ManualLevels"
+;    opts_pv@cnInfoLabelOn = False
+    opts_pv@cnLevelFlags = "LineOnly"
+    opts_pv@cnLevelFlag = False
+    opts_pv@cnLineLabelsOn = False
+
+    opts_pv@cnMinLevelValF       = 0.
+    opts_pv@cnMaxLevelValF       = 0.0005
+    opts_pv@cnLevelSpacingF      = .00003
+    opts_pv@lbLabelBarOn = False
 
     opts_th = opts_xy
     opts_th@cnSmoothingOn = True
@@ -126,14 +124,16 @@ begin
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
 
+
     opts_v = res
     opts_v = set_no_frame_res(opts_v)
     opts_v = set_vc_res(opts_v)
     opts_v@vcRefMagnitudeF = 10.
 
-    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:179),opts_th)
-    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:179),opts_pv)
-    vector = gsn_vector(wks,uproj(0:zmax_pos,0:179),w_plane(0:zmax_pos,0:179),opts_v)
+    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
+    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
+    vector = gsn_vector(wks,uproj(0:zmax_pos,:), \
+            w_plane(0:zmax_pos,:),opts_v)
 
     overlay(contour_qs,contour_th)
     overlay(contour_qs,vector)
