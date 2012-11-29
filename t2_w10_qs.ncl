@@ -17,13 +17,15 @@ begin
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-;  do it = 0, dim_len0(times) - 1 , 1
-  do it = 5,6,1
+  do it = 0, dim_len0(times) - 1 , 1
+;  do it = 110,111,1
     vt = it
     print("working with: " + times(vt))
 
     out = "qs_over" + it
     wks = gsn_open_wks(type,out)
+    gsn_define_colormap(wks,"WhiteBlue")
+    gsn_reverse_colormap(wks)
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
     wgted_var = wgted_var * 1000. ;
