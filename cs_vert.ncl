@@ -31,13 +31,11 @@ begin
   opts = True                   ; Specifying start and end points
   pltres = True
   FirstTime = True              ; for calculating top level
-
   times  = wrf_user_list_times(a)          ; Get times in the file
-  ntimes = dimsizes(times)                 ; Number of times in the file
+;  print(times)
 
-  nd = rank_of_file_var(a,"P")
 
-  do it = 96,96
+  do it = 138,138
 
     print("Working on time: " + times(it) )
 
