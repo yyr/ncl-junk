@@ -20,7 +20,6 @@ begin
   xlon = a->XLONG(0,:,:)
 
   do it = 0, dim_len0(times) - 1 , 1
-;  do it = 110,110,1
     vt = it
     print("working with: " + times(vt))
 
@@ -57,7 +56,7 @@ begin
     cres@cnFillOn         = False
     cres@cnLevelFlags = True
     cres@cnLineColor = "White"
-    cres@cnLineThicknessF = 1.7
+    cres@cnLineThicknessF = 2.3
     cres@sfXArray = xlon
     cres@sfYArray = xlat
 
