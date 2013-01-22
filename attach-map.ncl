@@ -147,7 +147,7 @@ begin
 
 ;---Change map to a satellite projection
   setvalues redMap
-  "mpProjection" : "Mercator"
+    "mpProjection" : "Mercator"
   end setvalues
 
 ;---Overlay everything and draw
