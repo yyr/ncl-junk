@@ -1,6 +1,6 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ;    File: sur_air_temp.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: Friday, September  9 2011
 ; License: GPL v3 or later.
 ;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>

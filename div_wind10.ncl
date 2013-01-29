@@ -1,5 +1,5 @@
 ;    File: wind10.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: Friday, September 22 2011
 ; License: GPL v3 or later.  <http://www.gnu.org/licenses/gpl.html>
 

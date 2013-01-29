@@ -1,5 +1,5 @@
 ;    File: hov.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: Monday, November 14 2011
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;

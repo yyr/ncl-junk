@@ -1,5 +1,5 @@
 ;;    File: panel_t.ncl
-;;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Friday, September  9 2011
 ;;
 

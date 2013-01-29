@@ -1,5 +1,5 @@
 ;    File: cs_hgt.ncl
-;  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
+;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: 2011-11-29 13:08
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 ;
