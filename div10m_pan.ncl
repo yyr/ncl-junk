@@ -26,11 +26,7 @@ begin
   res@lbLabelBarOn        = False           ; turn off individual cb's
 
   pltres = True ; Plot resources
-  mpres  = True  ; Map resources
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
-  mpres@mpGeophysicalLineColor = "Blue"
-
+  mpres = set_mp_resources(True)
 
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
@@ -90,7 +86,6 @@ begin
   pres@lbOrientation = "vertical"
 
   pres@gsnPanelDebug = True
-
   gsn_panel(wks,plot,(/2,noft/2/),pres)        ; create panel plot
 
 end
