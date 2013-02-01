@@ -2,8 +2,6 @@
 ;    File: sur_air_temp.ncl
 ;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: Friday, September  9 2011
-; License: GPL v3 or later.
-;  You should get a copy from <http://www.gnu.org/licenses/gpl.html>
 ;
 
 ; Description:
@@ -14,8 +12,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
-;--------------------------------------------------------------------
-;
+
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 

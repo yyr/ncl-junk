@@ -12,7 +12,7 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 ;  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
-                                ; type = "x11"
+  ; type = "x11"
   type = "ps"
 ;  type = "ngcm"
   varname = "QSNOW"

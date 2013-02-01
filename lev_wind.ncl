@@ -29,7 +29,7 @@ begin
   noft = dim_len0(tvalues)
   plot = new(noft,graphic)
 
- do it = 0, noft - 1, 1   ; LOOP NAME
+  do it = 0, noft - 1, 1   ; LOOP NAME
     print("tvalue: " + tvalues(it))
 
     print("Working on time: " + times(tvalues(it)))

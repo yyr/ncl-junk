@@ -33,8 +33,8 @@ begin
   locij = wrf_user_ll_to_ij(a, lon, lat, llres)
   locij = locij - 1        ; array pointers in NCL space
   locX = 179
- ;; locY = 71
- ;; wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
+  ;; locY = 71
+  ;; wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
 
   out = "meteo_" + lat
   locY = 119

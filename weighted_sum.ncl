@@ -15,8 +15,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$nsc/yagUtils.ncl"
 
 begin
-;--------------------------------------------------------------------
-; USER OPTIONS
+
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
   type = "ps"
@@ -32,25 +31,18 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
-
   it = 88
-
   wgted_var = wrf_user_getvar_weighted_sum(a,varname,it)
   print(wgted_var)
 
   wgted_var = wgted_var * 1000. ;
   wgted_var@units = "g"
 
-;--------------------------------------------------------------------
-; some initial resources
   res = True
   res@gsnSpreadColors = True    ;spread Colors
   res@TimeLabel = times(it)   ; Set Valid time to use on plots
   res@Footer = False
 
-;--------------------------------------------------------------------
-; contour resources
   opts = res
   opts@cnFillOn         = True
   opts@cnFillColor = True

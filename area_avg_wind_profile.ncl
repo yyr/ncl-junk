@@ -75,7 +75,7 @@ begin
       q_wgted =  q_wgted + q_lay_wgt
     end do
 
-  q_wgt(it) = q_wgted * 1000. ; g/kg instead of kg/kg
+    q_wgt(it) = q_wgted * 1000. ; g/kg instead of kg/kg
   end do
   q@units = "g kg-1"
 

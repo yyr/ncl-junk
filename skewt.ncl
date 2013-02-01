@@ -1,6 +1,5 @@
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
+load "$nsc/yagUtils.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/skewt_func.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
 ;

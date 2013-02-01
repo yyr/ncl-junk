@@ -123,7 +123,7 @@ begin
   pres@amJust   = "TopRight"
 
 ;  panel_style = panel_sensibly(dim_len0(plot))
- gsn_panel(wks,plot,(/2, dim_len0(directories)/2 /),pres)        ; create panel plot
+  gsn_panel(wks,plot,(/2, dim_len0(directories)/2 /),pres)        ; create panel plot
 
 end
 ;;; hov.ncl ends here

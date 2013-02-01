@@ -13,20 +13,16 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 
 begin
-  ;;--------------------------------------------------------------------
+
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "ps"
   out = "mflux"       ;out put file name
 
   tvalues = (/ 47, 78, 82, 86, 90,94/)   ;specify desired timestep outputs must be even
 
-  ;;--------------------------------------------------------------------
-  ;; Workstation settings
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"hotcold_18lev")
 
-  ;;--------------------------------------------------------------------
-  ;; some initial resources
   res = True
   ;; res@MainTitle = "Water Vapour Mixing Ration"
   res@Footer = False
@@ -41,8 +37,6 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-  ;;--------------------------------------------------------------------
-  ;; Do looping
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
@@ -55,14 +49,10 @@ begin
 
     mflux = wrf_user_getvar(a,"QFX",tvalues(it))
 
-    ;;--------------------------------------------------------------------
-    ;;
     res@gsnDraw   = False              ; Do not draw plot
     res@gsnFrame  = False              ; Do not advance frame
     res@cnInfoLabelOn = False        ; turn off contour info label
 
-;;--------------------------------------------------------------------
-    ;; contour resources
     opts = res
     opts@cnFillOn         = True
     opts@ContourParameters = (/ 0., 0.0002, 0.00005 /)
@@ -70,29 +60,19 @@ begin
     opts@InitTime = False
     ;; opts@NoHeaderFooter = True
 
-    ;;--------------------------------------------------------------------
-    ;; plot resources
     pltres@NoTitles = True
     pltres@PanelPlot = True
     pltres@FramePlot = False
 
-;;--------------------------------------------------------------------
-    ;; map resources
-    ;; mpres@gsnMaximize = True
     mpres@NoHeaderFooter = True
 
-    ;;--------------------------------------------------------------------
-    ;; plot each one
     contour = wrf_contour(a,wks,mflux,opts)
-    ;; Plotting options for Wind Vectors
 
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
 
   end do
 
-  ;;--------------------------------------------------------------------
-  ;; panalize here
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 7           ; skip every other label
   pres@gsnPanelBottom = 0.05              ; add some space at bottom

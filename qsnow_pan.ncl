@@ -1,7 +1,7 @@
 ;    File: panel_t.ncl
 ;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: Friday, September  9 2011
-; License: GPL v3 or later.  <http://www.gnu.org/licenses/gpl.html>
+; License: GPL v3 or later.
 
 load "$nsc/yagUtils.ncl"
 

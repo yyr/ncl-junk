@@ -12,12 +12,10 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-;--------------------------------------------------------------------
-; input file
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/71, 82, 95, 119 /)   ;specify desired timestep outputs must be even
-                                ; type = "x11"
+  ; type = "x11"
   type = "pdf"
   out  = "wind10"       ;out put file name
 
@@ -38,8 +36,6 @@ begin
   times  = wrf_user_list_times(a)  ; get times in the file
   ntimes = dimsizes(times)         ; number of times in the file
 
-;--------------------------------------------------------------------
-; Do looping
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 

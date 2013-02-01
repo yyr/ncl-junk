@@ -10,8 +10,8 @@ begin
   speed = sqrt(u^2+v^2)
 
   months = (/"Jan"    , "Feb" , "Mar"    , "Apr" \
-  ,"May"     , "Jun"     , "Jul"    , "Aug"\
-  ,"Sep" , "Oct"   , "Nov" , "Dec"/)
+          ,"May"     , "Jun"     , "Jul"    , "Aug"\
+          ,"Sep" , "Oct"   , "Nov" , "Dec"/)
 
   tClmu = calculate_monthly_values( u,"avg",0,False )
   tClmv = calculate_monthly_values( v, "avg",0,False )
@@ -66,17 +66,13 @@ begin
 ;    res@mpOutlineSpecifiers           = (/"Japan"/)
     res@pmLabelBarDisplayMode    = "Always"
 
-;
-; Instead of thinning the vectors by subscripting the data with "::4",
-; you can instead thin the vectors with the resource below.
-;
     res@vcMinDistanceF       = 0.005         ; Thin the vectors
 
 ;  res@mpFillDrawOrder      = "Postdraw"    ; Draw filled map last
-;plot = gsn_csm_vector_map(wks,u,v,res)   ; Call the gsn_csm function for
+;  plot = gsn_csm_vector_map(wks,u,v,res)   ; Call the gsn_csm function for
 
     plot = gsn_csm_vector_map(wks,tClmu(mon,:,:),tClmv(mon,:,:),res)
 
   end do
-                                ; drawing the vectors over a map.
+  ; drawing the vectors over a map.
 end

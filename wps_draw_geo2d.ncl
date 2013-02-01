@@ -51,7 +51,7 @@ begin
     opts@cnFillOn = True
     opts@cnFillMode       = "AreaFill"
 
-                                ; Set special plot options depending on the variable
+    ; Set special plot options depending on the variable
     if ( var .eq. "SLOPECAT")
       opts@cnFillMode       = "RasterFill"
       opts@ContourParameters = (/ 1,7,1 /)
@@ -67,14 +67,14 @@ begin
       opts@cnExplicitLabelBarLabelsOn = True
       opts@ContourParameters = (/ 2,24,1 /)
       opts@lbLabelStrings = (/ "Urban and Built-Up Land", "Dryland Cropland and Pasture", \
-      "Irrigated Cropland and Pasture", "Mixed Dryland/Irrigated Cropland", \
-      "Cropland/Grassland Mosaic", "Cropland/Woodland Mosaic", "Grassland", \
-      "Shrubland", "Mixed Shrubland/Grassland", "Savanna", \
-      "Deciduous Broadleaf Forest", "Deciduous Needleleaf Forest", \
-      "Evergreen Broadleaf Forest", "Evergreen Needleleaf Forest", \
-      "Mixed Forest", "Water Bodies", "Herbaceous Wetland", "Wooded Wetland", \
-      "Barren or Sparsely Vegetated", "Herbaceous Tundra", "Wooded Tundra", \
-      "Mixed Tundra", "Bare Ground Tundra", "Snow or Ice" /)
+              "Irrigated Cropland and Pasture", "Mixed Dryland/Irrigated Cropland", \
+              "Cropland/Grassland Mosaic", "Cropland/Woodland Mosaic", "Grassland", \
+              "Shrubland", "Mixed Shrubland/Grassland", "Savanna", \
+              "Deciduous Broadleaf Forest", "Deciduous Needleleaf Forest", \
+              "Evergreen Broadleaf Forest", "Evergreen Needleleaf Forest", \
+              "Mixed Forest", "Water Bodies", "Herbaceous Wetland", "Wooded Wetland", \
+              "Barren or Sparsely Vegetated", "Herbaceous Tundra", "Wooded Tundra", \
+              "Mixed Tundra", "Bare Ground Tundra", "Snow or Ice" /)
       opts@lbLabelAngleF = 270.0
       opts@lbLabelAlignment = "BoxCenters"
       opts@lbTitleOn = False
