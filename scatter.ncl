@@ -20,7 +20,14 @@ begin
   wks=gsn_open_wks("ps","scatter")
   res=True
   res@xyMarkLineMode="Markers"
-  res@xyMarker=16
+  res@xyMarker  =  16
+  res@xyMarkerSizeF = 0.005
+
+  res@trYMinF            = -20.
+  res@trYMaxF            = 20.
+
+  res@trXMinF            = -20.
+  res@trXMaxF            = 20.
 
   scatter=gsn_csm_xy(wks,u(:,1),v(:,1),res)
 
