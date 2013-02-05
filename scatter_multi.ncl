@@ -13,6 +13,7 @@ begin
           ; "/home/yagnesh/wrf/run/20080117/d3" \
   /)
 
+  lev = 2
 
   wks=gsn_open_wks("ps","scatter")
   res=True
@@ -42,20 +43,13 @@ begin
       q_wgt(it) = sum(q(it,:))
     end do
 
-    lev = 1
-
-
     x = q_wgt * 1000
     x = where(x.lt.0.2, 0, x)
-    ; fin = (/x,u(:,lev),v(:,lev)/)
-
-    count= 0
 
     x@_FillValue = 0
     xn = .not.ismissing(x)
 
     dim0 = dim_len0(x)
-
     min_length = 4
 
     i = 0                         ; main iterator
@@ -66,7 +60,7 @@ begin
 
       if ( edge - i .ge. 4 .and. xn(i) ) then
         ; print(x(i:edge))
-        scatter=gsn_csm_xy(wks,u(i:edge,1),v(i:edge,1),res)
+        scatter=gsn_csm_xy(wks,u(i:edge,lev),v(i:edge,lev),res)
       end if
 
       ; forward iterator
