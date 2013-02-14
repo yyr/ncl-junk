@@ -59,34 +59,19 @@ begin
     x_axis=ispan(1,len_p_plane(0),1)
     diff= slp_cs_line - (1.2 * p_cs_line)
 
-    ;; do n = 0, len_p_plane(0)-1, 1   ;; LOOP NAME
-    ;;   tmp = slp_cs_line(n) + "  " + p_cs_line(n) + " " + p_cs_line * 1.3 +" "+ diff(n)
-    ;;   print( n + "  "+ tmp+" ")
-    ;; end do
-
     yesL = True
-
     yesL@vpHeightF= 0.4                    ; change aspect ratio of plot
     yesL@vpWidthF = 0.8
-
     yesL@trYMinF  = 8.                  ; min value on y-axis
     yesL@trYMaxF  = 15.                   ; max value on y-axis
-
     yesL@tiMainString= "diff along cs line at" + times(vt)
 
     plot = gsn_csm_xy(wks,x_axis,diff,yesL)
-
   end do
 
-
-  pres                = True              ; mod panel plot
+  pres                = True
   pres@lbLabelStride  = 4                ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-  pres@gsnMaximize = True
-
-  gsn_panel(wks,plot,(/3,noft/3/),pres)        ; create panel plot
-
+  panelize_3col(wks,plot,pres)
 
 end
 ;;; cs_hgt.ncl ends here
