@@ -1,55 +1,50 @@
 ;    File: wps_draw_geo2d.ncl
 ;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: Saturday, October 22 2011
-; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 
 ; Description:
 ; draw 2d fields from wrfout
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
 
-  a = addfile("./geo_em.d01.nc","r")   ; Open a file
+  a = addfile("./geo_em.d01.nc","r")
 
-  vNames = getfilevarnames (a) ; Get names of all variables on file
-  nNames = dimsizes (vNames)   ; Number of variables on the file
-  print(vNames)
+  vname = getfilevarnames (a)
 
   dummy = "y"
 
   print("Enter a Variable name:")
-  var = systemfunc("read ans; echo $ans") ;stringtointeger()
+  var = systemfunc("read ans; echo $ans")
+
   if ( .not. isfilevar(a,var) ) then
     print(var + "is not a file Varialbe")
   end if
 
   do while ( dummy .eq. "y" )
-
     type = "x11"
     ; type = "ps"
-    wks = gsn_open_wks(type,"plt_geo")       ; Create a plot workstation
+    wks = gsn_open_wks(type,"plt_geo")
 
-
-    res = True                               ; Set some Basic Plot options
+    res = True
     res@MainTitle = "GEOGRID FIELDS"
-    res@InitTime = False                     ; Do not plot time or footers
+    res@InitTime = False
     res@Footer = False
 
-    pltres = True                            ; Set plot options
+    pltres = True
 
-    mpres = True                             ; Set map options
+    mpres = True
     mpres@mpGeophysicalLineColor = "Black"
     mpres@mpNationalLineColor    = "Black"
     mpres@mpUSStateLineColor     = "Black"
 
     gsn_define_colormap(wks,"BlAqGrYeOrReVi200")
-    v = a->$var$        ; Read the variable to memory
+    v = a->$var$
 
-    opts = res                ; Set plot options to be used by all variables
+    opts = res
     opts@cnFillOn = True
-    opts@cnFillMode       = "AreaFill"
+    opts@cnFillMode = "AreaFill"
 
     ; Set special plot options depending on the variable
     if ( var .eq. "SLOPECAT")
@@ -118,7 +113,7 @@ begin
     delete(wks)
 
     ;;-- get a new var to display  --
-    print(vNames)
+    print(vname)
     print("Enter a Variable name:")
     var = systemfunc("read ans; echo $ans") ;stringtointeger()
     if ( .not. isfilevar(a,var) ) then
@@ -126,5 +121,4 @@ begin
     end if
 
   end do
-
 end
