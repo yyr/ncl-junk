@@ -1,78 +1,56 @@
 ;;    File: w_panel.ncl
 ;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Wednesday, September 21 2011
-;; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
-;;
 
-;; Description:
-;;
-
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
 
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
+  a = set_inputfile()
 
   type = "ps"
-  pressure = 950.               ;which level you want to plot
-  out = "vert_wind" + pressure       ;out put file name
+  pressure = 950.
+  out = "vert_wind" + pressure
 
-  tvalues = (/ 47,60,88,94 /)   ;specify desired timestep outputs must be even
+  tvalues = (/ 47,60,88,94 /)
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"ViBlGrWhYeOrRe")   ; overwrite the .hluresfile color map
+  gsn_define_colormap(wks,"ViBlGrWhYeOrRe")
 
   res = True
-  res@Footer = False
-  res@gsnSpreadColors = True    ;spread Colors
-  res@lbLabelBarOn        = False           ; turn off individual cb's
+  res@gsnSpreadColors = True
+  res@lbLabelBarOn = False           ; turn off individual cb's
 
-  mpres  = True  ; Map resources
-  pltres = True ; Plot resources
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
+  mpres  = True
+  pltres = True
+  mpres = set_high_res_coast(mpres)
 
-  times  = wrf_user_list_times(a)  ; get times in the file
-  ntimes = dimsizes(times)         ; number of times in the file
+  times = a->Times
 
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
-  do it = 0, noft - 1, 1   ;; LOOP NAME
+  do it = 0, 1 ; noft - 1, 1
     print("tvalue: " + tvalues(it))
 
-
-    print("Working on time: " + times(tvalues(it)))
-    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-    ;; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
+    print("Working on time: " + chartostring(times(it,:)))
+    date_string = chartostring(times(it,5:15))
+    res@gsnCenterString = date_string
 
     w = wrf_user_getvar(a,"W",tvalues(it))
-
     p  = wrf_user_getvar(a,"pressure",it) ; total pressure
     printVarSummary(w)
     wa = wrf_user_unstagger(w,w@stagger)
-
     w_plane = wrf_user_intrp3d(wa,p,"h",pressure,0.,False)
 
-    res@gsnDraw              = False              ; Do not draw plot
-    res@gsnFrame             = False              ; Do not advance frame
+    res = set_no_frame_res(res)
     res@cnInfoLabelOn = False        ; turn off contour info label
 
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
     opts@ContourParameters = (/ -1.0, 1.4, .3/)
-    opts@PlotLevelID      = "Eta Level  " + pressure
-    opts@InitTime = False
-    level =5
-
-    pltres@NoTitles = True
-    pltres@PanelPlot = True
-    pltres@FramePlot = False
-    pltres@MainTitlePos= False
-
+    level = 5
     mpres@gsnMaximize = True
 
     if (isvar("w_plane"))
@@ -82,14 +60,7 @@ begin
       delete(contour)
     end if
   end do
-
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 6                ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-  pres@gsnMaximize = True
-
-  pres@txString         = "Vertical wind" +  pressure + "hPa"     ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
-
+  pres                = True
+  pres@txString         = "Vertical wind" +  pressure + "hPa"
+  panelize_2col(wks,plot,pres)
 end
