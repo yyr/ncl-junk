@@ -4,10 +4,8 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-
   a = set_inputfile()
-
-  type = "png"
+  type = "ps"
 
   wks = gsn_open_wks(type,"cs_weak3")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
@@ -24,7 +22,7 @@ begin
   lower = 970.
 
   res = True
-  res =set_no_frame_res(res)
+  res = set_no_frame_res(res)
   res@gsnLeftString=""
   res@gsnRightString=""
 

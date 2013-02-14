@@ -5,12 +5,10 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-
   a = set_inputfile()
-;  tvalues = (/ 48,72,90/)   ;specify desired timestep outputs must be even
   tvalues = (/71, 82, 95, 119 /)
 
-  type = "png"
+  type = "ps"
   out  = "div"       ;out put file name
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"WhiteBlue")
@@ -19,7 +17,6 @@ begin
   res = True
   res = set_no_frame_res(res)
   res = set_wrf_no_headers(res)
-
 
   pltres = set_tm_size_res(res)
   pltres = set_no_frame_res(pltres)
@@ -59,12 +56,7 @@ begin
 
   pres                = True    ; mod panel plot
   pres@lbLabelStride  = 4       ; skip every other label
-  pres@gsnMaximize = True
-  pres@gsnMaximize = True
   pres@lbOrientation = "vertical"
   pres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-
-  gsn_panel(wks,plot,(/2,noft/2/),pres)
-
+  panelize_2col(wks,plot,pres)
 end

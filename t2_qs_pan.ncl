@@ -4,13 +4,14 @@
 ;
 
 load "$nsc/yagUtils.ncl"
-
 begin
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  tvalues = (/71, 82, 95, 119 /)
 
-  type = "png"
+  a = set_inputfile()
+
+  tvalues = (/71, 82, 95, 119 /)
+  type = "ps"
   out = "t2_qs_pan"
+
   wks = gsn_open_wks(type,out)
 
   varname = "QSNOW"
@@ -97,14 +98,9 @@ begin
 ; Panelize
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4                ; skip every other label
-  pres@gsnPanelBottom = 0.1              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-  pres@lbOrientation = "vertical"
-  pres@gsnMaximize = True
   pres@gsnPanelFigureStrings = (/"a", "b", "c" ,"d"/)
   pres@amJust   = "TopLeft"
 
-  gsn_panel(wks,plot,(/2, noft/2 /),pres)        ; create panel plot
-
+  panelize_2col(wks,plot,pres)
 end
 ;;; t2_qs_pan.ncl ends here

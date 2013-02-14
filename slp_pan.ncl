@@ -2,15 +2,11 @@
 ;    File: slp_pan.ncl
 ; Created: Friday, September  9 2011
 ; License: GPL v3 or later.
-;
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
-
+load "$nsc/yagUtils.ncl"
 begin
+  a = set_inputfile()
 
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
 
   out = "slp_pan"       ;out put file name
@@ -24,10 +20,8 @@ begin
   res@Footer = False
   res@lbLabelBarOn        = False           ; turn off individual cb's
 
-  mpres  = True  ; Map resources
   pltres = True ; Plot resources
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
+  mpres = set_high_res_coast(True)
 
   times  = wrf_user_list_times(a)  ; get times in the file
 
@@ -50,24 +44,14 @@ begin
     opts@cnFillOn         = True
     opts@cnFillColor = True
     opts@ContourParameters = (/ 972., 996., 1 /)
-    opts@InitTime = False
-
-    pltres@NoTitles = True
-    pltres@PanelPlot = True
-    pltres@FramePlot = False
 
     contour = wrf_contour(a,wks,slp,opts)
     plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
     delete(contour)
 
   end do
-
   pres                = True              ; mod panel plot
   pres@lbLabelStride  = 12         ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-
   pres@txString         = "sea level pressure"      ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
-
+  panelize_3col(wks,plot,pres)
 end

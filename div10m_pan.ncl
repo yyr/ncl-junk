@@ -77,15 +77,10 @@ begin
 
   end do
 
-  pres                = res              ; mod panel plot
+  pres                = True              ; mod panel plot
   pres@lbLabelStride  = 4         ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-  pres@gsnMaximize = True
-  pres@gsnPanelLabelBar = True
-  pres@lbOrientation = "vertical"
-
+  pres@txString         = "Cloud mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
   pres@gsnPanelDebug = True
-  gsn_panel(wks,plot,(/2,noft/2/),pres)        ; create panel plot
+  panelize_2col(wks,plot,pres)
 
 end

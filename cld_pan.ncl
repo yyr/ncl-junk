@@ -2,15 +2,12 @@
 ;    File: panel_t.ncl
 ; Created: Friday, September  9 2011
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
-;
 
 ; Description:
-;
 
 load "$nsc/yagUtils.ncl"
 
 begin
-
   a = set_inputfile()
 
   type = "ps"

@@ -6,16 +6,12 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-
-  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
-  ; a = addfile("./wrfout_d03_2008-02-11_00:00:00.nc","r")
-  ; type = "x11"
+  a = set_inputfile()
   type = "ps"
   pressure = 900.               ;which level you want to plot
   out = "qsnow_" + pressure       ;out put file name
 
   tvalues = (/ 47,88,90,92,94,96 /)   ;specify desired timestep outputs must be even
-  ; tvalues = tvalues + 96
 
 
   wks = gsn_open_wks(type,out)
@@ -50,7 +46,6 @@ begin
 
     p  = wrf_user_getvar(a,"pressure",it) ; total pressure
     qv_plane = wrf_user_intrp3d(qv,p,"h",pressure,0.,False)
-    ; printVarSummary(qv_plane)
 
     res@gsnDraw              = False              ; Do not draw plot
     res@gsnFrame             = False              ; Do not advance frame
@@ -81,12 +76,8 @@ begin
   end do
 
   pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 6                ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
-  pres@gsnMaximize = True
-
   pres@txString         = "Snow mixing ratio g/kg at " +  pressure + "hPa"     ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
+  pres@lbLabelStride  = 6                ; skip every other label
+  panelize_2col(wks,plot,pres)
 
 end

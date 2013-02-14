@@ -1,20 +1,10 @@
 ; Created: Wednesday, October 12 2011
 
-; Description:
-; weithted sum: from Hydrostatic equation
-; dP/dz = - ro * g (ro = density )
-;
-
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$nsc/yagUtils.ncl"
 
 begin
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-;  a = addfile("./wrfout_d03_2008-12-23_00:00:00.nc","r")
-  ; type = "x11"
+  a = set_inputfile()
   type = "ps"
-;  type = "ngcm"
   varname = "QSNOW"
 
   out = "tVq_line" + varname       ;out put file name
@@ -38,8 +28,6 @@ begin
     var_wgt = var_wgt * 1000. ;
     var_wgt@units = "g"
 
-; 135 52, 239 166
-;    line = (/  135 ,52, 239 ,166  /) ; start x;y & end x;y point
     line = (/  135 ,52  /) ; start x;y & end x;y point
     var_wgt_line = wrf_user_intrp2d(var_wgt,line,45.,False)
 

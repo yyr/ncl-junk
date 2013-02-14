@@ -1,77 +1,55 @@
-;;    File: panel_t.ncl
-;; Created: Friday, September  9 2011
-;; License: GPL v3 or later.
-;;
+;    File: panel_t.ncl
+; Created: Friday, September  9 2011
+; License: GPL v3 or later.
+;
 
-;; Description:
-;;
+; Description:
+;
 
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
-load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
+load "$nsc/yagUtils.ncl"
 
 begin
+  a = set_inputfile()
 
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "ps"
   out = "snownc"       ;out put file name
-
   tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 
   wks = gsn_open_wks(type,out)
 
   res = True
-  ;; res@MainTitle = "Water Vapour Mixing Ration"
-  res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
   res@lbLabelBarOn        = False           ; turn off individual cb's
 
-  mpres  = True  ; Map resources
   pltres = True ; Plot resources
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
+  mpres = set_high_res_coast(True)
 
   times  = wrf_user_list_times(a)  ; get times in the file
-  ntimes = dimsizes(times)         ; number of times in the file
-
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ;; LOOP NAME
     print("tvalue: " + tvalues(it))
 
-
     print("Working on time: " + times(tvalues(it)))
     res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-    ;; res@gsnLeftString = times(tvalues(it))   ; Set Valid time to use on plots
 
     if(isfilevar(a,"SNOWNC"))
       snownc = wrf_user_getvar(a,"SNOWNC",tvalues(it))
     end if
 
-    res@gsnDraw              = False              ; Do not draw plot
-    res@gsnFrame             = False              ; Do not advance frame
-
+    res = set_no_frame_res(res)
     res@cnInfoLabelOn = False        ; turn off contour info label
 
     opts = res
     opts@cnFillOn         = True
     opts@cnFillColor = True
-    ;; opts@ContourParameters = (/ 0.5, 2.5, .07 /)
     opts@InitTime = False
-    ;; opts@ValidTime = False
     level =5
 
-    pltres@NoTitles = True
-    pltres@PanelPlot = True
-    pltres@FramePlot = False
-    pltres@MainTitlePos= False
-
     mpres@gsnMaximize = True
-    ;; mpres@MainTitlePos= False
 
     if (isvar("snownc"))
-      ;; contour = wrf_contour(a,wks,snownc(level,:,:),opts)
       contour = wrf_contour(a,wks,snownc(:,:),opts)
       plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
       delete(contour)
@@ -80,12 +58,7 @@ begin
   end do
 
   pres                = True            ; mod panel plot
-  pres@gsnPanelBottom = 0.05            ; add some space at bottom
-  pres@gsnPanelLabelBar = True          ; add common colorbar
   pres@lbLabelStride  =  1              ; skip every other label
-  pres@gsnMaximize = True
-
   pres@txString         = "Accumilated Snow Fall mm"     ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
-
+  panelize_2col(wks,plot,pres)
 end
