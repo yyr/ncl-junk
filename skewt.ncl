@@ -113,12 +113,12 @@ begin
         dataOpts@HspdHdir  = True   ; wind speed and dir [else: u,v]
         dataOpts@PlotWindH = False  ; plot wind barbs at h lvls [pibal; special]
         skewT_data = skewT_PlotData(wks, skewt_bkgd, p(:,locY,locX), \
-                tc(:,locY,locX), \
-                td(:,locY,locX), \
-                z(:,locY,locX), \
-                u(:,locY,locX), \
-                v(:,locY,locX), \
-                dataOpts)
+                                    tc(:,locY,locX), \
+                                    td(:,locY,locX), \
+                                    z(:,locY,locX), \
+                                    u(:,locY,locX), \
+                                    v(:,locY,locX), \
+                                    dataOpts)
 
         ;      Close the frame
         frame(wks)

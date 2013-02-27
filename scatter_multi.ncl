@@ -3,15 +3,15 @@ load "$nsc/yagUtils.ncl"
 begin
 
   folders = (/"/home/yagnesh/wrf/run/20071116/d3", \
-          "/home/yagnesh/wrf/run/20071123/d3", \
-          "/home/yagnesh/wrf/run/20071128/d3", \
-          "/home/yagnesh/wrf/run/20071205/d3", \
-          "/home/yagnesh/wrf/run/20071215/d3", \
-          "/home/yagnesh/wrf/run/20071225/d3", \
-          ; "/home/yagnesh/wrf/run/20080104/d3" \
-          "/home/yagnesh/wrf/run/20080113/d3" \
-          ; "/home/yagnesh/wrf/run/20080117/d3" \
-  /)
+              "/home/yagnesh/wrf/run/20071123/d3", \
+              "/home/yagnesh/wrf/run/20071128/d3", \
+              "/home/yagnesh/wrf/run/20071205/d3", \
+              "/home/yagnesh/wrf/run/20071215/d3", \
+              "/home/yagnesh/wrf/run/20071225/d3", \
+              ; "/home/yagnesh/wrf/run/20080104/d3" \
+              "/home/yagnesh/wrf/run/20080113/d3" \
+              ; "/home/yagnesh/wrf/run/20080117/d3" \
+              /)
 
   lev = 2
 

@@ -60,10 +60,10 @@ begin
   res@gsnLeftString = ""
 
   plot = gsn_csm_vector_scalar(wks,\
-          u_area(bottom_top|:15,Time|0:tlen:4),\
-          v_area(bottom_top|:15,Time|0:tlen:4),\
-          wspd(lev|:15,Time|0:tlen:4),\
-          res)
+                               u_area(bottom_top|:15,Time|0:tlen:4),\
+                               v_area(bottom_top|:15,Time|0:tlen:4),\
+                               wspd(lev|:15,Time|0:tlen:4),\
+                               res)
 
   resc = True
   resc = set_no_frame_res(resc)

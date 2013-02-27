@@ -11,7 +11,7 @@ begin
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-          (/303,382,62,237/), (/191,215,122,168/)/)
+             (/303,382,62,237/), (/191,215,122,168/)/)
   plane = new(4,float)
   plane = planes(4,:)
 
@@ -128,7 +128,7 @@ begin
     contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
     contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
     vector = gsn_vector(wks,uproj(0:zmax_pos,:), \
-            w_plane(0:zmax_pos,:),opts_v)
+                        w_plane(0:zmax_pos,:),opts_v)
 
     overlay(contour_qs,contour_th)
     overlay(contour_qs,vector)

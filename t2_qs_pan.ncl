@@ -71,7 +71,7 @@ begin
     if ( it .eq. 2 ) then
 
       planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-              (/303,382,62,237/)/)
+                 (/303,382,62,237/)/)
       plane = new(4,float)
       plane = planes(3,:)
 
@@ -90,7 +90,7 @@ begin
 ;      do ii = 0,dim_len0(lon_plane)-2
       do ii = 0, 180
         dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
-                (/lat_plane(ii),lat_plane(ii+1)/),lnres)
+                                   (/lat_plane(ii),lat_plane(ii+1)/),lnres)
       end do
     end if
   end do

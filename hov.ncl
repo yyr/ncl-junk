@@ -11,13 +11,13 @@ load "$nsc/yagUtils.ncl"
 
 begin
 
-  directories=(/ "/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
-          , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo_saka/d3" \
-          /)
+  directories=(/"/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo_saka/d3" \
+                /)
 
 
   type = "pdf"
@@ -27,7 +27,7 @@ begin
   varname = "QSNOW"
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-          (/303,382,62,237/)/)
+             (/303,382,62,237/)/)
   plane = new(4,float)
   plane = planes(3,:)
 

@@ -10,8 +10,8 @@ begin
   speed = sqrt(u^2+v^2)
 
   months = (/"Jan"    , "Feb" , "Mar"    , "Apr" \
-          ,"May"     , "Jun"     , "Jul"    , "Aug"\
-          ,"Sep" , "Oct"   , "Nov" , "Dec"/)
+             ,"May"     , "Jun"     , "Jul"    , "Aug"\
+             ,"Sep" , "Oct"   , "Nov" , "Dec"/)
 
   tClmu = calculate_monthly_values( u,"avg",0,False )
   tClmv = calculate_monthly_values( v, "avg",0,False )

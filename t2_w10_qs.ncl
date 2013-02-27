@@ -24,7 +24,7 @@ begin
     print("working with: " + times(vt))
 
     out = "qs_over" + chartostring(times_in_file(it,4:12)) + "_" + \
-            chartostring(times_in_file(it,14:15))
+          chartostring(times_in_file(it,14:15))
     wks = gsn_open_wks(type,out)
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
