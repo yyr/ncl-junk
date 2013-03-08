@@ -38,6 +38,8 @@ begin
     v = a->v_mean
     q = a->q
     q_wgt = new(dim_len0(q),"float")
+    q_wgt = q_wgt * b_a         ; normalize over land points
+
 
     do it = 0, dim_len0(q) -1, 1
       q_wgt(it) = sum(q(it,:))
