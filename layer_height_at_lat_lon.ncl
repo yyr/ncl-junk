@@ -15,11 +15,12 @@ begin
   ll = wrf_user_ij_to_ll(a,ilon,ilat,True)
   ij = wrf_user_ll_to_ij(a,lon,lat,True)
 
-  ; print(ll)
-  ; print(ij)
+  print(ll)
+  print(ij)
 
   hgt = wrf_user_getvar(a,"height", 1)
 
   print(hgt(:,ij(0),ij(1)))
+  print(hgt(:,251,76))
 
 end
