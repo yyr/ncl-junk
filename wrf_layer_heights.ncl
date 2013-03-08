@@ -11,8 +11,15 @@ begin
   a = set_inputfile()
 
   wks = gsn_open_wks("ps","hgt")
-  hgt = wrf_user_getvar(a,"HGT", 1)
+  hgt = wrf_user_getvar(a,"height", 1)
 
   res = wrf_map_resources(a,True)
-  plot = gsn_csm_contour_map(wks,hgt(:,:),True)
+  res = set_no_frame_res(res)
+
+  printVarInfo(hgt,"var")
+  plot = gsn_csm_contour_map(wks,hgt(10,:,:),res)
+
+  draw(wks)
+  frame(wks)
+
 end
