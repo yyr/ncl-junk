@@ -6,8 +6,8 @@ begin
               "/home/yagnesh/wrf/run/20071123/d3", \
               "/home/yagnesh/wrf/run/20071128/d3", \
               "/home/yagnesh/wrf/run/20071205/d3", \
-              "/home/yagnesh/wrf/run/20071215/d3", \
               "/home/yagnesh/wrf/run/20071225/d3", \
+              ; "/home/yagnesh/wrf/run/20071225/d3", \
               ; "/home/yagnesh/wrf/run/20080104/d3" \
               "/home/yagnesh/wrf/run/20080113/d3" \
               ; "/home/yagnesh/wrf/run/20080117/d3" \
@@ -17,17 +17,17 @@ begin
   coard = (/213,372,92,218/)
 
   wks=gsn_open_wks("ps","scatter")
+  wks1=gsn_open_wks("ps","scatter1")
+
   res=True
   res@xyMarkLineMode="Markers"
   res@xyMarker  =  16
-  res@xyMarkerSizeF = 0.005
 
   res@trYMinF            = -20.
   res@trYMaxF            = 20.
 
   res@trXMinF            = -20.
   res@trXMaxF            = 20.
-  res@gsnFrame = False
   res@gsnFrame = False
 
   tmp = "/home/yagnesh/wrf/run/20071116/d3/wrfout_d03_2007-11-14_00:00:00"
@@ -67,7 +67,17 @@ begin
       if ( edge - i .ge. 4 .and. xn(i) ) then
         ; print(x(i:edge))
         res@xyMarkerColor = colors(fol)
+        markers = new(edge - i,float)
+        printVarSummary(q_wgt(i:edge-1))
+        printVarSummary(markers)
+        markers = q_wgt(i:edge-1)
+        markers  = markers *100 - 0.02
+
+        res@xyMarkerSizes = markers
         scatter=gsn_csm_xy(wks,u(i:edge,lev),v(i:edge,lev),res)
+
+        delete(markers)
+        delete(res@xyMarkerSizes)
       end if
 
       ; forward iterator
