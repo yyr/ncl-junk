@@ -43,6 +43,9 @@ begin
   b = where(xland .eq. 1 , 0 , 1)
   b_a = b(lo:ro,la:ra)
 
+  colors = (/"black","blue","red","green","orange","brown", "chocolate", "cornsilk4"/)
+
+
   do fol  = 0,dim_len0(folders) -1, 1   ;; folders
 
     print("entering the folder: " + folders(fol))
@@ -76,6 +79,7 @@ begin
 
       if ( edge - i .ge. 4 .and. xn(i) ) then
         ; print(x(i:edge))
+        res@xyMarkerColor = colors(fol)
         scatter=gsn_csm_xy(wks,u(i:edge,lev),v(i:edge,lev),res)
       end if
 
