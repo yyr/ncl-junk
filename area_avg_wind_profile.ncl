@@ -4,13 +4,11 @@ begin
   a = set_inputfile()
   ; coard = (/265,336,126,223/)
   coard = (/213,372,92,218/)
-  lo = 213                      ; left lon
-  ro = 372                      ; right lon
-  la = 92                       ; left lat
-  ra = 218                      ; right lat
+  lo = coard(0)                      ; left lon
+  ro = coard(1)                      ; right lon
+  la = coard(2)                       ; left lat
+  ra = coard(3)                      ; right lat
 
-  wks = gsn_open_wks("ps","barb")
-  gsn_define_colormap(wks,"WhBlGrYeRe")
   g = 9.8                       ; gravity
 
   times = wrf_user_list_times(a)
@@ -29,13 +27,22 @@ begin
   filedimdef(o,"Time", -1,True)
 
   do it = 0, tlen - 1 , 1   ;; tloop
+
+
     print("Working with: " + it)
     u = a->U(it,:,:,:)
     u_a = u(:,lo:ro,la:ra)
+
     delete(u)
     u_area = dim_avg_n_Wrap(u_a,(/1,2/))
     delete(u_a)
     u_mean(it,:) = u_area
+
+    xland = a->XLAND(it,:,:)
+    b = where(xland .eq. 1 , 0 , 1)
+    b_a = b(lo:ro,la:ra)
+    delete(xland)
+    delete(b)
 
     v = a->V(it,:,:,:)
     v_a = v(:,lo:ro,la:ra)
@@ -51,7 +58,11 @@ begin
 
     qc = a->QCLOUD(it,:,:,:)
     qc_a = qc(:,lo:ro,la:ra)
+    ; qc_a = qc_a * b_a
     delete(qc)
+    do ll = 0, dim_len0(qc_a) - 1 , 1    ; doc
+      qc_a(ll,:,:) = qc_a(ll,:,:) * b_a
+    end do
     qc_area = dim_avg_n_Wrap(qc_a,(/1,2/))
 
     q(it,:) = qs_area + qc_area
