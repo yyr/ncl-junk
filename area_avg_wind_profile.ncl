@@ -2,7 +2,13 @@ load "$nsc/yagUtils.ncl"
 
 begin
   a = set_inputfile()
-  coard = (/265,336,126,223/)
+  ; coard = (/265,336,126,223/)
+  coard = (/213,372,92,218/)
+  lo = 213                      ; left lon
+  ro = 372                      ; right lon
+  la = 92                       ; left lat
+  ra = 218                      ; right lat
+
   wks = gsn_open_wks("ps","barb")
   gsn_define_colormap(wks,"WhBlGrYeRe")
   g = 9.8                       ; gravity
@@ -15,9 +21,9 @@ begin
   q_wgt = new(tlen,float)
   u_mean = new((/tlen,dims(1)/),float)
   v_mean = new((/tlen,dims(1)/),float)
-  noflevels=25
+  noflevels=14
 
-  ofname = "prof.nc"
+  ofname = "prof_1.nc"
   system("rm -f " + ofname)
   o =  addfile(ofname, "c")
   filedimdef(o,"Time", -1,True)
@@ -25,26 +31,26 @@ begin
   do it = 0, tlen - 1 , 1   ;; tloop
     print("Working with: " + it)
     u = a->U(it,:,:,:)
-    u_a = u(:,265:336,126:223)
+    u_a = u(:,lo:ro,la:ra)
     delete(u)
     u_area = dim_avg_n_Wrap(u_a,(/1,2/))
     delete(u_a)
     u_mean(it,:) = u_area
 
     v = a->V(it,:,:,:)
-    v_a = v(:,265:336,126:223)
+    v_a = v(:,lo:ro,la:ra)
     delete(v)
     v_area = dim_avg_n_Wrap(v_a,(/1,2/))
     delete(v_a)
     v_mean(it,:) = v_area
 
     qs = a->QSNOW(it,:,:,:)
-    qs_a = qs(:,265:336,126:223)
+    qs_a = qs(:,lo:ro,la:ra)
     delete(qs)
     qs_area = dim_avg_n_Wrap(qs_a,(/1,2/))
 
     qc = a->QCLOUD(it,:,:,:)
-    qc_a = qc(:,265:336,126:223)
+    qc_a = qc(:,lo:ro,la:ra)
     delete(qc)
     qc_area = dim_avg_n_Wrap(qc_a,(/1,2/))
 
@@ -55,12 +61,12 @@ begin
 
     ; weighted sum of q
     gh = wrf_user_getvar(a,"z",it)
-    gh_a = gh(:,265:336,126:223)
+    gh_a = gh(:,lo:ro,la:ra)
     delete(gh)
     gh_area = dim_avg_n_Wrap(gh_a,(/1,2/))
 
     p = wrf_user_getvar(a,"z",it)
-    p_a = p(:,265:336,126:223)
+    p_a = p(:,lo:ro,la:ra)
     delete(p)
     p_area = dim_avg_n_Wrap(p_a,(/1,2/))
 
