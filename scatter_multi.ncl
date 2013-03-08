@@ -14,6 +14,7 @@ begin
               /)
 
   lev = 2
+  coard = (/213,372,92,218/)
 
   wks=gsn_open_wks("ps","scatter")
   res=True
@@ -28,6 +29,19 @@ begin
   res@trXMaxF            = 20.
   res@gsnFrame = False
   res@gsnFrame = False
+
+  tmp = "/home/yagnesh/wrf/run/20071116/d3/wrfout_d03_2007-11-14_00:00:00"
+  tmp_fh = addfile(tmp + ".nc","r")
+  coard = (/213,372,92,218/)
+
+  lo = coard(0)                      ; left lon
+  ro = coard(1)                      ; right lon
+  la = coard(2)                       ; left lat
+  ra = coard(3)                      ; right lat
+
+  xland = wrf_user_getvar(tmp_fh,"XLAND",0)
+  b = where(xland .eq. 1 , 0 , 1)
+  b_a = b(lo:ro,la:ra)
 
   do fol  = 0,dim_len0(folders) -1, 1   ;; folders
 
