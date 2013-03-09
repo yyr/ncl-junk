@@ -6,6 +6,7 @@ begin
               "/home/yagnesh/wrf/run/20071123/d3", \
               "/home/yagnesh/wrf/run/20071128/d3", \
               "/home/yagnesh/wrf/run/20071205/d3", \
+              "/home/yagnesh/wrf/run/20071215/d3", \
               "/home/yagnesh/wrf/run/20071225/d3", \
               ; "/home/yagnesh/wrf/run/20071225/d3", \
               ; "/home/yagnesh/wrf/run/20080104/d3" \
@@ -30,6 +31,13 @@ begin
   res@trXMaxF            = 20.
   res@gsnFrame = False
 
+  res1 = res
+  res1@trXMinF            = 0.
+  res1@trXMaxF            = 20.
+  res1@trYMinF            = 0.
+  res1@trYMaxF            = 0.002
+
+
   tmp = "/home/yagnesh/wrf/run/20071116/d3/wrfout_d03_2007-11-14_00:00:00"
   tmp_fh = addfile(tmp + ".nc","r")
 
@@ -42,6 +50,7 @@ begin
 
     u = a->u_mean
     v = a->v_mean
+    U = sqrt(u^2 + v^2)
     q = a->q
     q_wgt = new(dim_len0(q),"float")
 
@@ -68,13 +77,12 @@ begin
         ; print(x(i:edge))
         res@xyMarkerColor = colors(fol)
         markers = new(edge - i,float)
-        printVarSummary(q_wgt(i:edge-1))
-        printVarSummary(markers)
         markers = q_wgt(i:edge-1)
         markers  = markers *100 - 0.02
 
         res@xyMarkerSizes = markers
         scatter=gsn_csm_xy(wks,u(i:edge,lev),v(i:edge,lev),res)
+        scatter1=gsn_csm_xy(wks1,U(i:edge,lev),q_wgt(i:edge),res1)
 
         delete(markers)
         delete(res@xyMarkerSizes)
@@ -92,4 +100,7 @@ begin
 
   draw(wks)
   frame(wks)
+
+  draw(wks1)
+  frame(wks1)
 end
