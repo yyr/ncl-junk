@@ -15,7 +15,6 @@ begin
               /)
 
   lev = 6
-  coard = (/213,372,92,218/)
 
   wks=gsn_open_wks("ps","scatter")
   wks1=gsn_open_wks("ps","scatter1")
@@ -36,10 +35,6 @@ begin
   res1@trXMaxF            = 20.
   res1@trYMinF            = 0.
   res1@trYMaxF            = 0.002
-
-
-  tmp = "/home/yagnesh/wrf/run/20071116/d3/wrfout_d03_2007-11-14_00:00:00"
-  tmp_fh = addfile(tmp + ".nc","r")
 
   colors = (/"black","blue","red","green","orange","brown", "chocolate", "cornsilk4"/)
 
