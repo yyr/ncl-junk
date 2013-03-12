@@ -16,8 +16,13 @@ begin
 
   lev = 6
 
+  hok  = (/262,117, 292,162/)
+  sak  = (/292,162,335,232/)
+
   wks=gsn_open_wks("ps","scatter")
-  wks1=gsn_open_wks("ps","scatter1")
+  wks1=gsn_open_wks("ps","scatter_q")
+  wks2=gsn_open_wks("ps","scatter_tm")
+  wks3=gsn_open_wks("ps","scatter_tm2")
 
   res=True
   res@xyMarkLineMode="Markers"
@@ -36,9 +41,23 @@ begin
   res1@trYMinF            = 0.
   res1@trYMaxF            = 0.002
 
+  res2 = res
+  res2@trXMinF            = 0.
+  res2@trXMaxF            = 10.
+  res2@trYMinF            = 0.
+  res2@trYMaxF            = 0.002
+
   colors = (/"black","blue","red","green","orange","brown", "chocolate", "cornsilk4"/)
 
   do fol  = 0,dim_len0(folders) -1, 1   ;; folders
+
+    fil = systemfunc("ls "+ folders(fol) + "/wrfout*")
+    print(fil)
+    fil_a = addfile(fil,"r")
+
+    t2 = wrf_user_getvar(fil_a, "T2",-1)
+    t2_hok = t2(:,262,117) - t2(:,292,162)
+    t2_sak = t2(:,292,162) - t2(:,335,232)
 
     print("entering the folder: " + folders(fol))
     a = addfile(folders(fol) + "/prof_1.nc","r")
@@ -71,13 +90,17 @@ begin
       if ( edge - i .ge. 4 .and. xn(i) ) then
         ; print(x(i:edge))
         res@xyMarkerColor = colors(fol)
+        res1@xyMarkerColor = colors(fol)
+        res2@xyMarkerColor = colors(fol)
         markers = new(edge - i,float)
         markers = q_wgt(i:edge-1)
         markers  = markers *100 - 0.02
 
         res@xyMarkerSizes = markers
         scatter=gsn_csm_xy(wks,u(i:edge,lev),v(i:edge,lev),res)
-        scatter1=gsn_csm_xy(wks1,U(i:edge,lev),q_wgt(i:edge),res1)
+        scatter_q=gsn_csm_xy(wks1,U(i:edge,lev),q_wgt(i:edge),res1)
+        scatter_tm=gsn_csm_xy(wks2,t2_hok(i:edge),q_wgt(i:edge),res2)
+        scatter_tm2=gsn_csm_xy(wks3,t2_sak(i:edge),q_wgt(i:edge),res2)
 
         delete(markers)
         delete(res@xyMarkerSizes)
@@ -92,10 +115,4 @@ begin
       j = j + 1
     end do
   end do
-
-  draw(wks)
-  frame(wks)
-
-  draw(wks1)
-  frame(wks1)
 end
