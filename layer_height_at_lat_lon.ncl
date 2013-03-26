@@ -9,18 +9,15 @@ begin
 
   lon = 143.3
   lat = 45.6845
-  ilon = 275                    ; 143.3
-  ilat = 214                    ; 45.6845
+  ; ilon = 275                    ; 143.3
+  ; ilat = 214                    ; 45.6845
 
   ll = wrf_user_ij_to_ll(a,ilon,ilat,True)
   ij = wrf_user_ll_to_ij(a,lon,lat,True)
 
-  print(ll)
-  print(ij)
-
   hgt = wrf_user_getvar(a,"height", 1)
 
   print(hgt(:,ij(0),ij(1)))
-  print(hgt(:,251,76))
+  print(hgt(:,ij(0),ij(1)))
 
 end
