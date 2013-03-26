@@ -52,7 +52,6 @@ begin
   do fol  = 0,dim_len0(folders) -1, 1   ;; folders
 
     fil = systemfunc("ls "+ folders(fol) + "/wrfout*")
-    print(fil)
     fil_a = addfile(fil,"r")
 
     t2 = wrf_user_getvar(fil_a, "T2",-1)
@@ -60,7 +59,7 @@ begin
     t2_sak = t2(:,292,162) - t2(:,335,232)
 
     print("entering the folder: " + folders(fol))
-    a = addfile(folders(fol) + "/prof_1.nc","r")
+    a = addfile(folders(fol) + "/prof.nc","r")
 
     u = a->u_mean
     v = a->v_mean
@@ -92,18 +91,19 @@ begin
         res@xyMarkerColor = colors(fol)
         res1@xyMarkerColor = colors(fol)
         res2@xyMarkerColor = colors(fol)
+
         markers = new(edge - i,float)
         markers = q_wgt(i:edge-1)
         markers  = markers *100 - 0.02
 
-        res@xyMarkerSizes = markers
+        ; res@xyMarkerSizes = markers
         scatter=gsn_csm_xy(wks,u(i:edge,lev),v(i:edge,lev),res)
         scatter_q=gsn_csm_xy(wks1,U(i:edge,lev),q_wgt(i:edge),res1)
         scatter_tm=gsn_csm_xy(wks2,t2_hok(i:edge),q_wgt(i:edge),res2)
         scatter_tm2=gsn_csm_xy(wks3,t2_sak(i:edge),q_wgt(i:edge),res2)
 
         delete(markers)
-        delete(res@xyMarkerSizes)
+        ; delete(res@xyMarkerSizes)
       end if
 
       ; forward iterator
