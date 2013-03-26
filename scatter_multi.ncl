@@ -14,6 +14,12 @@ begin
               ; "/home/yagnesh/wrf/run/20080117/d3" \
               /)
 
+  coard = (/92,218,213,372/)
+  lo = coard(0)                      ; left lon
+  ro = coard(1)                      ; right lon
+  la = coard(2)                       ; left lat
+  ra = coard(3)                      ; right lat
+
   lev = 6
 
   hok  = (/262,117, 292,162/)
@@ -27,13 +33,13 @@ begin
   res=True
   res@xyMarkLineMode="Markers"
   res@xyMarker  =  16
+  res@gsnFrame = False
 
   res@trYMinF            = -20.
   res@trYMaxF            = 20.
 
   res@trXMinF            = -20.
   res@trXMaxF            = 20.
-  res@gsnFrame = False
 
   res1 = res
   res1@trXMinF            = 0.
@@ -42,24 +48,25 @@ begin
   res1@trYMaxF            = 0.002
 
   res2 = res
-  res2@trXMinF            = 0.
+  res2@trXMinF            = -10.
   res2@trXMaxF            = 10.
   res2@trYMinF            = 0.
   res2@trYMaxF            = 0.002
 
   colors = (/"black","blue","red","green","orange","brown", "chocolate", "cornsilk4"/)
 
+  fil = systemfunc("ls ~/wrf/run/20071116/d3/wrfout*")
+  out = addfile(fil,"r")
+
+  xland = out->XLAND(0,lo:ro,la:ra)
+  masking = where(xland .eq. 1 , 0 , 1)
+
   do fol  = 0,dim_len0(folders) -1, 1   ;; folders
-
-    fil = systemfunc("ls "+ folders(fol) + "/wrfout*")
-    fil_a = addfile(fil,"r")
-
-    t2 = wrf_user_getvar(fil_a, "T2",-1)
-    t2_hok = t2(:,262,117) - t2(:,292,162)
-    t2_sak = t2(:,292,162) - t2(:,335,232)
-
     print("entering the folder: " + folders(fol))
     a = addfile(folders(fol) + "/prof.nc","r")
+    t2 = a->T2
+    t2_hok = t2(:,117,262) - t2(:,162,292)
+    t2_sak = t2(:,162,292) - t2(:,232,335)
 
     u = a->u_mean
     v = a->v_mean
@@ -68,7 +75,7 @@ begin
     q_wgt = new(dim_len0(q),"float")
 
     do it = 0, dim_len0(q) -1, 1
-      q_wgt(it) = sum(q(it,:))
+      q_wgt(it) = sum(q(it,:,:))
     end do
 
     x = q_wgt * 1000
