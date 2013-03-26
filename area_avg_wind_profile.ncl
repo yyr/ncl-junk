@@ -15,20 +15,17 @@ begin
   tlen = dim_len0(times)
 
   dims = filevardimsizes(a,"QSNOW")
-  q = new((/tlen,dims(1)/),float)
-  q_wgt = new(tlen,float)
+  q = new((/dims(0),dims(2),dims(3)/),float) ;time,lat,lon
   u_mean = new((/tlen,dims(1)/),float)
   v_mean = new((/tlen,dims(1)/),float)
   noflevels=14
 
-  ofname = "prof_1.nc"
+  ofname = "prof.nc"
   system("rm -f " + ofname)
   o =  addfile(ofname, "c")
   filedimdef(o,"Time", -1,True)
 
   do it = 0, tlen - 1 , 1   ;; tloop
-
-
     print("Working with: " + it)
     u = a->U(it,:,:,:)
     u_a = u(:,lo:ro,la:ra)
@@ -51,66 +48,12 @@ begin
     delete(v_a)
     v_mean(it,:) = v_area
 
-    qs = a->QSNOW(it,:,:,:)
-    qs_a = qs(:,lo:ro,la:ra)
-    delete(qs)
-    qs_area = dim_avg_n_Wrap(qs_a,(/1,2/))
-
-    qc = a->QCLOUD(it,:,:,:)
-    qc_a = qc(:,lo:ro,la:ra)
-    ; qc_a = qc_a * b_a
-    delete(qc)
-    do ll = 0, dim_len0(qc_a) - 1 , 1    ; doc
-      qc_a(ll,:,:) = qc_a(ll,:,:) * b_a
-    end do
-    qc_area = dim_avg_n_Wrap(qc_a,(/1,2/))
-
-    q(it,:) = qs_area + qc_area
-    delete(qs_area)
-    delete(qc_area)
-
-
-    ; weighted sum of q
-    gh = wrf_user_getvar(a,"z",it)
-    gh_a = gh(:,lo:ro,la:ra)
-    delete(gh)
-    gh_area = dim_avg_n_Wrap(gh_a,(/1,2/))
-
-    p = wrf_user_getvar(a,"z",it)
-    p_a = p(:,lo:ro,la:ra)
-    delete(p)
-    p_area = dim_avg_n_Wrap(p_a,(/1,2/))
-
-    q_wgted = 0.
-    do lev = 0, noflevels, 1   ;; levels
-      q_layer = (q(it,lev+1) - q(it,lev)) / 2.
-      dgh = gh_area(lev+1) - gh_area(lev) ; 𝑑𝑧
-      dp = p_area(lev+1) - p_area(lev) ; 𝑑𝑝
-      lay_wgt = -1 * (dp/dgh) / g    ; 𝜚 = - 𝑑𝑝/𝑑𝑧 / 𝑔
-      q_lay_wgt = q_layer * lay_wgt
-
-      q_wgted =  q_wgted + q_lay_wgt
-    end do
-
-    q_wgt(it) = q_wgted * 1000. ; g/kg instead of kg/kg
+    q(it,:,:) = wrf_user_getvar_weighted_sum(a, (/"QSNOW", "QCLOUD", "QRAIN", "QICE"/), it)
   end do
-  q@units = "g kg-1"
 
-  ; wspd = (/ sqrt(u_mean^2+v_mean^2) /)
-  ; wspd!0 = "Time"
-  ; wspd!1 = "bottom_top"
-
-  q!0 = "Time"
-  q!1 = "bottom_top"
-  u_mean!0 = "Time"
-  v_mean!0 = "Time"
-
-  ; q&Time = times
-  ; u_mean&Time = times
-  ; v_mean&Time = times
-
-  o->q = q
+  o->q = q(:,lo:ro,la:ra)
   o->u_mean = u_mean
   o->v_mean = v_mean
+  o->T2 = a->T2
 
 end
