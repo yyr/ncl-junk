@@ -3,7 +3,7 @@ load "$nsc/yagUtils.ncl"
 begin
   a = set_inputfile()
   ; coard = (/265,336,126,223/)
-  coard = (/213,372,92,218/)
+  coard = (/92,218,213,372/)
   lo = coard(0)                      ; left lon
   ro = coard(1)                      ; right lon
   la = coard(2)                       ; left lat
