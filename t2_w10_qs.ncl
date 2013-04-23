@@ -1,14 +1,12 @@
 ;    File: t2_w10_qs.ncl
 ; Created: Monday, November 14 2011
 ; License: GPL v3 or later.
-
 load "$nsc/yagUtils.ncl"
 
 begin
-
   a = set_inputfile()
-
-  type = "png"
+  type = "ps"
+  type = "X11"
 
   varname = "QSNOW"
   noflevels = 32                ; how many layers should be added
