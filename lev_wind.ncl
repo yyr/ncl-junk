@@ -1,12 +1,10 @@
 ;; doc:
 ;;  (wrf) generate a horizontal plot at a given pressure level.
 
-
 load "$nsc/yagUtils.ncl"
 
 begin
-
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
+  a = set_inputfile()
   tvalues = (/ 98,99 /)   ;specify desired timestep outputs must be even
 
   type = "x11"
