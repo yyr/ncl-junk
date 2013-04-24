@@ -30,8 +30,6 @@ begin
   pltres = True
   FirstTime = True              ; for calculating top level
   times  = wrf_user_list_times(a)          ; Get times in the file
-;  print(times)
-
 
   do it = 138,138
 

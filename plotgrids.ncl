@@ -1,12 +1,11 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-
   type = "png"
   wks = gsn_open_wks(type,"domain")
 
-  filename = "$nsc/namelist.wps"
-  a = addfile("./wrfout_d01_2008-12-25_00:00:00.nc","r")
+  filename = "/home/yagnesh/wrf/run/20071116/namelist.wps"
+  a = set_inputfile()
 
   opts = True
   opts@tmXBLabelFontHeightF = 0.014
