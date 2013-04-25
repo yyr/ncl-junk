@@ -47,9 +47,15 @@ class psFile(object):
 
         import subprocess
         fn, e = os.path.splitext(fname)
-        for i in range(page_len):
-           print('psselect -p%s %s > %s-%s.ps' % (i,fname,fn,e))
-            # subprocess.Popen('psselect -p' + i  )
+        page_files = []
+        for i in range(1,page_len + 1):
+            of = fn + "-" + str(i) + e
+            page_files.append(of)
+            cmd = 'psselect -p%s %s %s' % (i,fname,of)
+            print(cmd)
+            subprocess.Popen(cmd.split() ,stdout=subprocess.PIPE)
+
+        return page_files
 
 
 def arg_parse(file_name=None):
@@ -58,6 +64,7 @@ def arg_parse(file_name=None):
         fName, fExn = os.path.splitext(f)
         psf = psFile(f)
         psf.split2pages()
+
 
 def main(args=None):
     import argparse
