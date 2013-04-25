@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 '''
+--------------------------
 Split ps/pdf and make it into gif. imagemagick giffing.
 
 External commands required:
 - psselect
 - convert
+--------------------------
 '''
 
 DATE = "Wednesday, April 24 2013"
@@ -14,6 +16,18 @@ LICENSE ="GPL v3 or later"
 
 import re
 import os.path
+import subprocess
+
+verb = False
+
+def convert2gif(files,out_prefix,delay=50,density=50):
+    if verb:
+        print('running convert')
+    ext = '.gif'
+    of = out_prefix + ext
+    cmd = 'convert -delay %d -density %d %s %s ' % (delay,density,' '.join(files), of)
+    p = subprocess.Popen(cmd.split() ,stdout=subprocess.PIPE)
+    p.wait()
 
 class psFile(object):
     def __init__(self, fname):
@@ -39,32 +53,36 @@ class psFile(object):
 
         return None
 
-    def split2pages(self,fname=None,page_len=None):
-        if fname is None:
-            fname=self._fname
-        if page_len is None:
-            page_len = self._no_pages
+    def split2pages(self,fname=None,page_len=None,dry=False):
+        if fname is None: fname=self._fname
+        if page_len is None: page_len = self._no_pages
 
-        import subprocess
         fn, e = os.path.splitext(fname)
         page_files = []
-        print('Started Splitting File.')
+
+        if verb: print('Started Splitting File.')
+
         for i in range(1,page_len + 1):
             of = fn + "-" + str(i) + e
             page_files.append(of)
             cmd = 'psselect -p%s %s %s' % (i,fname,of)
+            if dry: continue
+            if verb: print(cmd)
             p = subprocess.Popen(cmd.split() ,stdout=subprocess.PIPE)
             p.wait()
 
         return page_files
 
 
-def arg_parse(file_name=None):
+def arg_parse(file_name=None,dry=False,verbose=False):
+    global verb
+    verb = verbose
     for fn in file_name:
         fPath, f = os.path.split(fn)
         fName, fExn = os.path.splitext(f)
         psf = psFile(f)
-        psf.split2pages()
+        pages = psf.split2pages(dry=dry)
+        convert2gif(pages,fName)
 
 
 def main(args=None):
@@ -74,6 +92,9 @@ def main(args=None):
     )
     parser.add_argument('file_name',nargs='+',
                         help='ps or pdf file(s) to convert to gif')
+    parser.add_argument('-d','--dry',action='store_true')
+    parser.add_argument('-v','--verbose',action='store_true')
+
     arg_parse(**vars(parser.parse_args(args)))
 
 
