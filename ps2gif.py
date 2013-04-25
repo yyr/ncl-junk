@@ -48,12 +48,13 @@ class psFile(object):
         import subprocess
         fn, e = os.path.splitext(fname)
         page_files = []
+        print('Started Splitting File.')
         for i in range(1,page_len + 1):
             of = fn + "-" + str(i) + e
             page_files.append(of)
             cmd = 'psselect -p%s %s %s' % (i,fname,of)
-            print(cmd)
-            subprocess.Popen(cmd.split() ,stdout=subprocess.PIPE)
+            p = subprocess.Popen(cmd.split() ,stdout=subprocess.PIPE)
+            p.wait()
 
         return page_files
 
