@@ -74,7 +74,7 @@ class psFile(object):
         return page_files
 
 
-def arg_parse(file_name=None,dry=False,verbose=False):
+def arg_parse(file_name=None,dry=False,verbose=False,split_only=False):
     global verb
     verb = verbose
     for fn in file_name:
@@ -82,7 +82,8 @@ def arg_parse(file_name=None,dry=False,verbose=False):
         fName, fExn = os.path.splitext(f)
         psf = psFile(f)
         pages = psf.split2pages(dry=dry)
-        convert2gif(pages,fName)
+        if not split_only:
+            convert2gif(pages,fName)
 
 
 def main(args=None):
@@ -94,6 +95,8 @@ def main(args=None):
                         help='ps or pdf file(s) to convert to gif')
     parser.add_argument('-d','--dry',action='store_true')
     parser.add_argument('-v','--verbose',action='store_true')
+    parser.add_argument('--split-only',action='store_true',
+                        help='only split ps file')
 
     arg_parse(**vars(parser.parse_args(args)))
 
