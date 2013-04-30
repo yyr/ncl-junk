@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 '''
 Print nc file variable information.
-
 '''
 
 DATE = "Tuesday, April 30 2013"
@@ -37,14 +36,17 @@ def print_var_summary(fh,varname=None):
 
 
 
-def arg_parse(varname=None,domain=None,input_file=None):
+def arg_parse(varname=None,domain=None,input_file=None,list_var_names=False):
     wrf_dom = 3
     if input_file is not None:
         ncfile = Nio.open_file(input_file,format='nc')
     else:
         ncfile = Nio.open_file(find_inputfile(wrf_dom),format='nc')
 
-    if varname is not None:
+    if list_var_names:
+        print_var_summary(ncfile)
+
+    if len(varname) != 0:
         for var in varname:
             print_var_summary(ncfile,varname=var)
 
@@ -58,6 +60,8 @@ def main(args=None):
         description=__doc__)
     parser.add_argument('varname', nargs='*',
                         help='Variable name(s) for query.')
+    parser.add_argument('-l','--list-var-names',action='store_true',
+                        help='list all variable names.')
 
     parser.add_argument('-i','--input-file', nargs='?',
                         help='Variable name(s) for query.')
