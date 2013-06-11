@@ -4,7 +4,7 @@
 Split ps/pdf and make it into gif. imagemagick giffing.
 
 External commands required:
-- psselect
+- psselect (or ncl psplit command)
 - convert
 --------------------------
 '''
@@ -19,6 +19,15 @@ import os.path
 import subprocess
 
 verb = False
+
+def is_prog_exists(prog):
+    import subprocess
+    rv = subprocess.call('which ' + prog)
+    if rv == 0:
+        return True
+    else:
+        return False
+
 
 def convert2gif(files,out_prefix,delay=50,density=50):
     if verb:
