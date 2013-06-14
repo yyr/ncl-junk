@@ -8,7 +8,6 @@ begin
               "/home/yagnesh/wrf/run/20071205/d3", \
               "/home/yagnesh/wrf/run/20071215/d3", \
               "/home/yagnesh/wrf/run/20071225/d3", \
-              "/home/yagnesh/wrf/run/20071225/d3", \
               ; "/home/yagnesh/wrf/run/20080104/d3", \
               "/home/yagnesh/wrf/run/20080113/d3" \
               ; "/home/yagnesh/wrf/run/20080117/d3" \
@@ -20,23 +19,28 @@ begin
   la = coard(2)                       ; left lat
   ra = coard(3)                      ; right lat
 
-  lev = 6
+  lev = 20
 
-  hok  = (/262,117, 292,162/)
-  sak  = (/292,162,335,232/)
+  ; hok  = (/262,117 /)           ; ,292,162/)
+  ; sak  = (/335,232/)
 
-  wks=gsn_open_wks("ps","scatter1")
+  line = (/117,232,262,335/)
+
+  wks=gsn_open_wks("ps","scatter")
+  wks1=gsn_open_wks("ps","scatter_q")
+  wks2=gsn_open_wks("ps","scatter_tm")
+  wks3=gsn_open_wks("ps","scatter_tm2")
 
   res=True
   res@xyMarkLineMode="Markers"
   res@xyMarker  =  16
   res@gsnFrame = False
 
-  res@trYMinF            = -20.
-  res@trYMaxF            = 20.
+  res@trYMinF            = -30.
+  res@trYMaxF            = 50.
 
   res@trXMinF            = -20.
-  res@trXMaxF            = 20.
+  res@trXMaxF            = 80.
 
   res1 = res
   res1@trXMinF            = 0.
@@ -81,8 +85,30 @@ begin
   do fol  = 0,dim_len0(folders) -1, 1   ;; folders
     print("entering the folder: " + folders(fol))
     a = addfile(folders(fol) + "/prof.nc","r")
-    band_times = asciiread(folders(fol) + "/band_times",-1,"integer")
 
+    t2 = a->T2
+
+    t2_hok = new(dim_len0(t2),float)
+    t2_sak = new(dim_len0(t2),float)
+
+    do it = 0, dim_len0(t2) -1, 1
+      t2_line = wrf_user_intrp2d(t2(it,:,:),line,0.,True)
+      t2_line_max = max(t2_line)
+
+      t2_hok(it) = t2(it,117,262) - t2_line_max
+      t2_sak(it) = t2_line_max - t2(it,232,335)
+
+      ; t2_hok(it) = t2_line(0) - t2_line_max
+      ; t2_sak(it) = t2_line(dim_len0(t2_line) -1) - t2(it,232,335)
+
+      print(it + " " + t2_line_max + " "+ t2(it,117,262) + " " + t2(it,232,335) )
+      delete(t2_line)
+
+    end do
+
+    ; t2_hok = t2(:,117,262) - t2(:,162,292)
+
+    band_times = asciiread(folders(fol) + "/band_times",-1,"integer")
     band_times = band_times - 1
 
     u = a->u_mean
