@@ -4,7 +4,7 @@ load "$nsc/yagUtils.ncl"
 import("shea_util")
 
 begin
-  type = "ps"
+  type = "png"
   ; type = "X11"
   varname = "QSNOW"
 
