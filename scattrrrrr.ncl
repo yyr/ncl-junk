@@ -44,7 +44,33 @@ begin
   res1@trYMinF            = 0.
   res1@trYMaxF            = 0.2
 
-  colors = (/"black","blue","red","green","orange","brown", "chocolate", "cornsilk4"/)
+  res2 = res
+  res2@trXMinF            = -10.
+  res2@trXMaxF            = 10.
+  res2@trYMinF            = 0.
+  res2@trYMaxF            = 0.2
+
+  colors = (/ \
+             "blue", \
+             "black", \
+             "cornsilk4", \
+             "red",  \
+             "green", \
+             "orange",\
+             "brown", \
+             "chocolate" \
+             /)
+
+  markers = (/ \
+              "*" , \
+              "dot" , \
+              "+" , \
+              "plus" , \
+              "asterisk" , \
+              "hollow_circle" , \
+              "cross" , \
+              "x" \
+              /)
 
   fil = systemfunc("ls ~/wrf/run/20071116/d3/wrfout*")
   out = addfile(fil,"r")
@@ -78,9 +104,14 @@ begin
 
     res@xyMarkerColor = colors(fol)
     res1@xyMarkerColor = colors(fol)
-    ; print(U(band_times,lev))
-    ; print(q_wgt(band_times))
-    scatter_q=gsn_csm_xy(wks,U(band_times,lev),q_wgt(band_times),res1)
+    res1@xyMarkerColor = colors(fol)
+    res2@xyMarkerColor = colors(fol)
+    ; res@xyMarker  = fol * 2
+
+    scatter=gsn_csm_xy(wks,u(band_times,lev),v(band_times,lev),res)
+    scatter_q=gsn_csm_xy(wks1,U(band_times,lev),q_wgt(band_times),res1)
+    scatter_tm=gsn_csm_xy(wks2,t2_hok(band_times),q_wgt(band_times),res2)
+    scatter_tm2=gsn_csm_xy(wks3,t2_sak(band_times),q_wgt(band_times),res2)
 
     delete(band_times)
     delete(U)
