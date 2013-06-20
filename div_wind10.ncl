@@ -1,5 +1,4 @@
 ;    File: wind10.ncl
-
 load "$nsc/yagUtils.ncl"
 
 begin
@@ -56,10 +55,7 @@ begin
     opts_c@sfXArray = xlon
     opts_c@sfYArray = xlat
 
-    delete_attrs(opts_c)
-    delete_attrs(opts)
 
-    print("plotting cn")
     cn = gsn_csm_contour_map(wks,div,opts_c)
     print("plotting vector")
     vector = gsn_csm_vector(wks,u10(:,:),v10(:,:),opts)
@@ -67,10 +63,9 @@ begin
     plot(it) = cn
 
   end do
-  pres                = True              ; mod panel plot
+  pres = set_panel_resources(True)
   pres@lbLabelStride  = 3                ; skip every other label
   pres@lbOrientation   = "Horizontal"     ; vertical label bar
-  pres = set_panel_resources(pres)
   panelize_2col(wks,plot,pres)
 
 end
