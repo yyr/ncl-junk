@@ -8,6 +8,8 @@ begin
   type = "pdf"
 
   wks = gsn_open_wks(type,out)
+  gsn_define_colormap(wks,"hotcold_18lev")
+  gsn_reverse_colormap(wks)
   times  = wrf_user_list_times(a)  ; get times in the file
 
   noft = dim_len0(tvalues)
@@ -20,9 +22,6 @@ begin
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
-  res@sfYArray = xlat
-  res@sfXArray = xlon
-
   dx        = a@DX
   dy        = a@DY
 
@@ -31,10 +30,6 @@ begin
     u10 = wrf_user_getvar(a,"U10",tvalues(it))
     v10 = wrf_user_getvar(a,"V10",tvalues(it))
     mx = wrf_user_getvar(a,"MAPFAC_M",10)
-
-    opts = res
-    opts = set_vc_res(opts)
-    opts@vcMinDistanceF = 0.005
 
     dim=dimsizes(u10)
     div=new( (/ dim(0), dim(1) /) , typeof(u10))
@@ -69,6 +64,6 @@ begin
   pres = set_panel_resources(True)
   pres@lbLabelStride  = 3                ; skip every other label
   pres@lbOrientation   = "Horizontal"     ; vertical label bar
+  pres = set_aspectratio(div,pres)
   panelize_2col(wks,plot,pres)
-
 end
