@@ -32,23 +32,22 @@ begin
   y_end   = loc(1,1) - 1
 
   mpres = True
-  mpres = set_high_res_coast(mpres)
   mpres@ZoomIn = True
   mpres@Xstart = x_start
   mpres@Ystart = y_start
   mpres@Xend = x_end
   mpres@Yend = y_end
+  mpres = set_high_res_coast(mpres)
 
   opts = True
   opts = set_cn_resorces(opts)
   opts@gsnFrame = False
   set_cn_limits(opts,-.005,.005,.0005)
   cn = wrf_contour(a,wks,div(y_start:y_end,x_start:x_end),opts)
-  mn = wrf_map_overlays(a,wks,cn,opts,mpres)
 
   res = True
   res = set_vc_res(res)
-  vector = gsn_csm_vector(wks3,u,v,res)
-  overlay(cn,vector)
+  vec = wrf_vector(a,wks,u(y_start:y_end,x_start:x_end),v(y_start:y_end,x_start:x_end),res)
+  mn = wrf_map_overlays(a,wks,(/cn,vec /),opts,mpres)
 
 end
