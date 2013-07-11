@@ -9,7 +9,7 @@ begin
   a = set_inputfile()
 
   tvalues = (/71, 82, 95, 119 /)
-  type = "ps"
+  type = "pdf"
   out = "t2_qs_pan"
 
   wks = gsn_open_wks(type,out)
