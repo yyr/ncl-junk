@@ -17,28 +17,38 @@ begin
 
   dim = dimsizes(u)
   div = new( (/ dim(0), dim(1) /) , typeof(u))
-
   div = wrf_div(u,v,dx,dy,msft)
-  div2 = wrf_div2(u,v,dx,dy,msft,mu,mv)
 
   wks = gsn_open_wks("ps","div")
-  wks2 = gsn_open_wks("ps","div2")
+  wks3 = gsn_open_wks("ps","div3")
+
+  lats = (/ 44., 47.0 /)
+  lons = (/ 142., 145.5 /)
+  loc = wrf_user_ll_to_ij(a, lons, lats, True)
+
+  x_start = loc(0,0) - 1
+  x_end   = loc(0,1) - 1
+  y_start = loc(1,0) - 1
+  y_end   = loc(1,1) - 1
+
+  mpres = True
+  mpres = set_high_res_coast(mpres)
+  mpres@ZoomIn = True
+  mpres@Xstart = x_start
+  mpres@Ystart = y_start
+  mpres@Xend = x_end
+  mpres@Yend = y_end
 
   opts = True
-  ; opts@tfDoNDCOverlay = "NDCViewport"
   opts = set_cn_resorces(opts)
-  opts@gsnSpreadColors = True    ;spread Colors
+  opts@gsnFrame = False
+  set_cn_limits(opts,-.005,.005,.0005)
+  cn = wrf_contour(a,wks,div(y_start:y_end,x_start:x_end),opts)
+  mn = wrf_map_overlays(a,wks,cn,opts,mpres)
 
-  opts@gsnAddCyclic = False
-  opts@sfYArray = xlon
-  opts@sfXArray = xlat
+  res = True
+  res = set_vc_res(res)
+  vector = gsn_csm_vector(wks3,u,v,res)
+  overlay(cn,vector)
 
-;  opts@ContourParameters = (/-.02,.02,.002/)
-  opts = wrf_map_resources(a,opts)
-  delete_attrs(opts)
-  print(opts)
-
-  cn = gsn_csm_contour_map(wks,div,opts)
-  cn2 = wrf_contour(a,wks2,div2,opts)
-  cn2 = wrf_overlays(a,wks2,(/div2/),opts)
 end
