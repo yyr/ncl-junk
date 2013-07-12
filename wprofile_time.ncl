@@ -56,7 +56,6 @@ begin
   ; res@vcLevelColors           = (/20,30,40,45,50,55,60,65,70,75,80,85,90,95/)   ; set the colors associated with the wind speed
 
   res@vcMapDirection = False            ; needed to disassociate the map from the vectors
-  res@gsnAddCyclic = False              ; data is not cyclic
   res@gsnLeftString = ""
 
   plot = gsn_csm_vector_scalar(wks,\

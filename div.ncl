@@ -12,15 +12,12 @@ begin
 
   dx        = a@DX
   dy        = a@DY
-  xlat = a->XLAT(0,:,:)
-  xlon = a->XLONG(0,:,:)
 
   dim = dimsizes(u)
   div = new( (/ dim(0), dim(1) /) , typeof(u))
   div = wrf_div(u,v,dx,dy,msft)
 
   wks = gsn_open_wks("ps","div")
-  wks3 = gsn_open_wks("ps","div3")
 
   lats = (/ 44., 47.0 /)
   lons = (/ 142., 145.5 /)
