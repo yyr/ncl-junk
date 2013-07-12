@@ -17,8 +17,6 @@ begin
   p  = wrf_user_getvar(a,"pressure",t)
   u_1 = wrf_user_getvar(a,"ua",t)
   v_1 = wrf_user_getvar(a,"va",t)
-  xlat = a->XLAT(0,:,:)
-  xlon = a->XLONG(0,:,:)
 
   u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
   v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
