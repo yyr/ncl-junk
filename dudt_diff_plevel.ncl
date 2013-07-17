@@ -9,10 +9,17 @@ begin
   t2 = 94
 
   out  = "dudt_diff_p" + lev1 + "--" + lev2       ;out put file name
+  out1  = "dudt_diff_x_component_p" + lev1 + "--" + lev2       ;out put file name
+  out2  = "dudt_diff_y_component_p" + lev1 + "--" + lev2       ;out put file name
   type = "pdf"
 
   wks = gsn_open_wks(type,out)
   gsn_reverse_colormap(wks)
+  wks1 = gsn_open_wks(type,out1)
+
+  wks2 = gsn_open_wks(type,out2)
+  gsn_reverse_colormap(wks)
+
 
   p  = wrf_user_getvar(a,"pressure",t1)
   u_1 = wrf_user_getvar(a,"ua",t1)
@@ -57,4 +64,17 @@ begin
   opts  = set_high_res_coast(True)
   map = wrf_map_overlays(a,wks,plot,opts,opts)
 
+  delete(res)
+  res = True
+  set_cn_limits(res,-5,30,1)
+  res =  set_cn_resorces(res)
+  plot = wrf_contour(a,wks1,u,res)
+  map = wrf_map_overlays(a,wks1,plot,True,opts)
+
+  delete(res)
+  res = True
+  set_cn_limits(res,-30.,5.,1)
+  res =  set_cn_resorces(res)
+  plot = wrf_contour(a,wks2,v,res)
+  map = wrf_map_overlays(a,wks2,plot,True,opts)
 end
