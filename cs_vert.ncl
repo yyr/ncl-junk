@@ -63,7 +63,6 @@ begin
           zmax_pos = imax
         end if
       end do
-
       zspan = zmax_pos
       zmax = zz(zmax_pos,0)
       nz = floattoint((zmin-zmax)/50+1)
@@ -83,22 +82,20 @@ begin
     opts_xy@tiYAxisFontHeightF      = 0.02
     opts_xy@tfDoNDCOverlay = True
 
-
 ; Plotting options for PV
     opts_pv = opts_xy
     opts_pv@pmLabelBarOrthogonalPosF = -0.07
     opts_pv@cnFillOn = True
     opts_pv@gsnSpreadColors = True
     opts_pv@cnLevelSelectionMode = "ManualLevels"
-;    opts_pv@cnInfoLabelOn = False
     opts_pv@cnLevelFlags = "LineOnly"
     opts_pv@cnLevelFlag = False
     opts_pv@cnLineLabelsOn = False
-
     opts_pv@cnMinLevelValF       = 0.
-    opts_pv@cnMaxLevelValF       = 0.0005
-    opts_pv@cnLevelSpacingF      = .00003
-    opts_pv@lbLabelBarOn = False
+    opts_pv@cnMaxLevelValF       = 0.001
+    opts_pv@cnLevelSpacingF      = .0001
+;    opts_pv@lbOrientation = "vertical"
+    opts_pv = set_lb_res(opts_pv)
 
     opts_th = opts_xy
     opts_th@cnSmoothingOn = True
@@ -121,9 +118,8 @@ begin
 
     overlay(contour_qs,contour_th)
     overlay(contour_qs,vector)
-
     draw(contour_qs)
-    frame(wks)
 
-  end do                                                     ; END OF TIME LOOP
+    frame(wks)
+  end do
 end
