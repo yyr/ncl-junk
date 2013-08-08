@@ -23,6 +23,7 @@ begin
   res = set_no_frame_res(res)
   res@gsnLeftString=""
   res@gsnRightString=""
+  set_aspectratio_manual(res,0.8,0.3)
 
   FirstTime = True              ; for calculating top level
   times  = wrf_user_list_times(a)          ; Get times in the file
@@ -94,31 +95,40 @@ begin
     opts_pv@cnMinLevelValF       = 0.
     opts_pv@cnMaxLevelValF       = 0.001
     opts_pv@cnLevelSpacingF      = .0001
-;    opts_pv@lbOrientation = "vertical"
+    opts_pv@lbOrientation = "vertical"
+    opts_pv@lbLabelStride = 4
     opts_pv = set_lb_res(opts_pv)
 
     opts_th = opts_xy
     opts_th@cnSmoothingOn = True
-    opts_th@cnLineColor = "Blue"
+;    opts_th@cnLineColor = "Blue"
     opts_th@cnInfoLabelOn = False
     opts_th@gsnContourLineThicknessesScale = 2.0
     opts_th@cnLineLabelBackgroundColor = "white"
     opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
+    opts_th@cnMinLevelValF       = 268
+    opts_th@cnMaxLevelValF       = 285
+    opts_th@cnLevelSpacingF      = 1
+    ; opts_pv@gsnSpreadColors = True
 
     opts_v = True
     opts_v = set_no_frame_res(opts_v)
     opts_v = set_vc_res(opts_v)
+    opts_v@vcLineArrowColor = "Blue"
 
-    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
-    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
-    vector = gsn_vector(wks,uproj(0:zmax_pos,:), \
-                        w_plane(0:zmax_pos,:),opts_v)
+    ; contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:160),opts_th)
+    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:160),opts_pv)
+    vector = gsn_vector(wks,uproj(0:zmax_pos,0:160), \
+                        w_plane(0:zmax_pos,0:160),opts_v)
 
-    overlay(contour_qs,contour_th)
-    overlay(contour_qs,vector)
-    draw(contour_qs)
+;   overlay(contour_qs,contour_th)
+   overlay(contour_qs,vector)
+   draw(contour_qs)
+
+    ; overlay(contour_th,vector)
+    ; draw(contour_th)
 
     frame(wks)
   end do
