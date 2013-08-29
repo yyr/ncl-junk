@@ -8,7 +8,7 @@
 rm TAGS
 
 gen-tags.sh $(pwd)
-gen-tags.sh $NCARG/lib/ncarg/nclscripts/
+gen-tags.sh $NCARG_ROOT/lib/ncarg/nclscripts/
 gen-tags.sh ~/nsc/ncl-lib/
 
 # gen_tags.sh ends here
