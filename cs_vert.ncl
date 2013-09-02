@@ -23,7 +23,7 @@ begin
   res = set_res_no_frame(res)
   res@gsnLeftString=""
   res@gsnRightString=""
-  set_aspectratio_manual(res,0.8,0.3)
+  set_res_aspectratio_manual(res,0.8,0.3)
 
   FirstTime = True              ; for calculating top level
   times  = wrf_user_list_times(a)          ; Get times in the file
