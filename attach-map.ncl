@@ -130,7 +130,7 @@ begin
   res@mpNationalLineThicknessF = 2.0
   res@mpFillOn                 = False
 
-  res = set_high_res_coast(res)
+  res = set_res_highres_coast(res)
 
   res@mpGridLineColor             = get_res_value_keep(res, "mpGridLineColor","white")
   res@mpGridLineThicknessF        = get_res_value_keep(res, "mpGridLineThicknessF",1.5)

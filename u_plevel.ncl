@@ -23,7 +23,7 @@ begin
   set_res_cn_limits(res,-5,30,1)
   res =  set_res_cn(res)
   plot = wrf_contour(a,wks,u,res)
-  opts  = set_high_res_coast(True)
+  opts  = set_res_highres_coast(True)
   map = wrf_map_overlays(a,wks,plot,True,opts)
 
 end

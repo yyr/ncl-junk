@@ -35,7 +35,7 @@ begin
   mpres@Ystart = y_start
   mpres@Xend = x_end
   mpres@Yend = y_end
-  mpres = set_high_res_coast(mpres)
+  mpres = set_res_highres_coast(mpres)
 
   pltres = True
   pltres@PanelPlot = True

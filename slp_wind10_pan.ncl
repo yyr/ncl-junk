@@ -21,7 +21,7 @@ begin
   pltres = set_res_tm_size(res)
   pltres = set_res_no_frame(pltres)
 
-  mpres  = set_high_res_coast(res)
+  mpres  = set_res_highres_coast(res)
   mpres = set_res_tm_size(mpres)
 
   times  = wrf_user_list_times(a)  ; get times in the file

@@ -22,7 +22,7 @@ begin
   res@lbLabelBarOn        = False           ; turn off individual cb's
 
   pltres = True ; Plot resources
-  mpres = set_high_res_coast(True)
+  mpres = set_res_highres_coast(True)
 
   times  = wrf_user_list_times(a)  ; get times in the file
   noft = dimsizes(tvalues)

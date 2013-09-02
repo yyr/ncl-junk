@@ -16,7 +16,7 @@ begin
 
   msft = wrf_user_getvar(a,"MAPFAC_M",1 )
 
-  res = set_high_res_coast(res)
+  res = set_res_highres_coast(res)
   printVarSummary(msft)
   wks = gsn_open_wks(type,"msft_M")
   gsn_define_colormap(wks,"WhBlGrYeRe")   ; overwrite the .hluresfile color map

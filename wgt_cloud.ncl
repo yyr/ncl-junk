@@ -24,7 +24,7 @@ begin
   res@tfDoNDCOverlay = True
   res@lbTitleOn = False
   res = set_res_no_frame(res)
-  res = set_high_res_coast(res)
+  res = set_res_highres_coast(res)
 
   do it = 0, dim_len0(times) - 1 , 1
   ; do it = 20, 22 , 1

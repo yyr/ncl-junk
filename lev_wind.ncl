@@ -17,7 +17,7 @@ begin
   res@gsnSpreadColors = True    ;spread Colors
   res = set_vc_res(res)
   res = set_res_no_frame(res)
-  res = set_high_res_coast(res)
+  res = set_res_highres_coast(res)
   opts = set_vc_resources(res)
 
   times  = wrf_user_list_times(a)

@@ -23,7 +23,7 @@ begin
 
   mpres  = True
   pltres = True
-  mpres = set_high_res_coast(mpres)
+  mpres = set_res_highres_coast(mpres)
 
   times = a->Times
 

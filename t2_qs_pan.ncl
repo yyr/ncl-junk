@@ -26,7 +26,7 @@ begin
   res = set_res_no_frame(res)
   res = set_lb_res(res)
   res = set_res_tm_size(res)
-  res = set_high_res_coast(res)
+  res = set_res_highres_coast(res)
   res = set_aspectratio(xlat,res)
   res@mpGeophysicalLineThicknessF = 3
   res@gsnMajorLatSpacing = 1
