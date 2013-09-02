@@ -52,7 +52,7 @@ begin
   set_res_cn_limits(opts_c,-.005,.005,.0005)
 
   opts = res
-  opts = set_vc_res(opts)
+  opts = set_res_vc(opts)
 
   do it = 0, noft - 1, 1
     print("Working with time: " + times(tvalues(it)) + ", T is: " + tvalues(it))

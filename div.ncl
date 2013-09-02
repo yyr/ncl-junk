@@ -43,7 +43,7 @@ begin
   cn = wrf_contour(a,wks,div(y_start:y_end,x_start:x_end),opts)
 
   res = True
-  res = set_vc_res(res)
+  res = set_res_vc(res)
   vec = wrf_vector(a,wks,u(y_start:y_end,x_start:x_end),v(y_start:y_end,x_start:x_end),res)
   mn = wrf_map_overlays(a,wks,(/cn,vec /),opts,mpres)
 

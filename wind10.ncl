@@ -50,7 +50,7 @@ begin
     v10 = wrf_user_getvar(a,"V10",tvalues(it))   ; V component of the wind at 10m
 
     opts = res
-    opts = set_vc_res(opts)
+    opts = set_res_vc(opts)
 
     opts@FieldTitle = "Wind"       ; overwrite Field Title
     opts@vcGlyphStyle = "LineArrow"

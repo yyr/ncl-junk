@@ -115,7 +115,7 @@ begin
 
     opts_v = True
     opts_v = set_res_no_frame(opts_v)
-    opts_v = set_vc_res(opts_v)
+    opts_v = set_res_vc(opts_v)
     opts_v@vcLineArrowColor = "Blue"
 
     ; contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:160),opts_th)

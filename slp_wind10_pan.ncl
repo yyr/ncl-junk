@@ -47,7 +47,7 @@ begin
     contour = wrf_contour(a,wks,slp,cres)
 
     opts = res
-    opts = set_vc_res(opts)
+    opts = set_res_vc(opts)
 
     vector = wrf_vector(a,wks,u10(:,:),v10(:,:),opts)
     plot(it) = wrf_map_overlays(a,wks,(/vector,contour/),pltres,mpres)

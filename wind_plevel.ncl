@@ -22,7 +22,7 @@ begin
   v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
 
   res = True
-  res =  set_vc_res(res)
+  res =  set_res_vc(res)
   plot = wrf_vector(a,wks,u,v,res)
   opts  = set_res_highres_coast(True)
   map = wrf_map_overlays(a,wks,plot,True,opts)

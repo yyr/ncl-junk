@@ -59,7 +59,7 @@ begin
   v = v_lev1 - v_lev2
 
   res = True
-  res =  set_vc_res(res)
+  res =  set_res_vc(res)
   plot = wrf_vector(a,wks,u,v,res)
   opts  = set_res_highres_coast(True)
   map = wrf_map_overlays(a,wks,plot,opts,opts)

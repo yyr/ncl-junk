@@ -15,7 +15,7 @@ begin
   res = True
   res@tfDoNDCOverlay = True
   res@gsnSpreadColors = True    ;spread Colors
-  res = set_vc_res(res)
+  res = set_res_vc(res)
   res = set_res_no_frame(res)
   res = set_res_highres_coast(res)
   opts = set_vc_resources(res)
