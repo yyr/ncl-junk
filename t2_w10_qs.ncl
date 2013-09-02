@@ -65,7 +65,7 @@ begin
     ;;-- plot/overlay all  --
     pltres = True ; Plot resources
     pltres = set_wrf_no_headers(pltres)
-    pltres = set_tm_size_res(res)
+    pltres = set_res_tm_size(res)
     pltres@LatLonOverlay = True ; Don't do an NDC overlay
 
     mpres  = True  ; Map resources
@@ -73,7 +73,7 @@ begin
     mpres = set_map_latlon_res(mpres,139.,145.5,43.,48.)
     mpres = set_wrf_no_headers(mpres)
 
-    mpres = set_tm_size_res(mpres)
+    mpres = set_res_tm_size(mpres)
     mpres@lbOrientation = "vertical"
 
 ;    plot = wrf_map_overlays(a,wks,(/contour_t,vector,contour/),pltres,mpres)

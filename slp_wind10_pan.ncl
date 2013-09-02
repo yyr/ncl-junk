@@ -18,11 +18,11 @@ begin
   res = set_res_no_frame(res)
   res = set_wrf_no_headers(res)
 
-  pltres = set_tm_size_res(res)
+  pltres = set_res_tm_size(res)
   pltres = set_res_no_frame(pltres)
 
   mpres  = set_high_res_coast(res)
-  mpres = set_tm_size_res(mpres)
+  mpres = set_res_tm_size(mpres)
 
   times  = wrf_user_list_times(a)  ; get times in the file
   times_in_file = a->Times
