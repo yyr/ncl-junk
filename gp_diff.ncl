@@ -25,7 +25,7 @@ begin
   gp = gp1 - gp2
 
   res = True
-  set_cn_limits(res,8200,8600,20)
+  set_res_cn_limits(res,8200,8600,20)
   res =  set_res_cn(res)
   plot = wrf_contour(a,wks,gp,res)
   opts  = set_high_res_coast(True)

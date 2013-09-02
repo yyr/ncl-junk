@@ -39,14 +39,14 @@ begin
   res@gsnLeftString = ""
   res@gsnRightString = ""
   res = set_map_latlon_res(res,142.,145,43.5,47.)
-  set_cn_limits(res,-12.,0.,.5)
-;  set_cn_limits(res,260.,280.,.5)
+  set_res_cn_limits(res,-12.,0.,.5)
+;  set_res_cn_limits(res,260.,280.,.5)
 
   opts = True
   opts@cnLinesOn = True
   opts@cnLevelFlags = False
   opts@cnInfoLabelOn = False
-  set_cn_limits(opts, 0., 0.026, .002 )
+  set_res_cn_limits(opts, 0., 0.026, .002 )
 
   angle = 0.
   lev = 970

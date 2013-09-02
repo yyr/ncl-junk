@@ -18,7 +18,7 @@ begin
 
   res = True
   res = set_res_cn(res)
-  set_cn_limits(res, 0, 0.002, .0001)
+  set_res_cn_limits(res, 0, 0.002, .0001)
   res@gsnLeftString   = "Integrated Cloud"
   res@lbLabelStride   = 3
   res@tfDoNDCOverlay = True

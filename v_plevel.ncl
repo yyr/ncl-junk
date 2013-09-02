@@ -20,7 +20,7 @@ begin
   v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
 
   res = True
-  set_cn_limits(res,-30.,5.,1)
+  set_res_cn_limits(res,-30.,5.,1)
   res =  set_res_cn(res)
   plot = wrf_contour(a,wks,v,res)
   opts  = set_high_res_coast(True)

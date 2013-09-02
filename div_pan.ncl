@@ -49,7 +49,7 @@ begin
   opts_c  = set_res_cn(opts_c)
   opts_c@lbLabelBarOn = False
   opts_c@cnLinesOn = False
-  set_cn_limits(opts_c,-.005,.005,.0005)
+  set_res_cn_limits(opts_c,-.005,.005,.0005)
 
   opts = res
   opts = set_vc_res(opts)
