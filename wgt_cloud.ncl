@@ -23,7 +23,7 @@ begin
   res@lbLabelStride   = 3
   res@tfDoNDCOverlay = True
   res@lbTitleOn = False
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
   res = set_high_res_coast(res)
 
   do it = 0, dim_len0(times) - 1 , 1

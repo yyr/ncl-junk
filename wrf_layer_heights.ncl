@@ -14,7 +14,7 @@ begin
   hgt = wrf_user_getvar(a,"height", 1)
 
   res = wrf_map_resources(a,True)
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
 
   printVarInfo(hgt,"var")
   plot = gsn_csm_contour_map(wks,hgt(10,:,:),res)

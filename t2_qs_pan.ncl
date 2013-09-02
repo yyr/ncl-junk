@@ -23,7 +23,7 @@ begin
   xlon = a->XLONG(0,:,:)
 
   res = True
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
   res = set_lb_res(res)
   res = set_tm_size_res(res)
   res = set_high_res_coast(res)

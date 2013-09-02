@@ -45,7 +45,7 @@ begin
     optsT@cnFillOn  = True
     optsT@cnFillColor = True
     optsT@ContourParameters = (/ 250.,285., 0.5 /)
-    optsT = set_no_frame_res(optsT)
+    optsT = set_res_no_frame(optsT)
 
     t2 = wrf_user_getvar(a,"T2",vt)
     contour_t = wrf_contour(a,wks,t2,optsT)

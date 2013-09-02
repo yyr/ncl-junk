@@ -20,7 +20,7 @@ begin
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
   res = True
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
   res@gsnLeftString=""
   res@gsnRightString=""
   set_aspectratio_manual(res,0.8,0.3)
@@ -114,7 +114,7 @@ begin
     ; opts_pv@gsnSpreadColors = True
 
     opts_v = True
-    opts_v = set_no_frame_res(opts_v)
+    opts_v = set_res_no_frame(opts_v)
     opts_v = set_vc_res(opts_v)
     opts_v@vcLineArrowColor = "Blue"
 

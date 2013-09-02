@@ -15,11 +15,11 @@ begin
   gsn_reverse_colormap(wks)
 
   res = True
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
   res = set_wrf_no_headers(res)
 
   pltres = set_tm_size_res(res)
-  pltres = set_no_frame_res(pltres)
+  pltres = set_res_no_frame(pltres)
 
   mpres  = set_high_res_coast(res)
   mpres = set_tm_size_res(mpres)

@@ -38,7 +38,7 @@ begin
       snownc = wrf_user_getvar(a,"SNOWNC",tvalues(it))
     end if
 
-    res = set_no_frame_res(res)
+    res = set_res_no_frame(res)
     res@cnInfoLabelOn = False        ; turn off contour info label
 
     opts = res

@@ -38,7 +38,7 @@ begin
 
 
   res                = True
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
 
 
   res@tiMainString   = "Snow vs Wind"
@@ -65,7 +65,7 @@ begin
                                res)
 
   resc = True
-  resc = set_no_frame_res(resc)
+  resc = set_res_no_frame(resc)
   resc@cnFillOn =True
   plot_c = gsn_csm_contour(wks,qs_mean(lev|:15,Time|0:tlen:4),resc)
   overlay(plot_c,plot)

@@ -43,7 +43,7 @@ begin
     wa = wrf_user_unstagger(w,w@stagger)
     w_plane = wrf_user_intrp3d(wa,p,"h",pressure,0.,False)
 
-    res = set_no_frame_res(res)
+    res = set_res_no_frame(res)
     res@cnInfoLabelOn = False        ; turn off contour info label
 
     opts = res

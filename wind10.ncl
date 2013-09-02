@@ -23,8 +23,8 @@ begin
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")            ; choose color map
 
   res = True
-  res = set_no_frame_res(res)
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
+  res = set_res_no_frame(res)
   res = set_wrf_no_headers(res)
 
   mpres  = res

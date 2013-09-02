@@ -41,11 +41,11 @@ begin
   pltres@PanelPlot = True
 
   res = True
-  res = set_no_frame_res(res)
+  res = set_res_no_frame(res)
   res@NoHeaderFooter = True
 
   opts_c = res
-  opts_c = set_no_frame_res(opts_c)
+  opts_c = set_res_no_frame(opts_c)
   opts_c  = set_res_cn(opts_c)
   opts_c@lbLabelBarOn = False
   opts_c@cnLinesOn = False
