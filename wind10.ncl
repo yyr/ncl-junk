@@ -57,7 +57,7 @@ begin
     opts@vcGlyphStyle        = "CurlyVector"    ; turn on curly vectors
     opts@vcRefMagnitudeF = 10.
 
-    opts_c  = set_cn_resorces(res)
+    opts_c  = set_res_cn(res)
     opts_c@cnLevels = fspan(2.,20.,18)
     opts_c@cnLinesOn = False
 

@@ -67,14 +67,14 @@ begin
   delete(res)
   res = True
   set_cn_limits(res,-5,30,1)
-  res =  set_cn_resorces(res)
+  res =  set_res_cn(res)
   plot = wrf_contour(a,wks1,u,res)
   map = wrf_map_overlays(a,wks1,plot,True,opts)
 
   delete(res)
   res = True
   set_cn_limits(res,-30.,5.,1)
-  res =  set_cn_resorces(res)
+  res =  set_res_cn(res)
   plot = wrf_contour(a,wks2,v,res)
   map = wrf_map_overlays(a,wks2,plot,True,opts)
 end

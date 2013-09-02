@@ -37,7 +37,7 @@ begin
     slp = wrf_user_getvar(a,"slp",tvalues(it))
 
     cres = res
-    cres = set_cn_resorces(cres)
+    cres = set_res_cn(cres)
     cres@cnFillOn = True
     cres@cnFillColor = False
     cres@cnLevelFlags = True

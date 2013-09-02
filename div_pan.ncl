@@ -46,7 +46,7 @@ begin
 
   opts_c = res
   opts_c = set_no_frame_res(opts_c)
-  opts_c  = set_cn_resorces(opts_c)
+  opts_c  = set_res_cn(opts_c)
   opts_c@lbLabelBarOn = False
   opts_c@cnLinesOn = False
   set_cn_limits(opts_c,-.005,.005,.0005)

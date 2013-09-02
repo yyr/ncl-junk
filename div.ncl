@@ -37,7 +37,7 @@ begin
   mpres = set_high_res_coast(mpres)
 
   opts = True
-  opts = set_cn_resorces(opts)
+  opts = set_res_cn(opts)
   opts@gsnFrame = False
   set_cn_limits(opts,-.005,.005,.0005)
   cn = wrf_contour(a,wks,div(y_start:y_end,x_start:x_end),opts)
