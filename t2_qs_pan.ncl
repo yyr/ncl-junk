@@ -24,7 +24,7 @@ begin
 
   res = True
   res = set_res_no_frame(res)
-  res = set_lb_res(res)
+  res = set_res_lb(res)
   res = set_res_tm_size(res)
   res = set_res_highres_coast(res)
   res = set_aspectratio(xlat,res)

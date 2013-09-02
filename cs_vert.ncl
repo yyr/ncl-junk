@@ -97,7 +97,7 @@ begin
     opts_pv@cnLevelSpacingF      = .0001
     opts_pv@lbOrientation = "vertical"
     opts_pv@lbLabelStride = 4
-    opts_pv = set_lb_res(opts_pv)
+    opts_pv = set_res_lb(opts_pv)
 
     opts_th = opts_xy
     opts_th@cnSmoothingOn = True
