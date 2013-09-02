@@ -70,7 +70,7 @@ begin
 
     mpres  = True  ; Map resources
     mpres = set_res_highres_coast(mpres)
-    mpres = set_map_latlon_res(mpres,139.,145.5,43.,48.)
+    mpres = set_res_mp_latlon(mpres,139.,145.5,43.,48.)
     mpres = set_res_wrf_no_headers(mpres)
 
     mpres = set_res_tm_size(mpres)

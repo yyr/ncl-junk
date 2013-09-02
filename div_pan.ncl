@@ -72,7 +72,7 @@ begin
     plot(it) = wrf_map_overlays(a,wks,(/cn,vector/),pltres,mpres)
 
   end do
-  pres = set_panel_resources(True)
+  pres = set_res_panel(True)
   pres@lbOrientation = "horizontal"
   pres@cnLabelBarEndStyle = "ExcludeOuterBoxes"
 ;  gsn_panel(wks,plot,(/1,1/),pres)

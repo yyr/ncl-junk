@@ -38,7 +38,7 @@ begin
   res@lbLabelBarOn = False
   res@gsnLeftString = ""
   res@gsnRightString = ""
-  res = set_map_latlon_res(res,142.,145,43.5,47.)
+  res = set_res_mp_latlon(res,142.,145,43.5,47.)
   set_res_cn_limits(res,-12.,0.,.5)
 ;  set_res_cn_limits(res,260.,280.,.5)
 
@@ -97,7 +97,7 @@ begin
     end if
   end do
 
-  pres = set_panel_resources(True)
+  pres = set_res_panel(True)
   pres@lbLabelStride = 6
   panelize_2col(wks,plot,pres)
 
