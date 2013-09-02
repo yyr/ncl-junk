@@ -25,7 +25,7 @@ begin
   res = True
   res = set_res_no_frame(res)
   res = set_res_no_frame(res)
-  res = set_wrf_no_headers(res)
+  res = set_res_wrf_no_headers(res)
 
   mpres  = res
   pltres = res
