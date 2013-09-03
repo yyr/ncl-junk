@@ -9,7 +9,7 @@ begin
 
   out = "t2_qs_pan"
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"StepSeq25")
+  gsn_define_colormap(wks,"StepSeq25_greenless")
   gsn_reverse_colormap(wks)
 
   varname = "QSNOW"
@@ -38,7 +38,7 @@ begin
   res@lbLabelBarOn = False
   res@gsnLeftString = ""
   res@gsnRightString = ""
-  res = set_res_mp_latlon(res,142.,145,43.5,47.)
+  res = set_res_mp_latlon(res,141.,145,43,47.5)
   set_res_cn_limits(res,-12.,0.,.5)
 ;  set_res_cn_limits(res,260.,280.,.5)
 
