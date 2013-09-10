@@ -62,6 +62,7 @@ begin
     res = set_res_no_frame(res)
     res = set_res_cn(res)
     res@lbLabelBarOn = False
+    res@cnLinesOn = False
     set_res_cn_limits(res, 0.004, 0.026, .002 )
 
     res@trYReverse          = True                ; reverse y axis
