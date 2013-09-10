@@ -8,8 +8,7 @@ load "$nsc/yagUtils.ncl"
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
-  ;; type = "x11"
-  type = "ps"
+  type = "pdf"
 
   wks = gsn_open_wks(type,"sst")
   gsn_define_colormap(wks,"WhBlGrYeRe")   ; overwrite the .hluresfile color map
@@ -29,6 +28,11 @@ begin
   ;; ntimes = dimsizes(times)         ; number of times in the file
 
   sst = wrf_user_getvar(a,"SST",0)
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+
+  sst@lat2d = xlat
+  sst@lon2d = xlon
 
   opts = res
   opts@cnFillOn         = True
