@@ -2,6 +2,7 @@
 ; intention to make any give variable in any given line, hard coded right now
 
 load "$nsc/yagUtils.ncl"
+import("shea_util")
 
 begin
   a = set_inputfile()
@@ -44,10 +45,13 @@ begin
     u_plane  = wrf_user_intrp3d(u,p,"v",plane,angle,True)
     v_plane  = wrf_user_intrp3d(v,p,"v",plane,angle,True)
     w_plane  = wrf_user_intrp3d(w,p,"v",plane,angle,True)
+    w_plane = w_plane * 5.
 
     ; project on to the cross section line (to make a plot vertical plane)
     ; uproj will horizontal component and w will be vertical component
     uproj = u_plane*cos(angle) + v_plane*sin(angle)
+    printVarInfo(uproj,"")
+    printVarInfo(w_plane,"")
 
     if ( FirstTime ) then
       zmax = 550.
@@ -72,7 +76,6 @@ begin
 
     opts_xy                         = res
     opts_xy@tiYAxisString           = "Pressure (mb)"
-    opts_xy@trYLog                  = True  ; use a logarithmic coordinate system for the Y-axis
     opts_xy@cnMissingValPerimOn     = True
     opts_xy@cnMissingValFillColor   = 0
     opts_xy@cnMissingValFillPattern = 11
@@ -95,7 +98,7 @@ begin
     opts_pv@cnMinLevelValF       = 0.
     opts_pv@cnMaxLevelValF       = 0.001
     opts_pv@cnLevelSpacingF      = .0001
-    opts_pv@lbOrientation = "vertical"
+;    opts_pv@lbOrientation = "vertical"
     opts_pv@lbLabelStride = 4
     opts_pv = set_res_lb(opts_pv)
 
@@ -108,10 +111,11 @@ begin
     opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
-    opts_th@cnMinLevelValF       = 268
-    opts_th@cnMaxLevelValF       = 285
-    opts_th@cnLevelSpacingF      = 1
-    ; opts_pv@gsnSpreadColors = True
+    set_res_cn_limits(opts_th,265,288,1)
+    opts_th@cnFillOn = True
+    opts_th = set_res_lb(opts_th)
+    set_res_aspectratio_manual(opts_th,0.8,0.3)
+
 
     opts_v = True
     opts_v = set_res_no_frame(opts_v)
