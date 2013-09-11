@@ -121,19 +121,19 @@ begin
     opts_v = set_res_no_frame(opts_v)
     opts_v = set_res_vc(opts_v)
     opts_v@vcLineArrowColor = "Blue"
+    opts_v@vcRefAnnoString2 = ""
 
-    ; contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:160),opts_th)
-    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:160),opts_pv)
-    vector = gsn_vector(wks,uproj(0:zmax_pos,0:160), \
-                        w_plane(0:zmax_pos,0:160),opts_v)
+    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:140),opts_pv)
+    vector = gsn_vector(wks,uproj(0:zmax_pos,0:140), \
+                        w_plane(0:zmax_pos,0:140),opts_v)
 
 ;   overlay(contour_qs,contour_th)
-   overlay(contour_qs,vector)
-   draw(contour_qs)
-
-    ; overlay(contour_th,vector)
-    ; draw(contour_th)
-
+    overlay(contour_qs,vector)
+    draw(contour_qs)
     frame(wks)
+
+    gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
+    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:140),opts_th)
+    draw(contour_th)
   end do
 end
