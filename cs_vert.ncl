@@ -14,6 +14,8 @@ begin
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
              (/303,382,62,237/), (/191,215,122,168/)/)
 
+  thin = 3
+
   plane = new(4,float)
   plane = planes(3,:)
 
@@ -50,8 +52,8 @@ begin
     ; project on to the cross section line (to make a plot vertical plane)
     ; uproj will horizontal component and w will be vertical component
     uproj = u_plane*cos(angle) + v_plane*sin(angle)
-    printVarInfo(uproj,"")
-    printVarInfo(w_plane,"")
+    ; printVarInfo(uproj,"")
+    ; printVarInfo(w_plane,"")
 
     if ( FirstTime ) then
       zmax = 550.
@@ -116,16 +118,15 @@ begin
     opts_th = set_res_lb(opts_th)
     set_res_aspectratio_manual(opts_th,0.8,0.3)
 
-
-    opts_v = True
+    opts_v = opts_xy
     opts_v = set_res_no_frame(opts_v)
     opts_v = set_res_vc(opts_v)
     opts_v@vcLineArrowColor = "Blue"
     opts_v@vcRefAnnoString2 = ""
 
     contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:140),opts_pv)
-    vector = gsn_vector(wks,uproj(0:zmax_pos,0:140), \
-                        w_plane(0:zmax_pos,0:140),opts_v)
+    vector = gsn_vector(wks,uproj(0:zmax_pos:thin,0:140:thin), \
+                        w_plane(0:zmax_pos:thin,0:140:thin),opts_v)
 
 ;   overlay(contour_qs,contour_th)
     overlay(contour_qs,vector)
