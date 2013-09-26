@@ -7,7 +7,7 @@ begin
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo_saka/d3" \
+                , "/home/yagnesh/wrf/run/notopsak_20081225/d3/" \
                 /)
 
   type = "pdf"
@@ -62,7 +62,7 @@ begin
     res = set_res_no_frame(res)
     res = set_res_cn(res)
     res@lbLabelBarOn = False
-    res@cnLinesOn = False
+;    res@cnLinesOn = False
     set_res_cn_limits(res, 0.004, 0.026, .002 )
 
     res@trYReverse          = True                ; reverse y axis
@@ -72,14 +72,15 @@ begin
     res@tmYROn         = False         ; turn off the top tick marks
     res@tmYLLabelFontHeightF = 0.025
     res@tmXBLabelFontHeightF = 0.025
-    plot(i) = gsn_csm_hov(wks,t_plane(:,0:130),res)
-;    plot = gsn_csm_hov(wks,t_plane(:,0:130),res)
+;    plot(i) = gsn_csm_hov(wks,t_plane(:,:),res)
+    plot(i) = gsn_csm_hov(wks,t_plane(:,0:140),res)
+
   end do
   pres = True
   pres@lbLabelStride  = 2                ; skip every other label
-  pres@lbOrientation = "horizontal"
   pres = set_res_panel(pres)
-  panelize_3col(wks,plot,pres)
+  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NHOK", "NHOKSAK", "NTOPHOK", "NTOPSAK"/)
+  panelize_2col(wks,plot,pres)
 
 end
 ;;; hov.ncl ends here
