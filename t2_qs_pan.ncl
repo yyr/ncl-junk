@@ -12,6 +12,7 @@ begin
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 ;  gsn_reverse_colormap(wks)
 
+  wind_overlay = True
   varname = "QSNOW"
   noflevels = 32                ; how many layers should be added
 
@@ -68,11 +69,30 @@ begin
     wgted_var@units = "g"
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
+
     plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
+    if ( it .eq. 1 .and. wind_overlay ) then
+      u_1 = wrf_user_getvar(a,"ua",vt)
+      v_1 = wrf_user_getvar(a,"va",vt)
+      p  = wrf_user_getvar(a,"pressure",vt)
+      u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
+      v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
+      optsv = True
+      optsv@vfXArray = xlon
+      optsv@vfYArray = xlat
+      optsv@gsnLeftString = ""
+      optsv@gsnRightString = ""
+      optsv = set_res_vc(optsv)
+      optsv@vcLineArrowColor = "gray100"
+      optsv = set_aspectratio(xlat,optsv)
+      optsv = set_res_no_frame(optsv)
+      vec = gsn_csm_vector(wks,u,v,optsv)
+      overlay(plot(it),vec)
+    end if
 
     if ( it .eq. 2 ) then
       planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-                 (/303,382,62,237/)/)
+                 (/303,382,62,237/),(/219,269,150,235/)/)
       plane = new(4,float)
       plane = planes(3,:)
 
