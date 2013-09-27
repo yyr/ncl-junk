@@ -33,7 +33,6 @@ begin
   res@gsnMajorLatSpacing = 1
   res@gsnMajorLonSpacing = 1
 
-
   res@cnFillOn = True
   res@cnLinesOn = False
   res@lbLabelBarOn = False
@@ -71,7 +70,7 @@ begin
     wgted_var@lon2d = xlon
 
     plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
-    if ( it .eq. 1 .and. wind_overlay ) then
+    if ( it .eq. 1 ) then ; .and. wind_overlay ) then
       u_1 = wrf_user_getvar(a,"ua",vt)
       v_1 = wrf_user_getvar(a,"va",vt)
       p  = wrf_user_getvar(a,"pressure",vt)
@@ -92,7 +91,7 @@ begin
 
     if ( it .eq. 2 ) then
       planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-                 (/303,382,62,237/),(/219,269,150,235/)/)
+                 (/303,382,62,237/),(/236,288,130,219/)/)
       plane = new(4,float)
       plane = planes(3,:)
 
@@ -108,8 +107,7 @@ begin
 
       dum = new(dim_len0(lon_plane),graphic)
 
-;      do ii = 0,dim_len0(lon_plane)-2
-      do ii = 0, 160
+      do ii = 0,dim_len0(lon_plane)-2
         dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
                                    (/lat_plane(ii),lat_plane(ii+1)/),lnres)
       end do
