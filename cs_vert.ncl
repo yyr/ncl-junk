@@ -124,26 +124,16 @@ begin
     opts_v@vcLineArrowColor = "Blue"
     opts_v@vcRefAnnoString2 = ""
 
-    ; opts_pv = set_res_vp_21_upper(opts_pv)
-    ; opts_v = set_res_vp_21_upper(opts_v)
-
-;    drawNDCGrid(wks)
     contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
     vector = gsn_vector(wks,uproj(0:zmax_pos:thin,::thin), \
                         w_plane(0:zmax_pos:thin,::thin),opts_v)
-
-    ; overlay(contour_qs,contour_th)
     overlay(contour_qs,vector)
-    ; draw(contour_qs)
 
-;    gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
-    ; opts_v = set_res_vp_21_lower(opts_v)
+    ; gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
     opts_th = set_res_no_frame(opts_th)
     contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
-    ; draw(contour_th)
-    ; printVarSummary(opts_th)
-
   end do
+
   pres = True
   pres@lbLabelStride  = 2                ; skip every other label
   pres = set_res_panel(pres)
