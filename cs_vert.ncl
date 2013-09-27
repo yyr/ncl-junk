@@ -12,7 +12,7 @@ begin
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
 
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-             (/303,382,62,237/), (/191,215,122,168/)/)
+             (/303,382,62,237/),(/236,288,130,219/)/)
 
   thin = 3
 
@@ -124,17 +124,29 @@ begin
     opts_v@vcLineArrowColor = "Blue"
     opts_v@vcRefAnnoString2 = ""
 
-    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,0:140),opts_pv)
-    vector = gsn_vector(wks,uproj(0:zmax_pos:thin,0:140:thin), \
-                        w_plane(0:zmax_pos:thin,0:140:thin),opts_v)
+    ; opts_pv = set_res_vp_21_upper(opts_pv)
+    ; opts_v = set_res_vp_21_upper(opts_v)
 
-;   overlay(contour_qs,contour_th)
+;    drawNDCGrid(wks)
+    contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
+    vector = gsn_vector(wks,uproj(0:zmax_pos:thin,::thin), \
+                        w_plane(0:zmax_pos:thin,::thin),opts_v)
+
+    ; overlay(contour_qs,contour_th)
     overlay(contour_qs,vector)
-    draw(contour_qs)
-    frame(wks)
+    ; draw(contour_qs)
 
-    gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
-    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:140),opts_th)
-    draw(contour_th)
+;    gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
+    ; opts_v = set_res_vp_21_lower(opts_v)
+    opts_th = set_res_no_frame(opts_th)
+    contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
+    ; draw(contour_th)
+    ; printVarSummary(opts_th)
+
   end do
+  pres = True
+  pres@lbLabelStride  = 2                ; skip every other label
+  pres = set_res_panel(pres)
+  pres@gsnPanelLabelBar  = False
+  panelize_1col(wks,(/contour_qs,contour_th/),pres)
 end
