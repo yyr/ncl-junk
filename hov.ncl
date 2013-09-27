@@ -16,8 +16,8 @@ begin
   gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
   varname = "QSNOW"
 
-  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-             (/303,382,62,237/)/)
+  planes = (/(/236,378,130,372/),(/252,350,80,301/), (/300,378,56,176/) , \
+             (/303,382,62,237/),(/236,288,130,219/)/)
 
   plane = new(4,float)
   plane = planes(3,:)
@@ -72,8 +72,8 @@ begin
     res@tmYROn         = False         ; turn off the top tick marks
     res@tmYLLabelFontHeightF = 0.025
     res@tmXBLabelFontHeightF = 0.025
-;    plot(i) = gsn_csm_hov(wks,t_plane(:,:),res)
-    plot(i) = gsn_csm_hov(wks,t_plane(:,0:140),res)
+    plot(i) = gsn_csm_hov(wks,t_plane(:,:),res)
+;    plot(i) = gsn_csm_hov(wks,t_plane(:,0:140),res)
 
   end do
   pres = True
