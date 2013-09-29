@@ -6,8 +6,8 @@ begin
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
                 , "/home/yagnesh/wrf/run/notopsak_20081225/d3/" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
                 /)
 
   type = "pdf"
@@ -79,7 +79,7 @@ begin
   pres = True
   pres@lbLabelStride  = 2                ; skip every other label
   pres = set_res_panel(pres)
-  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NHOK", "NHOKSAK", "NTOPHOK", "NTOPSAK"/)
+  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NHOK", "NHOKSAK" , "NTOPSAK", "NTOPHOK"/)
   panelize_2col(wks,plot,pres)
 
 end
