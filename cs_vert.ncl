@@ -10,7 +10,6 @@ begin
 
   wks = gsn_open_wks(type,"cs")
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
-
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
              (/303,382,62,237/),(/236,288,130,219/)/)
 
@@ -23,7 +22,6 @@ begin
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
   res = True
-  res = set_res_no_frame(res)
   res@gsnLeftString=""
   res@gsnRightString=""
   set_res_aspectratio_manual(res,0.8,0.3)
@@ -124,19 +122,27 @@ begin
     opts_v@vcLineArrowColor = "Blue"
     opts_v@vcRefAnnoString2 = ""
 
+;    drawNDCGrid(wks)
+    opts_pv@gsnFrame         = False
+    opts_pv@vpWidthF         = 0.8
+    opts_pv@vpHeightF        = 0.3
+    opts_pv@vpXF             = 0.15
+    opts_pv@vpYF             = 0.9
+
     contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
     vector = gsn_vector(wks,uproj(0:zmax_pos:thin,::thin), \
                         w_plane(0:zmax_pos:thin,::thin),opts_v)
     overlay(contour_qs,vector)
+    draw(contour_qs)
 
-    ; gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
-    opts_th = set_res_no_frame(opts_th)
+    opts_th@gsnFrame         = False
+    opts_th@vpWidthF         = 0.8
+    opts_th@vpHeightF        = 0.3
+    opts_th@vpXF             = 0.15
+    opts_th@vpYF             = 0.47
+
+    gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
     contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
+    draw(contour_th)
   end do
-
-  pres = True
-  pres@lbLabelStride  = 2                ; skip every other label
-  pres = set_res_panel(pres)
-  pres@gsnPanelLabelBar  = False
-  panelize_1col(wks,(/contour_qs,contour_th/),pres)
 end
