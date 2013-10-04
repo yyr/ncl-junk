@@ -4,10 +4,10 @@ import("shea_util")
 begin
   directories=(/"/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
                 , "/home/yagnesh/wrf/run/notopsak_20081225/d3/" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
                 /)
 
   type = "pdf"
@@ -62,7 +62,7 @@ begin
     res = set_res_no_frame(res)
     res = set_res_cn(res)
     res@lbLabelBarOn = False
-;    res@cnLinesOn = False
+    res@cnLinesOn = False
     set_res_cn_limits(res, 0.004, 0.026, .002 )
 
     res@trYReverse          = True                ; reverse y axis
@@ -79,7 +79,7 @@ begin
   pres = True
   pres@lbLabelStride  = 2                ; skip every other label
   pres = set_res_panel(pres)
-  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NHOK", "NHOKSAK" , "NTOPSAK", "NTOPHOK"/)
+  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NTOPSAK", "NHOK", "NTOPHOK", "NHOKSAK"/)
   panelize_2col(wks,plot,pres)
 
 end

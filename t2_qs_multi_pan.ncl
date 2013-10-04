@@ -11,8 +11,8 @@ begin
   ;               /)
   directories=(/"/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 , "/home/yagnesh/wrf/run/notopsak_20081225/d3/" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 /)
 
   type = "pdf"
@@ -77,7 +77,7 @@ begin
 
   pres = set_res_panel(True)
   pres@lbLabelStride = 6
-  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NHOK", "NTOPSAK", "NHOKSAK", "NTOPHOK" /)
+  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NTOPSAK", "NHOK", "NTOPHOK", "NHOKSAK"/)
   panelize_2col(wks,plot,pres)
 end
 ;;; t2_qs_pan.ncl ends here
