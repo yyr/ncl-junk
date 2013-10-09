@@ -73,11 +73,30 @@ begin
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
     plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
+
+    u_1 = wrf_user_getvar(a,"ua",vt)
+    v_1 = wrf_user_getvar(a,"va",vt)
+    p  = wrf_user_getvar(a,"pressure",vt)
+    u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
+    v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
+    optsv = True
+    optsv@vfXArray = xlon
+    optsv@vfYArray = xlat
+    optsv@gsnLeftString = ""
+    optsv@gsnRightString = ""
+    optsv = set_res_vc(optsv)
+    optsv@vcLineArrowColor = "white"
+    optsv = set_aspectratio(xlat,optsv)
+    optsv = set_res_no_frame(optsv)
+    vec = gsn_csm_vector(wks,u,v,optsv)
+    overlay(plot(it),vec)
+
   end do
 
-  pres = set_res_panel(True)
+  pres = True
+  pres@gsnPanelFigureStrings = (/"a) CTRL", "b) NSAK", "c) NTOPSAK", "d) NHOK", "NTOPHOK", "NHOKSAK"/)
+  pres = set_res_panel(pres)
   pres@lbLabelStride = 6
-  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NTOPSAK", "NHOK", "NTOPHOK", "NHOKSAK"/)
   panelize_2col(wks,plot,pres)
 end
 ;;; t2_qs_pan.ncl ends here
