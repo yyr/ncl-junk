@@ -5,8 +5,8 @@ begin
   directories=(/"/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
                 , "/home/yagnesh/wrf/run/notopsak_20081225/d3/" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
+                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
                 /)
 
@@ -77,9 +77,9 @@ begin
 
   end do
   pres = True
-  pres@lbLabelStride  = 2                ; skip every other label
+  pres@gsnPanelFigureStrings = (/"a) CTRL", "b) NSAK", "c) NTOPSAK", "d) NTOPHOK", "e) NHOK", "f) NHOKSAK"/)
   pres = set_res_panel(pres)
-  pres@gsnPanelFigureStrings = (/"CTRL", "NSAK", "NTOPSAK", "NHOK", "NTOPHOK", "NHOKSAK"/)
+  pres@lbLabelStride  = 2                ; skip every other label
   panelize_2col(wks,plot,pres)
 
 end
