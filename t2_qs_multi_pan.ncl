@@ -20,6 +20,7 @@ begin
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 
+  thin = 16
   varname = "QSNOW"
   noflevels = 32                ; how many layers should be added
   plot = new(dim_len0(directories),graphic)
@@ -68,8 +69,6 @@ begin
     t2@lon2d = xlon
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
-;    wgted_var = wgted_var * 1000. ;
-;    wgted_var@units = "g"
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
     plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
@@ -80,15 +79,15 @@ begin
     u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
     v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
     optsv = True
-    optsv@vfXArray = xlon
-    optsv@vfYArray = xlat
+    optsv@vfXArray = xlon(::thin,::thin)
+    optsv@vfYArray = xlat(::thin,::thin)
     optsv@gsnLeftString = ""
     optsv@gsnRightString = ""
     optsv = set_res_vc(optsv)
     optsv@vcLineArrowColor = "white"
     optsv = set_aspectratio(xlat,optsv)
     optsv = set_res_no_frame(optsv)
-    vec = gsn_csm_vector(wks,u,v,optsv)
+    vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
     overlay(plot(it),vec)
 
   end do

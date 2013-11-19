@@ -14,7 +14,7 @@ begin
 
   wind_overlay = True
   varname = "QSNOW"
-  noflevels = 32                ; how many layers should be added
+  thin = 16
 
   times  = wrf_user_list_times(a)  ; get times in the file
   noft = dim_len0(tvalues)
@@ -75,15 +75,15 @@ begin
       u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
       v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
       optsv = True
-      optsv@vfXArray = xlon
-      optsv@vfYArray = xlat
+      optsv@vfXArray = xlon(::thin,::thin)
+      optsv@vfYArray = xlat(::thin,::thin)
       optsv@gsnLeftString = ""
       optsv@gsnRightString = ""
       optsv = set_res_vc(optsv)
-      optsv@vcLineArrowColor = "gray100"
+      optsv@vcLineArrowColor = "white"
       optsv = set_aspectratio(xlat,optsv)
       optsv = set_res_no_frame(optsv)
-      vec = gsn_csm_vector(wks,u,v,optsv)
+      vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
       overlay(plot(it),vec)
     end if
 
