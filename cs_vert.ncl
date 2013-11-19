@@ -133,6 +133,20 @@ begin
     vector = gsn_vector(wks,uproj(0:zmax_pos:thin,::thin), \
                         w_plane(0:zmax_pos:thin,::thin),opts_v)
     overlay(contour_qs,vector)
+
+    ; put a) on top left
+    txres = True
+    txres@txBackgroundFillColor = "white"
+    txres@txFont                = "helvetica"
+    txres@txFontHeightF = 0.02
+    txres@txPerimOn  = True
+    txid1 = gsn_create_text(wks, "a)", txres)
+
+    amres = True
+    amres@amParallelPosF   = -0.44    ; This is the right edge of the plot.
+    amres@amOrthogonalPosF = -0.2    ; This is the bottom edge of the plot.
+    amres@amJust           = "BottomRight"
+    annoid1 = gsn_add_annotation(contour_qs, txid1, amres)
     draw(contour_qs)
 
     opts_th@gsnFrame         = False
@@ -143,6 +157,11 @@ begin
 
     gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
     contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
+
+    ; put b) on top left
+    txid1 = gsn_create_text(wks, "b)", txres)
+    annoid1 = gsn_add_annotation(contour_th, txid1, amres)
+
     draw(contour_th)
   end do
 end
