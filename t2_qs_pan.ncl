@@ -64,8 +64,6 @@ begin
     t2@lon2d = xlon
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
-    wgted_var = wgted_var * 1000. ;
-    wgted_var@units = "g"
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
 
