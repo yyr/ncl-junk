@@ -4,7 +4,7 @@ load "$nsc/yagUtils.ncl"
 import("shea_util")
 
 begin
-  type = "png"
+  type = "pdf"
   ; type = "X11"
   varname = "QSNOW"
 
@@ -18,7 +18,8 @@ begin
 
   res = True
   res = set_res_cn(res)
-  set_res_cn_limits(res, 0, 0.002, .0001)
+  set_res_cn_limits(res, 0, 40, 3)
+
   res@gsnLeftString   = "Integrated Cloud"
   res@lbLabelStride   = 3
   res@tfDoNDCOverlay = True
@@ -30,12 +31,7 @@ begin
   ; do it = 20, 22 , 1
     vt = it
     system("echo " + vt + ": " + "working with: " + chartostring(times(vt,5:15)))
-
     wgted_var = wrf_user_getvar_weighted_sum(a,(/"QSNOW"/),vt)
-    ; wgted_var = wrf_user_getvar_weighted_sum(a,(/"QSNOW", "QCLOUD", "QRAIN", "QICE"/),vt)
-    wgted_var = wgted_var * 1000. ;
-    wgted_var@units = "g"
-    ; print("Minimum: "+min(wgted_var)+"   Maximum: "+max(wgted_var) )
 
     res = wrf_map_resources(a,res)
     res = set_lb_resources(wgted_var(:,:),res)
@@ -45,6 +41,7 @@ begin
 
     delete_attrs(res)
     plot = gsn_csm_contour_map(wks,wgted_var,res)
+    printVarInfo(wgted_var, "wgted_var")
     draw(wks)
     frame(wks)
   end do
