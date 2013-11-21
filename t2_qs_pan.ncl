@@ -45,7 +45,7 @@ begin
   opts@cnLinesOn = True
   opts@cnLevelFlags = False
   opts@cnInfoLabelOn = False
-  set_res_cn_limits(opts, 0., 0.026, .002 )
+  set_res_cn_limits(opts, 0, 20, 1)
 
   angle = 0.
   lev = 940
@@ -53,10 +53,8 @@ begin
   do it = 0, noft - 1, 1
 
     vt = tvalues(it)
-    print("working with: " + times(vt))
+    print("working with: "+ vt + " "+ times(vt))
 
-;    t2 = wrf_user_getvar(a,"T2",vt)
-; use of different level
     p  = wrf_user_getvar(a,"pressure",vt)
     T =  wrf_user_getvar(a,"tc",vt)
     t2 = wrf_user_intrp3d(T,p,"h",lev,angle,False)

@@ -35,23 +35,17 @@ begin
 
     st_time = 48
     wgted_var = new((/ nt - st_time ,dimt(2),dimt(3)/),float)
+
     times = new(nt,string)
-
-;   wgted_var(0,:,:) = wrf_user_getvar_weighted_sum(a,varname,48)
-
     do it = st_time, nt-1, 1   ;; times
       dummy = it - st_time
       wgted_var(dummy,:,:) = wrf_user_getvar_weighted_sum(a,varname,it)
-;      wgted_var(dummy,:,:) = wgted_var(0,:,:)
-
       times(dummy) = chartostring(times_in_file(it,8:12))
-      print("working with time:" + times(dummy))
+;      print("working with time:" + times(dummy))
       dummy = dummy + 1
     end do
 
     drawn_times = nt-1 - st_time
-    wgted_var = wgted_var * 1000.
-
     angle = 0.                    ; intialize
     angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
     t_plane = wrf_user_intrp2d(wgted_var,plane,angle,True)
@@ -63,7 +57,7 @@ begin
     res = set_res_cn(res)
     res@lbLabelBarOn = False
     res@cnLinesOn = False
-    set_res_cn_limits(res, 0.004, 0.026, .002 )
+    set_res_cn_limits(res, 0., 15., 1)
 
     res@trYReverse          = True                ; reverse y axis
     res@tmYLMode       = "Explicit"    ; Define own tick mark labels.
@@ -73,7 +67,6 @@ begin
     res@tmYLLabelFontHeightF = 0.025
     res@tmXBLabelFontHeightF = 0.025
     plot(i) = gsn_csm_hov(wks,t_plane(:,:),res)
-;    plot(i) = gsn_csm_hov(wks,t_plane(:,0:140),res)
 
   end do
   pres = True

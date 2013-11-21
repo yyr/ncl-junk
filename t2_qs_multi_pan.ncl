@@ -52,7 +52,7 @@ begin
   opts@cnLinesOn = True
   opts@cnLevelFlags = False
   opts@cnInfoLabelOn = False
-  set_res_cn_limits(opts, 0., 0.026, .002 )
+  set_res_cn_limits(opts, 0.,20., 1)
 
   angle = 0.
   lev = 940
