@@ -13,7 +13,7 @@ begin
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
              (/303,382,62,237/),(/236,288,130,219/)/)
 
-  thin = 3
+  thin = 5
 
   plane = new(4,float)
   plane = planes(3,:)
@@ -50,8 +50,6 @@ begin
     ; project on to the cross section line (to make a plot vertical plane)
     ; uproj will horizontal component and w will be vertical component
     uproj = u_plane*cos(angle) + v_plane*sin(angle)
-    ; printVarInfo(uproj,"")
-    ; printVarInfo(w_plane,"")
 
     if ( FirstTime ) then
       zmax = 550.
@@ -85,6 +83,24 @@ begin
     opts_xy@tiXAxisFontHeightF      = 0.02
     opts_xy@tiYAxisFontHeightF      = 0.02
     opts_xy@tfDoNDCOverlay = True
+    opts_xy@tmXTOn         = False
+    opts_xy@tmYROn         = False
+
+    ;; Change xaxis to km from grid.
+    xinter = 50.                  ; km
+    xmax_pos = dim_len1(w_plane)
+    xmax = xmax_pos * angle * 1.5 ; turn into km ( * angle * grid_lenth_in_km)
+
+    nice_xmax=(floor(xmax/xinter)+1)*xinter
+    nx = floattoint(nice_xmax/xinter + 1)
+
+    nice_xmax_pos = floor(xmax_pos/(nx-1)+1) * (nx - 1)
+    xtick_pos = fspan(0,nice_xmax_pos,nx)
+    xtick_pos_vals = sprintf("%.0f",ispan(0,floattoint(nice_xmax), floattoint(xinter)))
+
+    opts_xy@tmXBMode                = "Explicit"
+    opts_xy@tmXBValues = xtick_pos
+    opts_xy@tmXBLabels = xtick_pos_vals
 
 ; Plotting options for PV
     opts_pv = opts_xy
