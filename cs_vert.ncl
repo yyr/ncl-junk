@@ -92,11 +92,12 @@ begin
     xmax = xmax_pos * angle * 1.5 ; turn into km ( * angle * grid_lenth_in_km)
 
     nice_xmax=(floor(xmax/xinter)+1)*xinter
-    nx = floattoint(nice_xmax/xinter + 1)
-
-    nice_xmax_pos = floor(xmax_pos/(nx-1)+1) * (nx - 1)
-    xtick_pos = fspan(0,nice_xmax_pos,nx)
+    nx = floattoint(nice_xmax/xinter + 1) ; NOTE: this is just type change, not value correction.
     xtick_pos_vals = sprintf("%.0f",ispan(0,floattoint(nice_xmax), floattoint(xinter)))
+
+    nice_xmax_pos = floor(xmax_pos/nx+1) * nx + 4 ; here "4" is workaround for error got in decimal correction.
+    xtick_pos = fspan(0,nice_xmax_pos,nx)
+    ; print(xtick_pos + " " + xtick_pos_vals)
 
     opts_xy@tmXBMode                = "Explicit"
     opts_xy@tmXBValues = xtick_pos
