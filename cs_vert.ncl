@@ -73,7 +73,7 @@ begin
     end if
 
     opts_xy                         = res
-    opts_xy@tiYAxisString           = "Pressure (mb)"
+    opts_xy@tiYAxisString           = "Pressure (HPa)"
     opts_xy@cnMissingValPerimOn     = True
     opts_xy@cnMissingValFillColor   = 0
     opts_xy@cnMissingValFillPattern = 11
