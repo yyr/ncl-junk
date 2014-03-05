@@ -66,6 +66,23 @@ begin
     res@tmYROn         = False         ; turn off the top tick marks
     res@tmYLLabelFontHeightF = 0.025
     res@tmXBLabelFontHeightF = 0.025
+
+    ;
+    xinter = 50.                  ; km
+    xmax_pos = dim_len1(t_plane)
+    xmax = xmax_pos * angle * 1.5 ; turn into km ( * angle * grid_lenth_in_km)
+
+    nice_xmax=(floor(xmax/xinter)+1)*xinter
+    nx = floattoint(nice_xmax/xinter + 1) ; NOTE: this is just type change, not value correction.
+    xtick_pos_vals = sprintf("%.0f",ispan(0,floattoint(nice_xmax), floattoint(xinter)))
+
+    nice_xmax_pos = floor(xmax_pos/nx+1) * nx + 4 ; here "4" is workaround for error got in decimal correction.
+    xtick_pos = fspan(0,nice_xmax_pos,nx)
+    ; print(xtick_pos + " " + xtick_pos_vals)
+
+    res@tmXBMode                = "Explicit"
+    res@tmXBValues = xtick_pos
+    res@tmXBLabels = xtick_pos_vals
     plot(i) = gsn_csm_hov(wks,t_plane(:,:),res)
 
   end do
