@@ -73,7 +73,8 @@ begin
     end if
 
     opts_xy                         = res
-    opts_xy@tiYAxisString           = "Pressure (HPa)"
+    opts_xy@tiYAxisString           = "Pressure (hPa)"
+    opts_xy@tiXAxisString           = "Distance (km)"
     opts_xy@cnMissingValPerimOn     = True
     opts_xy@cnMissingValFillColor   = 0
     opts_xy@cnMissingValFillPattern = 11
@@ -121,8 +122,9 @@ begin
 
     opts_th = opts_xy
     opts_th@cnSmoothingOn = True
-;    opts_th@cnLineColor = "Blue"
-    opts_th@cnInfoLabelOn = False
+    opts_th@cnLineColor = "Blue"
+    opts_th@cnInfoLabelOn = True
+    ; opts_th@cnInfoLabelPerimSpaceF =
     opts_th@gsnContourLineThicknessesScale = 2.0
     opts_th@cnLineLabelBackgroundColor = "white"
     opts_th@cnInfoLabelOn = False
@@ -145,6 +147,7 @@ begin
     opts_pv@vpHeightF        = 0.3
     opts_pv@vpXF             = 0.15
     opts_pv@vpYF             = 0.9
+
 
     contour_qs = gsn_csm_contour(wks,qs_plane(0:zmax_pos,:),opts_pv)
     vector = gsn_vector(wks,uproj(0:zmax_pos:thin,::thin), \
@@ -170,7 +173,7 @@ begin
     opts_th@vpWidthF         = 0.8
     opts_th@vpHeightF        = 0.3
     opts_th@vpXF             = 0.15
-    opts_th@vpYF             = 0.47
+    opts_th@vpYF             = 0.50
 
     gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
     contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
