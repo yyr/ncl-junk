@@ -1,10 +1,10 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-  type = "png"
+  type = "pdf"
   wks = gsn_open_wks(type,"domain")
 
-  filename = "/home/yagnesh/wrf/run/20071116/namelist.wps"
+  filename = "/home/yagnesh/wrf/run/20081226/namelist.wps"
   a = set_inputfile()
 
   opts = True
