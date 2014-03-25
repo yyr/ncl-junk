@@ -1,3 +1,4 @@
+-------------
 LU_INDEX       1  0  LAND USE CATEGORY (-)
 U             19  0  x-wind component (m s-1)
 V             19  0  y-wind component (m s-1)
@@ -90,3 +91,1092 @@ pressure      19  0  Model pressure (hPa)
 height        19  0  Model height (km)
 tk            19  0  Temperature (K)
 tc            19  0  Temperature (C)
+-------------
+
+# long Variables.
+
+Variable: f
+Type: file
+filename:	wrfout_d03_2008-12-25_00:00:00
+path:	wrfout_d03_2008-12-25_00:00:00
+   file global attributes:
+      TITLE :  OUTPUT FROM WRF V3.2.1 MODEL
+      START_DATE : 2008-12-25_00:00:00
+      SIMULATION_START_DATE : 2008-12-25_00:00:00
+      WEST-EAST_GRID_DIMENSION : 397
+      SOUTH-NORTH_GRID_DIMENSION : 493
+      BOTTOM-TOP_GRID_DIMENSION : 35
+      DX : 1500
+      DY : 1500
+      GRIDTYPE : C
+      DIFF_OPT : 1
+      KM_OPT : 4
+      DAMP_OPT : 0
+      DAMPCOEF : 0.2
+      KHDIF :  0
+      KVDIF :  0
+      MP_PHYSICS : 8
+      RA_LW_PHYSICS : 1
+      RA_SW_PHYSICS : 2
+      SF_SFCLAY_PHYSICS : 2
+      SF_SURFACE_PHYSICS : 2
+      BL_PBL_PHYSICS : 2
+      CU_PHYSICS : 0
+      SURFACE_INPUT_SOURCE : 1
+      SST_UPDATE : 0
+      GRID_FDDA : 0
+      GFDDA_INTERVAL_M : 0
+      GFDDA_END_H : 0
+      GRID_SFDDA : 0
+      SGFDDA_INTERVAL_M : 0
+      SGFDDA_END_H : 0
+      SF_URBAN_PHYSICS : 0
+      FEEDBACK : 1
+      SMOOTH_OPTION : 0
+      SWRAD_SCAT :  1
+      W_DAMPING : 0
+      MOIST_ADV_OPT : 1
+      SCALAR_ADV_OPT : 1
+      TKE_ADV_OPT : 1
+      DIFF_6TH_OPT : 0
+      DIFF_6TH_FACTOR : 0.12
+      OBS_NUDGE_OPT : 0
+      BUCKET_MM : -1
+      BUCKET_J : -1
+      PREC_ACC_DT :  0
+      OMLCALL : 0
+      ISFTCFLX : 0
+      WEST-EAST_PATCH_START_UNSTAG : 1
+      WEST-EAST_PATCH_END_UNSTAG : 396
+      WEST-EAST_PATCH_START_STAG : 1
+      WEST-EAST_PATCH_END_STAG : 397
+      SOUTH-NORTH_PATCH_START_UNSTAG : 1
+      SOUTH-NORTH_PATCH_END_UNSTAG : 492
+      SOUTH-NORTH_PATCH_START_STAG : 1
+      SOUTH-NORTH_PATCH_END_STAG : 493
+      BOTTOM-TOP_PATCH_START_UNSTAG : 1
+      BOTTOM-TOP_PATCH_END_UNSTAG : 34
+      BOTTOM-TOP_PATCH_START_STAG : 1
+      BOTTOM-TOP_PATCH_END_STAG : 35
+      GRID_ID : 3
+      PARENT_ID : 2
+      I_PARENT_START : 101
+      J_PARENT_START : 104
+      PARENT_GRID_RATIO : 3
+      DT : 6.666667
+      CEN_LAT : 46.10812
+      CEN_LON : 141.7975
+      TRUELAT1 : 45
+      TRUELAT2 :  0
+      MOAD_CEN_LAT : 45
+      STAND_LON : 142
+      POLE_LAT : 90
+      POLE_LON :  0
+      GMT :  0
+      JULYR : 2008
+      JULDAY : 360
+      MAP_PROJ : 1
+      MMINLU : USGS
+      NUM_LAND_CAT : 24
+      ISWATER : 16
+      ISLAKE : -1
+      ISICE : 24
+      ISURBAN : 1
+      ISOILWATER : 14
+   dimensions:
+      Time = 145  // unlimited
+      DateStrLen = 19
+      west_east = 396
+      south_north = 492
+      bottom_top = 34
+      bottom_top_stag = 35
+      soil_layers_stag = 4
+      west_east_stag = 397
+      south_north_stag = 493
+   variables:
+      character Times ( Time, DateStrLen )
+
+      float LU_INDEX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LAND USE CATEGORY
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float ZNU ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	eta values on half (mass) levels
+         units :
+         stagger :
+
+      float ZNW ( Time, bottom_top_stag )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	eta values on full (w) levels
+         units :
+         stagger :	Z
+
+      float ZS ( Time, soil_layers_stag )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	DEPTHS OF CENTERS OF SOIL LAYERS
+         units :	m
+         stagger :	Z
+
+      float DZS ( Time, soil_layers_stag )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	THICKNESSES OF SOIL LAYERS
+         units :	m
+         stagger :	Z
+
+      float U ( Time, bottom_top, south_north, west_east_stag )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	x-wind component
+         units :	m s-1
+         stagger :	X
+         coordinates :	XLONG_U XLAT_U
+
+      float V ( Time, bottom_top, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	y-wind component
+         units :	m s-1
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float W ( Time, bottom_top_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	z-wind component
+         units :	m s-1
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float PH ( Time, bottom_top_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	perturbation geopotential
+         units :	m2 s-2
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float PHB ( Time, bottom_top_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	base-state geopotential
+         units :	m2 s-2
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float T ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	perturbation potential temperature (theta-t0)
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float MU ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	perturbation dry air mass in column
+         units :	Pa
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float MUB ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	base state dry air mass in column
+         units :	Pa
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float NEST_POS ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	-
+         units :	-
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float P ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	perturbation pressure
+         units :	Pa
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float PB ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	BASE STATE PRESSURE
+         units :	Pa
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float FNM ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	upper weight for vertical stretching
+         units :
+         stagger :
+
+      float FNP ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	lower weight for vertical stretching
+         units :
+         stagger :
+
+      float RDNW ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	inverse d(eta) values between full (w) levels
+         units :
+         stagger :
+
+      float RDN ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	inverse d(eta) values between half (mass) levels
+         units :
+         stagger :
+
+      float DNW ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	d(eta) values between full (w) levels
+         units :
+         stagger :
+
+      float DN ( Time, bottom_top )
+         FieldType :	104
+         MemoryOrder :	Z
+         description :	d(eta) values between half (mass) levels
+         units :
+         stagger :
+
+      float CFN ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	extrapolation constant
+         units :
+         stagger :
+
+      float CFN1 ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	extrapolation constant
+         units :
+         stagger :
+
+      float P_HYD ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	hydrostatic pressure
+         units :	Pa
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float Q2 ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	QV at 2 M
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float T2 ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	TEMP at 2 M
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float TH2 ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	POT TEMP at 2 M
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float PSFC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SFC PRESSURE
+         units :	Pa
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float U10 ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	U at 10 M
+         units :	m s-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float V10 ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	V at 10 M
+         units :	m s-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float RDX ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	INVERSE X GRID LENGTH
+         units :
+         stagger :
+
+      float RDY ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	INVERSE Y GRID LENGTH
+         units :
+         stagger :
+
+      float RESM ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	TIME WEIGHT CONSTANT FOR SMALL STEPS
+         units :
+         stagger :
+
+      float ZETATOP ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	ZETA AT MODEL TOP
+         units :
+         stagger :
+
+      float CF1 ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	2nd order extrapolation constant
+         units :
+         stagger :
+
+      float CF2 ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	2nd order extrapolation constant
+         units :
+         stagger :
+
+      float CF3 ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	2nd order extrapolation constant
+         units :
+         stagger :
+
+      integer ITIMESTEP ( Time )
+         FieldType :	106
+         MemoryOrder :	0
+         description :
+         units :
+         stagger :
+
+      float XTIME ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	minutes since simulation start
+         units :
+         stagger :
+
+      float QVAPOR ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Water vapor mixing ratio
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QCLOUD ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Cloud water mixing ratio
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QRAIN ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Rain water mixing ratio
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QICE ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Ice mixing ratio
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QSNOW ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Snow mixing ratio
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QGRAUP ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Graupel mixing ratio
+         units :	kg kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QNICE ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Ice Number concentration
+         units :	  kg-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QNRAIN ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	Rain Number concentration
+         units :	  kg(-1)
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float LANDMASK ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LAND MASK (1 FOR LAND, 0 FOR WATER)
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float TSLB ( Time, soil_layers_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	SOIL TEMPERATURE
+         units :	K
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float SMOIS ( Time, soil_layers_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	SOIL MOISTURE
+         units :	m3 m-3
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float SH2O ( Time, soil_layers_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	SOIL LIQUID WATER
+         units :	m3 m-3
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float SMCREL ( Time, soil_layers_stag, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	RELATIVE SOIL MOISTURE
+         units :
+         stagger :	Z
+         coordinates :	XLONG XLAT
+
+      float SEAICE ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SEA ICE FLAG
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float XICEM ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SEA ICE FLAG (PREVIOUS STEP)
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SFROFF ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SURFACE RUNOFF
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float UDROFF ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	UNDERGROUND RUNOFF
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      integer IVGTYP ( Time, south_north, west_east )
+         FieldType :	106
+         MemoryOrder :	XY
+         description :	DOMINANT VEGETATION CATEGORY
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      integer ISLTYP ( Time, south_north, west_east )
+         FieldType :	106
+         MemoryOrder :	XY
+         description :	DOMINANT SOIL CATEGORY
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float VEGFRA ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	VEGETATION FRACTION
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float GRDFLX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	GROUND HEAT FLUX
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float ACGRDFLX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED GROUND HEAT FLUX
+         units :	J m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SNOW ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SNOW WATER EQUIVALENT
+         units :	kg m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SNOWH ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	PHYSICAL SNOW DEPTH
+         units :	m
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float CANWAT ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	CANOPY WATER
+         units :	kg m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SST ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SEA SURFACE TEMPERATURE
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SSTSK ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SKIN SEA SURFACE TEMPERATURE
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float LAI ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Leaf area index
+         units :	area/area
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float TKE_MYJ ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	TKE FROM MELLOR-YAMADA-JANJIC
+         units :	m2 s-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float EL_MYJ ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	MIXING LENGTH FROM MELLOR-YAMADA-JANJIC
+         units :	m
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float MAPFAC_M ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on mass grid
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float MAPFAC_U ( Time, south_north, west_east_stag )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on u-grid
+         units :
+         stagger :	X
+         coordinates :	XLONG_U XLAT_U
+
+      float MAPFAC_V ( Time, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on v-grid
+         units :
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float MAPFAC_MX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on mass grid, x direction
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float MAPFAC_MY ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on mass grid, y direction
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float MAPFAC_UX ( Time, south_north, west_east_stag )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on u-grid, x direction
+         units :
+         stagger :	X
+         coordinates :	XLONG_U XLAT_U
+
+      float MAPFAC_UY ( Time, south_north, west_east_stag )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on u-grid, y direction
+         units :
+         stagger :	X
+         coordinates :	XLONG_U XLAT_U
+
+      float MAPFAC_VX ( Time, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on v-grid, x direction
+         units :
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float MF_VX_INV ( Time, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Inverse map scale factor on v-grid, x direction
+         units :
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float MAPFAC_VY ( Time, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Map scale factor on v-grid, y direction
+         units :
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float F ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Coriolis sine latitude term
+         units :	s-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float E ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Coriolis cosine latitude term
+         units :	s-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SINALPHA ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Local sine of map rotation
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float COSALPHA ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Local cosine of map rotation
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float HGT ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	Terrain Height
+         units :	m
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float TSK ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SURFACE SKIN TEMPERATURE
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float P_TOP ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	PRESSURE TOP OF THE MODEL
+         units :	Pa
+         stagger :
+
+      float T00 ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	BASE STATE TEMPERATURE
+         units :	K
+         stagger :
+
+      float P00 ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	BASE STATE PRESURE
+         units :	Pa
+         stagger :
+
+      float TLP ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	BASE STATE LAPSE RATE
+         units :
+         stagger :
+
+      float TISO ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	TEMP AT WHICH THE BASE T TURNS CONST
+         units :	K
+         stagger :
+
+      float MAX_MSTFX ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	Max map factor in domain
+         units :
+         stagger :
+
+      float MAX_MSTFY ( Time )
+         FieldType :	104
+         MemoryOrder :	0
+         description :	Max map factor in domain
+         units :
+         stagger :
+
+      float RAINC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED TOTAL CUMULUS PRECIPITATION
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float RAINNC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED TOTAL GRID SCALE PRECIPITATION
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SNOWNC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED TOTAL GRID SCALE SNOW AND ICE
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float GRAUPELNC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED TOTAL GRID SCALE GRAUPEL
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float HAILNC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED TOTAL GRID SCALE HAIL
+         units :	mm
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float CLDFRA ( Time, bottom_top, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XYZ
+         description :	CLOUD FRACTION
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SWDOWN ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	DOWNWARD SHORT WAVE FLUX AT GROUND SURFACE
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float GLW ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	DOWNWARD LONG WAVE FLUX AT GROUND SURFACE
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float OLR ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	TOA OUTGOING LONG WAVE
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float XLAT ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LATITUDE, SOUTH IS NEGATIVE
+         units :	degree_north
+         stagger :
+
+      float XLONG ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LONGITUDE, WEST IS NEGATIVE
+         units :	degree_east
+         stagger :
+
+      float XLAT_U ( Time, south_north, west_east_stag )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LATITUDE, SOUTH IS NEGATIVE
+         units :	degree_north
+         stagger :	X
+         coordinates :	XLONG_U XLAT_U
+
+      float XLONG_U ( Time, south_north, west_east_stag )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LONGITUDE, WEST IS NEGATIVE
+         units :	degree_east
+         stagger :	X
+         coordinates :	XLONG_U XLAT_U
+
+      float XLAT_V ( Time, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LATITUDE, SOUTH IS NEGATIVE
+         units :	degree_north
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float XLONG_V ( Time, south_north_stag, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LONGITUDE, WEST IS NEGATIVE
+         units :	degree_east
+         stagger :	Y
+         coordinates :	XLONG_V XLAT_V
+
+      float ALBEDO ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ALBEDO
+         units :	-
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float ALBBCK ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	BACKGROUND ALBEDO
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float EMISS ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SURFACE EMISSIVITY
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float NOAHRES ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	RESIDUAL OF THE NOAH SURFACE ENERGY BUDGET
+         units :	W m{-2}
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float TMN ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	SOIL TEMPERATURE AT LOWER BOUNDARY
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float XLAND ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LAND MASK (1 FOR LAND, 2 FOR WATER)
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float UST ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	U* IN SIMILARITY THEORY
+         units :	m s-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float PBLH ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	PBL HEIGHT
+         units :	m
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float HFX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	UPWARD HEAT FLUX AT THE SURFACE
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float QFX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	UPWARD MOISTURE FLUX AT THE SURFACE
+         units :	kg m-2 s-1
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float LH ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	LATENT HEAT FLUX AT THE SURFACE
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float ACHFX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED UPWARD HEAT FLUX AT THE SURFACE
+         units :	J m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float ACLHF ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	ACCUMULATED UPWARD LATENT HEAT FLUX AT THE SURFACE
+         units :	J m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SNOWC ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	FLAG INDICATING SNOW COVERAGE (1 FOR SNOW COVER)
+         units :
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SR ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	fraction of frozen precipitation
+         units :	-
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float POTEVP ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	accumulated potential evaporation
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SNOPCX ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	snow phase change heat flux
+         units :	W m-2
+         stagger :
+         coordinates :	XLONG XLAT
+
+      float SOILTB ( Time, south_north, west_east )
+         FieldType :	104
+         MemoryOrder :	XY
+         description :	bottom soil temperature
+         units :	K
+         stagger :
+         coordinates :	XLONG XLAT
+
+      integer SAVE_TOPO_FROM_REAL ( Time )
+         FieldType :	106
+         MemoryOrder :	0
+         description :	1=original topo from real/0=topo modified by WRF
+         units :	flag
+         stagger :
