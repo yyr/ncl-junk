@@ -7,32 +7,58 @@ begin
   f = addfile("fnl_20081226_12_00_c.grib","r")
 
   p = f->PRMSL_3_MSL
-  t = f->TMP_3_SFC
+;  t = f->TMP_3_SFC
+  u = f->U_GRD_3_ISBL
+  v = f->V_GRD_3_ISBL
+
+  ; lat =
+
+  ; lat@long_name = "Latitude"
+  ; lat@standard_name = "latitude"
+  ; lat@units = "degrees_north"
+  ; lat!0 = "south_north"
+  ; lat!1 = "west_east"
+
+  ; lon = (/wrfout->XLONG(0,:,:)/)       ;lon (mass)
+  ; lon@long_name = "Longitude"
+  ; lon@standard_name = "longitude"
+  ; lon@units = "degrees_east"
+  ; lon!0 = "south_north"
+  ; lon!1 = "west_east"
+
 
   wks_type          = "pdf"
   wks = gsn_open_wks(wks_type,"weather")
 
-  res= True
-  res@mpMinLonF                     = 122.5
-  res@mpMaxLonF                     = 155.5
-  res@mpMinLatF                     = 27.5
-  res@mpMaxLatF                     =  62.5
+  res_com= True
+  res_com@mpMinLonF                     = 122.5
+  res_com@mpMaxLonF                     = 155.5
+  res_com@mpMinLatF                     = 27.5
+  res_com@mpMaxLatF                     =  62.5
+  w_opts = res_com
 
+  res_com = set_res_highres_coast(res_com)
+  res_com = set_res_cn(res_com)
+  res_com@mpOutlineOn = True
 
-  res = set_res_cn(res)
+  res = res_com
   set_res_cn_limits(res,250,300,2)
 
-  opts = True
-  set_res_cn_limits(opts,980,1010,2)
-  opts@mpMinLonF                     = 122.5
-  opts@mpMaxLonF                     = 155.5
-  opts@mpMinLatF                     = 27.5
-  opts@mpMaxLatF                     =  62.5
+  opts = res_com
+  set_res_cn_limits(opts,970,1020,2)
+
+  opts@cnFillOn =False
+  opts@cnLineLabelsOn = True
+
+  w_opts = set_res_vc(w_opts)
+  printVarSummary(u)
+
+  wmap = gsn_csm_vector_map(wks,u(25,:,:),v(25,:,:),w_opts)
 
   ; plot = gsn_csm_contour_map_overlay(wks,t,p/100,res,opts)
-
   ; map = gsn_csm_contour_map(wks,t,res)
-  p = gsn_csm_contour_map(wks,p/100,opts)
+;  pmap = gsn_csm_contour_map(wks,p/100,opts)
 
-  ; overlay(map,tit)
+  ; overlay(map,pmap)
+
 end
