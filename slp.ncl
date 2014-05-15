@@ -5,18 +5,16 @@ begin
   type = "pdf"
   varname = "slp"
 
-;  out = "h" + varname + "_all"
-  out = varname
+  out = varname + "_all"
+;  out = varname
   wks = gsn_open_wks(type,out)
 
   a = set_inputfile()
   times = a->Times
-  xlat = a->XLAT(0,:,:)
-  xlon = a->XLONG(0,:,:)
 
   res = True
   res = set_res_cn(res)
-  set_res_cn_limits(res, 1015, 1030,0.5)
+  set_res_cn_limits(res, 1000, 1030,1)
   ; "gsnSpreadColors"   , "True",  \
   ; "cnFillOn"          , "True",  \
   ; "cnInfoLabelOn"     , "False", \
@@ -31,7 +29,7 @@ begin
   res = set_res_highres_coast(res)
 
   do it = 0, dim_len0(times) - 1 , 1
-;  do it = 66, 86 , 2
+;  do it = 66, 69 , 2
     vt = it
     system("echo " + vt + ": " + "working with: " + chartostring(times(vt,5:15)))
 
