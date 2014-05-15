@@ -1,8 +1,3 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;    File: slp_pan.ncl
-; Created: Friday, September  9 2011
-; License: GPL v3 or later.
-
 load "$nsc/yagUtils.ncl"
 begin
   a = set_inputfile()
@@ -17,7 +12,6 @@ begin
   gsn_reverse_colormap(wks)
 
   res = True
-  res@Footer = False
   res@lbLabelBarOn        = False           ; turn off individual cb's
 
   pltres = True ; Plot resources

@@ -1,12 +1,3 @@
-; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-;    File: sur_air_temp.ncl
-;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
-; Created: Friday, September  9 2011
-;
-
-; Description:
-;
-
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl"
 load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
@@ -46,7 +37,7 @@ begin
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
-  do it = 0, noft - 1, 1   ; LOOP NAME
+  do it = 0, noft - 1, 1
 ; do it = 60, ntimes-1, 2  ; LOOP NAME
     print("tvalue: " + tvalues(it))
 
