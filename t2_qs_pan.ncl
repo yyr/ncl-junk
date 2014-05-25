@@ -47,18 +47,6 @@ begin
 
   cn_levs = (/2., 5., 9., 12./)
   opts = True
-  if ( .not. temp_overlay ) then
-    opts = set_res_mp_latlon(opts,141.,145,43,47.5)
-    opts = set_res_no_frame(opts)
-    opts = set_res_lb(opts)
-    opts = set_res_tm_size(opts)
-    opts = set_res_highres_coast(opts)
-    opts = set_aspectratio(xlat,opts)
-    opts@mpGeophysicalLineThicknessF = 3
-    opts@gsnMajorLatSpacing = 1
-    opts@gsnMajorLonSpacing = 1
-  end if
-
   opts@cnFillOn = False
   opts@cnLinesOn = True
   opts@cnLineLabelsOn = True
@@ -67,6 +55,22 @@ begin
   opts@cnLineLabelInterval = 1
   opts@cnInfoLabelOn = False
   set_res_cn_limits_explicit(opts, cn_levs)
+  if ( .not. temp_overlay ) then
+    opts@cnFillOn = True
+    opts = set_res_mp_latlon(opts,141.,145,43,47.5)
+    opts = set_res_no_frame(opts)
+    opts = set_res_lb(opts)
+    opts = set_res_tm_size(opts)
+    opts = set_res_highres_coast(opts)
+    opts = set_aspectratio(xlat,opts)
+    opts@lbLabelBarOn = False
+    opts@mpGeophysicalLineThicknessF = 3
+    opts@gsnMajorLatSpacing = 1
+    opts@gsnMajorLonSpacing = 1
+    set_res_cn_limits(opts, 1,10,1)
+    gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
+  end if
+
 
   angle = 0.
   lev = 960
