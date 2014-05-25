@@ -12,7 +12,10 @@ begin
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 ;  gsn_reverse_colormap(wks)
 
+  arrow_overlay = False
   wind_overlay = True
+  temp_overlay = False
+
   varname = "QSNOW"
   thin = 16
 
@@ -44,6 +47,18 @@ begin
 
   cn_levs = (/2., 5., 9., 12./)
   opts = True
+  if ( .not. temp_overlay ) then
+    opts = set_res_mp_latlon(opts,141.,145,43,47.5)
+    opts = set_res_no_frame(opts)
+    opts = set_res_lb(opts)
+    opts = set_res_tm_size(opts)
+    opts = set_res_highres_coast(opts)
+    opts = set_aspectratio(xlat,opts)
+    opts@mpGeophysicalLineThicknessF = 3
+    opts@gsnMajorLatSpacing = 1
+    opts@gsnMajorLonSpacing = 1
+  end if
+
   opts@cnFillOn = False
   opts@cnLinesOn = True
   opts@cnLineLabelsOn = True
@@ -80,7 +95,14 @@ begin
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
 
-    plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
+    if ( temp_overlay ) then
+      res@gsnLeftString = times(vt)
+      plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
+    else
+      opts@gsnLeftString = times(vt)
+      plot(it) = gsn_csm_contour_map(wks,wgted_var,opts)
+    end if
+
     if ( wind_overlay ) then
       u_1 = wrf_user_getvar(a,"ua",vt)
       v_1 = wrf_user_getvar(a,"va",vt)
@@ -93,14 +115,19 @@ begin
       optsv@gsnLeftString = ""
       optsv@gsnRightString = ""
       optsv = set_res_vc(optsv)
-      optsv@vcLineArrowColor = "white"
+      if ( temp_overlay ) then
+        optsv@vcLineArrowColor = "white"
+      else
+        optsv@vcLineArrowColor = "blue"
+      end if
+
       optsv = set_aspectratio(xlat,optsv)
       optsv = set_res_no_frame(optsv)
       vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
       overlay(plot(it),vec)
     end if
 
-    if ( it .eq. 2 ) then
+    if ( it .eq. 2 .and. arrow_overlay ) then
       planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
                  (/303,382,62,237/),(/236,288,130,219/)/)
       plane = new(4,float)
