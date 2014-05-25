@@ -15,6 +15,8 @@ begin
                 , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
                 /)
 
+  wind_overlay = False
+
   type = "pdf"
   out = "t2_qs_pan_multi"
   wks = gsn_open_wks(type,out)
@@ -68,6 +70,8 @@ begin
     a = addfile(directories(it)+"/wrfout_d03_2008-12-25_00:00:00.nc","r")
     announce(directories(it))
     print("working with: " + times(vt))
+    ; res@gsnLeftString = times(vt)
+
 
     p  = wrf_user_getvar(a,"pressure",vt)
     T =  wrf_user_getvar(a,"tc",vt)
@@ -80,22 +84,26 @@ begin
     wgted_var@lon2d = xlon
     plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
 
-    u_1 = wrf_user_getvar(a,"ua",vt)
-    v_1 = wrf_user_getvar(a,"va",vt)
-    p  = wrf_user_getvar(a,"pressure",vt)
-    u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
-    v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
-    optsv = True
-    optsv@vfXArray = xlon(::thin,::thin)
-    optsv@vfYArray = xlat(::thin,::thin)
-    optsv@gsnLeftString = ""
-    optsv@gsnRightString = ""
-    optsv = set_res_vc(optsv)
-    optsv@vcLineArrowColor = "white"
-    optsv = set_aspectratio(xlat,optsv)
-    optsv = set_res_no_frame(optsv)
-    vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
-    overlay(plot(it),vec)
+    if ( wind_overlay ) then
+      u_1 = wrf_user_getvar(a,"ua",vt)
+      v_1 = wrf_user_getvar(a,"va",vt)
+      p  = wrf_user_getvar(a,"pressure",vt)
+      u = wrf_user_intrp3d(u_1,p,"h",lev,0.,False)
+      v = wrf_user_intrp3d(v_1,p,"h",lev,0.,False)
+
+
+      optsv = True
+      optsv@vfXArray = xlon(::thin,::thin)
+      optsv@vfYArray = xlat(::thin,::thin)
+      optsv@gsnLeftString = ""
+      optsv@gsnRightString = ""
+      optsv = set_res_vc(optsv)
+      optsv@vcLineArrowColor = "white"
+      optsv = set_aspectratio(xlat,optsv)
+      optsv = set_res_no_frame(optsv)
+      vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
+      overlay(plot(it),vec)
+    end if
 
   end do
 
