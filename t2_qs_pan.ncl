@@ -12,9 +12,9 @@ begin
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 ;  gsn_reverse_colormap(wks)
 
-  arrow_overlay = False
+  arrow_overlay = True
   wind_overlay = True
-  temp_overlay = False
+  temp_overlay = True
 
   varname = "QSNOW"
   thin = 16
