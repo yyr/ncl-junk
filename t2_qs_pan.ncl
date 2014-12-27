@@ -12,7 +12,7 @@ begin
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 ;  gsn_reverse_colormap(wks)
 
-  arrow_overlay = True
+  arrow_overlay = False
   wind_overlay = True
   temp_overlay = True
 
