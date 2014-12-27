@@ -1,5 +1,5 @@
 ; Created: 2013-04-23 15:55
-import("yagUtils")
+import("yag_utils")
 
 begin
   type = "pdf"
@@ -15,7 +15,7 @@ begin
 
   res = True
   res = set_res_cn(res)
-  set_res_cn_limits(res, 1, 20, 1)
+  set_res_cn_limits(res, 0, 5, .5)
 
   res@gsnLeftString   = "CI cloud"
   res@lbLabelStride   = 3
@@ -24,8 +24,8 @@ begin
   res = set_res_no_frame(res)
   res = set_res_highres_coast(res)
 
-;  do it = 0, dim_len0(times) - 1 , 2
-  do it = 58, 76 , 1
+  do it = 0, dim_len0(times) - 1 , 2
+;  do it = 58, 76 , 1
     vt = it
     system("echo " + vt + ": " + "working with: " + chartostring(times(vt,5:15)))
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
