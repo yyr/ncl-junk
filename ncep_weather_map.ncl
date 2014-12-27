@@ -4,7 +4,10 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-  f = addfile("fnl_20081226_12_00_c.grib","r")
+  diri = "/home/yagnesh/DATA/FNL/weak08_1/"
+  fnam = "fnl_20080118_18_00"
+  f  = addfile(diri+fnam+".grb","r")
+
 
   p = f->PRMSL_3_MSL
 ;  t = f->TMP_3_SFC
@@ -28,7 +31,7 @@ begin
 
 
   wks_type          = "pdf"
-  wks = gsn_open_wks(wks_type,"weather")
+  wks = gsn_open_wks(wks_type,"ncep_wind")
 
   res_com= True
   res_com@mpMinLonF                     = 122.5
