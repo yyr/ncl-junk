@@ -15,10 +15,7 @@ begin
   res = True
   res = set_res_cn(res)
   set_res_cn_limits(res, 1000, 1030,1)
-  ; "gsnSpreadColors"   , "True",  \
-  ; "cnFillOn"          , "True",  \
-  ; "cnInfoLabelOn"     , "False", \
-  ; "cnLineLabelsOn"    , "False"  \
+
 
   firsttime = True
   res@gsnLeftString   = "SLP" ; + "(" + varname + ")"
