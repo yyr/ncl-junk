@@ -4,26 +4,21 @@ begin
   a = set_inputfile()
   type = "pdf"
 
-  wks = gsn_open_wks(type,"cs_temp")
-  planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-             (/303,382,62,237/), (/191,215,122,168/)/)
-
-  plane = new(4,float)
-  plane = planes(3,:)
+  plane = (/263,104,305,158/)
+  time = 62
+  wks = gsn_open_wks(type,"cs_th")
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
   res = True
   res = set_res_no_frame(res)
-  res@gsnLeftString=""
-  res@gsnRightString=""
   set_res_aspectratio_manual(res,0.8,0.3)
 
   FirstTime = True              ; for calculating top level
   times  = wrf_user_list_times(a)          ; Get times in the file
 
-  do it = 95,95
+  do it = time,time
     print("Working on time: " + times(it) )
 
     th  = wrf_user_getvar(a,"th",it)
@@ -56,7 +51,7 @@ begin
 
     opts_xy                         = res
     opts_xy@tiYAxisString           = "Pressure (mb)"
-    opts_xy@trYLog                  = True  ; use a logarithmic coordinate system for the Y-axis
+    opts_xy@trYLog                  = False  ; use a logarithmic coordinate system for the Y-axis
     opts_xy@cnMissingValPerimOn     = True
     opts_xy@cnMissingValFillColor   = 0
     opts_xy@cnMissingValFillPattern = 11
@@ -68,20 +63,13 @@ begin
     opts_xy@tfDoNDCOverlay = True
 
     opts_th = opts_xy
-    opts_th@gsnSpreadColors = True
-    opts_th@cnFillOn = True
-    opts_th@cnSmoothingOn = True
-    opts_th@cnInfoLabelOn = False
+    opts_th = set_res_cn(opts_th)
     opts_th@gsnContourLineThicknessesScale = 2.0
-    opts_th@cnLineLabelBackgroundColor = "white"
-    opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
 
-    opts_th@cnMinLevelValF       = -30
-    opts_th@cnMaxLevelValF       = 0
-    opts_th@cnLevelSpacingF      = 1
-    contour_T = gsn_csm_contour(wks,th_plane(0:zmax_pos,0:140),opts_th)
+    set_res_cn_limits(opts_th,265.,290.,.2)
+    contour_T = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
 
    draw(contour_T)
    frame(wks)
