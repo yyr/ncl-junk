@@ -2,7 +2,7 @@ import("yag_utils")
 
 begin
   a = set_inputfile()
-  type = "pdf"
+  type = "png"
 
   plane = (/263,104,305,158/)
   time = 62
