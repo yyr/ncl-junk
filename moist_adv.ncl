@@ -7,7 +7,7 @@
 ; Description:
 ;
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   tStrt = 50

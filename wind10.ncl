@@ -9,7 +9,7 @@
 ; Description:
 ;
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
 

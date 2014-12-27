@@ -2,7 +2,7 @@
 ;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Wednesday, September 21 2011
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
 

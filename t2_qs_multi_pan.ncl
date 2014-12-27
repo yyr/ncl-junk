@@ -1,4 +1,4 @@
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 import("shea_util")
 
 begin

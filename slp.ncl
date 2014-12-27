@@ -1,4 +1,4 @@
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 import("shea_util")
 
 begin
@@ -25,8 +25,10 @@ begin
   res = set_res_no_frame(res)
   res = set_res_highres_coast(res)
 
-  do it = 0, dim_len0(times) - 1 , 1
-;  do it = 66, 69 , 2
+
+;  do it = 0, dim_len0(times) - 1 , 1
+  do it = 58, 76 , 1
+;  do it = 66, 86 , 4
     vt = it
     system("echo " + vt + ": " + "working with: " + chartostring(times(vt,5:15)))
 

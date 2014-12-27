@@ -5,7 +5,7 @@
 ; Description:
 ; draw 2d fields from wrfout
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
 

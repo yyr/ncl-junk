@@ -4,7 +4,7 @@
 ;  gdal_translate -ot Int16 -of netCDF EarthMap_2500x1250.jpg \
 ;           EarthMap_2500x1250.nc
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   b_lat = 18.

@@ -1,5 +1,5 @@
 ;; Created: Friday, September  9 2011
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   a = set_inputfile()

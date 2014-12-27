@@ -8,7 +8,7 @@
 ; Description:
 ;
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")

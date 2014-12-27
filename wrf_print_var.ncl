@@ -1,6 +1,6 @@
 ; Created: Tuesday, March 25 2014
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 import("shea_util")
 
 begin

@@ -1,4 +1,4 @@
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 begin
   a = set_inputfile()
   wks = gsn_open_wks("png","sst_hgt")

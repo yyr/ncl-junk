@@ -1,7 +1,7 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ; Created: Friday, March  8 2013
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 import("shea_util")
 
 begin

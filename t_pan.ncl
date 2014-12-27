@@ -1,4 +1,5 @@
-load "$nsc/yagUtils.ncl"
+;import("yagUtils")
+import("yagUtils")
 import("shea_util")
 
 begin
@@ -12,6 +13,7 @@ begin
 
 ; IMPORTANT comment out for "t2" plotting.
   lev = 500
+
   if ( isdefined("lev") ) then
     out = vname + lev +"hpa" + "_pan"
   else
@@ -45,11 +47,12 @@ begin
   res@gsnRightString = ""
   res = set_res_mp_latlon(res,141.,145,43,47.5)
 
-  if ( isdefined("lev") ) then
-    set_res_cn_limits(res,-14.,0.,.5)
-  else
-    set_res_cn_limits(res,250.,280.,1)
-  end if
+;   if ( isdefined("lev") ) then
+;     set_res_cn_limits(res,-30.,0.,.1)
+; ;    set_res_cn_limits(res,-14.,0.,.5)
+;   else
+;     set_res_cn_limits(res,250.,280.,1)
+;   end if
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)

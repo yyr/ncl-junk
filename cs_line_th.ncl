@@ -2,7 +2,7 @@
 ; Created: Tuesday, August  6 2013
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   a = set_inputfile()

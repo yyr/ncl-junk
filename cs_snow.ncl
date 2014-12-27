@@ -1,6 +1,6 @@
 ; Created: Wednesday, October 12 2011
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   a = set_inputfile()

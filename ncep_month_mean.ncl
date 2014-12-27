@@ -1,4 +1,4 @@
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   f1 = addfile("uwnd.2008.nc","r")

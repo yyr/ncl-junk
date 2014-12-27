@@ -1,7 +1,7 @@
 ; Purpose: make a poly marker line between given points on the domain
 ;      (background terrian contour)
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
 

@@ -4,7 +4,7 @@
 
 ; plot the height of wrf levels at given location.
 
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 import("shea_util")
 
 begin

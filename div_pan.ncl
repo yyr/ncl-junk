@@ -1,5 +1,5 @@
 ;    File: wind10.ncl
-load "$nsc/yagUtils.ncl"
+import("yagUtils")
 
 begin
   a = set_inputfile()
