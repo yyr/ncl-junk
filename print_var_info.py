@@ -39,9 +39,9 @@ def print_var_summary(fh,varname=None):
 def arg_parse(varname=None,domain=None,input_file=None,list_var_names=False):
     wrf_dom = 3
     if input_file is not None:
-        ncfile = Nio.open_file(input_file,format='nc')
+        ncfile = Nio.open_file(input_file,format='grib')
     else:
-        ncfile = Nio.open_file(find_inputfile(wrf_dom),format='nc')
+        ncfile = Nio.open_file(find_inputfile(wrf_dom),format='')
 
     if list_var_names:
         print_var_summary(ncfile)
