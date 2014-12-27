@@ -1,4 +1,4 @@
-import("yagUtils")
+import("yag_utils")
 
 begin
   a = addfile("prof.nc","r")

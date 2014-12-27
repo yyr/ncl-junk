@@ -1,7 +1,7 @@
 ;; doc:
 ;;  (wrf) generate a horizontal plot at a given pressure level.
 
-import("yagUtils")
+import("yag_utils")
 
 begin
   a = set_inputfile()

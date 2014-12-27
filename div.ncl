@@ -1,5 +1,5 @@
 ;;    File: div.ncl
-import("yagUtils")
+import("yag_utils")
 begin
 
   a = set_inputfile()

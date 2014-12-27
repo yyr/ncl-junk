@@ -1,4 +1,4 @@
-import("yagUtils")
+import("yag_utils")
 
 begin
   f1 = addfile("uwnd.2008.nc","r")

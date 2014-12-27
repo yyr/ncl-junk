@@ -1,7 +1,7 @@
 ; Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
 ; Created: Wednesday, February 19 2014
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
-import("yagUtils")
+import("yag_utils")
 
 begin
   diri = "/home/yagnesh/DATA/FNL/weak08_1/"

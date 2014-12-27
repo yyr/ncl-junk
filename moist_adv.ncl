@@ -7,7 +7,7 @@
 ; Description:
 ;
 
-import("yagUtils")
+import("yag_utils")
 
 begin
   tStrt = 50

@@ -1,6 +1,6 @@
 ; Created: 金曜日, 12月 28 2012
 
-import("yagUtils")
+import("yag_utils")
 
 begin
 

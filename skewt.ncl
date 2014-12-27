@@ -1,4 +1,4 @@
-import("yagUtils")
+import("yag_utils")
 load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/skewt_func.ncl"
 
 begin

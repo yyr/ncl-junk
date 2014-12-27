@@ -1,7 +1,7 @@
 ; currently plots snow mixing ratio in a given verticle cross section.
 ; intention to make any give variable in any given line, hard coded right now
 
-import("yagUtils")
+import("yag_utils")
 
 begin
   a = set_inputfile()

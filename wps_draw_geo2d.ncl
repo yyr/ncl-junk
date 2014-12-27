@@ -5,7 +5,7 @@
 ; Description:
 ; draw 2d fields from wrfout
 
-import("yagUtils")
+import("yag_utils")
 
 begin
 

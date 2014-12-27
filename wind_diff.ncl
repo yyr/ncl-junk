@@ -2,7 +2,7 @@
 ; Created: Friday, July 12 2013
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 
-import("yagUtils")
+import("yag_utils")
 
 begin
   a = set_inputfile()

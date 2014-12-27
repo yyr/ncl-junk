@@ -1,5 +1,5 @@
 ;; Created: Friday, September  9 2011
-import("yagUtils")
+import("yag_utils")
 
 begin
   a = set_inputfile()

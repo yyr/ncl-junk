@@ -1,7 +1,7 @@
 ;    File: t2_w10_qs.ncl
 ; Created: Monday, November 14 2011
 ; License: GPL v3 or later.
-import("yagUtils")
+import("yag_utils")
 
 begin
   a = set_inputfile()
