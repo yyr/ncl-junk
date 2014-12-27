@@ -1,51 +1,43 @@
 import("yag_utils")
 begin
   a = set_inputfile()
-
-  tvalues = (/ 48,55,62,70,85,95 /)   ;specify desired timestep outputs must be even
+  tvalues = (/19, 22, 25, 28, 32, 35 /)
 
   out = "slp_pan"       ;out put file name
-  type = "ps"
+  type = "pdf"
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"helix1")   ; overwrite the .hluresfile color map
-  gsn_reverse_colormap(wks)
+  times = a->Times
+  noft = dim_len0(tvalues)
+  plot = new(noft,graphic)
 
   res = True
-  res@lbLabelBarOn        = False           ; turn off individual cb's
-
-  pltres = True ; Plot resources
-  mpres = set_res_highres_coast(True)
-
-  times  = wrf_user_list_times(a)  ; get times in the file
+  res = set_res_cn_lines(res)
+  res = set_res_no_frame(res)
+  res = set_res_highres_coast(res)
+  res@tfDoNDCOverlay = True
+  res@lbTitleOn = False
+  set_res_cn_limits(res, 1000, 1030,1)
 
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
   do it = 0, noft - 1, 1   ; LOOP NAME
+    vt = tvalues(it)
     print("tvalue: " + tvalues(it))
-
-    print("Working on time: " + times(it) )
-    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
-
     slp = wrf_user_getvar(a,"slp",tvalues(it))
+    res = wrf_map_resources(a,res)
 
-    res@gsnDraw              = False              ; Do not draw plot
-    res@gsnFrame             = False              ; Do not advance frame
-    res@cnInfoLabelOn = False        ; turn off contour info label
+    res = set_lb_resources(slp,res)
+    date_string = chartostring(times(vt,5:15))
+    res@gsnCenterString = date_string
+    delete_attrs(res)
 
-    opts = res
-    opts@cnFillOn         = True
-    opts@cnFillColor = True
-    opts@ContourParameters = (/ 972., 996., 1 /)
-
-    contour = wrf_contour(a,wks,slp,opts)
-    plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
-    delete(contour)
-
+    plot(it) = gsn_csm_contour_map(wks,slp,res)
   end do
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 12         ; skip every other label
-  pres@txString         = "sea level pressure"      ; add common title
-  panelize_3col(wks,plot,pres)
+
+  pres                = True
+  pres@lbLabelStride  = 12
+  pres@txString         = "sea level pressure"
+  panelize_2col(wks,plot,pres)
 end
