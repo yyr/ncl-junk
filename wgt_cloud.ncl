@@ -1,7 +1,5 @@
 ; Created: 2013-04-23 15:55
-
 import("yagUtils")
-import("shea_util")
 
 begin
   type = "pdf"

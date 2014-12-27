@@ -1,6 +1,4 @@
-;import("yagUtils")
 import("yagUtils")
-import("shea_util")
 
 begin
   a = set_inputfile()

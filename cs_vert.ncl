@@ -2,7 +2,6 @@
 ; intention to make any give variable in any given line, hard coded right now
 
 import("yagUtils")
-import("shea_util")
 
 begin
   a = set_inputfile()

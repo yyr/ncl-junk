@@ -3,9 +3,7 @@
 ; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
 
 ; plot the height of wrf levels at given location.
-
 import("yagUtils")
-import("shea_util")
 
 begin
   a = set_inputfile()

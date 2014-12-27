@@ -1,5 +1,4 @@
 import("yagUtils")
-import("shea_util")
 
 begin
   lev = 700
