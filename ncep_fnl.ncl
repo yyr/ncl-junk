@@ -3,24 +3,23 @@ import("yag_utils")
 begin
   lev = 700
 
-  diri = "/home/yagnesh/DATA/FNL/weak08_1/"
+  dir = "/home/yagnesh/DATA/FNL/weak08_1/"
   fnam = "fnl_20080118_18_00"
-  grb_file = addfile(diri+fnam+".grb","r")
+  grb_file = addfile(dir+fnam+".grb","r")
 
   varname = "slp"
 
-  x = grb_file->TMP_3_SFC(:,:) ; Read temp
+  x = grb_file->TMP_3_SFC(:,:)
   slp = grb_file->PRES_3_SFC
 
-  x = x-273.15 ; convert to celsius
-  x@units = "C" ; update attribute
+  x = x-273.15
+  x@units = "C"
 
   type = "pdf"
   out = "ncep_" + varname
 
-  wks = gsn_open_wks(type,out) ; Open a workstation
-
-  gsn_define_colormap(wks,"BlAqGrYeOrReVi200") ; Define the colormap
+  wks = gsn_open_wks(type,out)
+  gsn_define_colormap(wks,"BlAqGrYeOrReVi200")
 
   res = True ; We are using resources
 
