@@ -1,33 +1,21 @@
 import("yag_utils")
 
 begin
-  directories=(/"/home/yagnesh/WRFMPI/WRFV3/test/bd/res" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3" \
-                , "/home/yagnesh/wrf/run/notopsak_20081225/d3/" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_topo/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok/d3" \
-                , "/home/yagnesh/WRFMPI/WRFV3/test/bd_no_hok_sak/d3" \
-                /)
+  directories=(/0/)
 
   type = "pdf"
-;  type = "X11"
   wks = gsn_open_wks(type,"hov")
   gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
   varname = "QSNOW"
 
-  planes = (/(/236,378,130,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-             (/303,382,62,237/),(/236,288,130,219/)/)
-
-  plane = new(4,float)
-  plane = planes(3,:)
+  plane = (/263,104,305,158/)
   plot = new(dim_len0(directories),graphic)
 
-
-  do i = 0, dim_len0(directories) - 1, 1
-;  a = set_inputfile()
-    a = addfile(directories(i)+"/wrfout_d03_2008-12-25_00:00:00.nc","r")
+  do i = 0,0 ;, dim_len0(directories) - 1, 1
+    a = set_inputfile()
+;    a = addfile(directories(i)+"/wrfout_d03_2008-12-25_00:00:00.nc","r")
     times_in_file = a->Times
-    announce(directories(i))
+;    announce(directories(i))
 
     dimt = filevardimsizes(a,varname)
     nt = dim_len0(times_in_file)
