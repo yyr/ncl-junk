@@ -91,10 +91,6 @@ begin
     t2@lon2d = xlon
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
-    ; wgted_var1 = wrf_user_getvar_weighted_sum(a,"QCLOUD",vt)
-    ; wgted_var2 = wrf_user_getvar_weighted_sum(a,"QICE",vt)
-    ; wgted_var3 = wrf_user_getvar_weighted_sum(a,"QGRAUP",vt)
-    ; wgted_var = wgted_var + wgted_var1 + wgted_var2  + wgted_var3
 
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
