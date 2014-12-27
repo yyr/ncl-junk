@@ -8,7 +8,10 @@ begin
   a = set_inputfile()
   type = "pdf"
 
-  wks = gsn_open_wks(type,"cs")
+  time = 33
+  out = "cs_" + time
+
+  wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
              (/303,382,62,237/),(/236,288,130,219/)/)
@@ -29,7 +32,7 @@ begin
   FirstTime = True              ; for calculating top level
   times  = wrf_user_list_times(a)          ; Get times in the file
 
-  do it = 95,95
+  do it = time, time
     print("Working on time: " + times(it) )
 
     th  = wrf_user_getvar(a,"th",it)
@@ -50,13 +53,14 @@ begin
     ; project on to the cross section line (to make a plot vertical plane)
     ; uproj will horizontal component and w will be vertical component
     uproj = u_plane*cos(angle) + v_plane*sin(angle)
+    xinter = 20.
 
     if ( FirstTime ) then
-      zmax = 550.
+      zmax = 850.
       zz = wrf_user_intrp3d(p,p,"v",plane,angle,True)
 
       zmin = 1000
-      nice_levs = floor((zmin-zmax)/50)*50
+      nice_levs = floor((zmin-zmax)/xinter)*xinter
       zmax = zmin - nice_levs
       dims = dimsizes(zz)
       zmax_pos = dims(0)-1
@@ -68,7 +72,7 @@ begin
       end do
       zspan = zmax_pos
       zmax = zz(zmax_pos,0)
-      nz = floattoint((zmin-zmax)/50+1)
+      nz = floattoint((zmin-zmax)/xinter+1)
       FirstTime = False
     end if
 
@@ -88,7 +92,6 @@ begin
     opts_xy@tmYROn         = False
 
     ;; Change xaxis to km from grid.
-    xinter = 50.                  ; km
     xmax_pos = dim_len1(w_plane)
     xmax = xmax_pos * angle * 1.5 ; turn into km ( * angle * grid_lenth_in_km)
 
@@ -130,7 +133,7 @@ begin
     opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
-    set_res_cn_limits(opts_th,265,288,1)
+    set_res_cn_limits(opts_th,245,280,1)
     opts_th@cnFillOn = True
     opts_th = set_res_lb(opts_th)
     set_res_aspectratio_manual(opts_th,0.8,0.3)
