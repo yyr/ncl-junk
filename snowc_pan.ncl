@@ -7,8 +7,8 @@
 load "$nsc/yagUtils.ncl"
 
 begin
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "ps"
+  a = set_inputfile()
+  type = "pdf"
   out = "snowc"       ;out put file name
 
   tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
