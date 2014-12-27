@@ -10,7 +10,8 @@ begin
   vname = "t"
   angle = 0.
 
-;  lev = 940
+; IMPORTANT comment out for "t2" plotting.
+  lev = 500
   if ( isdefined("lev") ) then
     out = vname + lev +"hpa" + "_pan"
   else
@@ -43,23 +44,27 @@ begin
   res@gsnLeftString = ""
   res@gsnRightString = ""
   res = set_res_mp_latlon(res,141.,145,43,47.5)
-;  set_res_cn_limits(res,-14.,0.,.5)
-  set_res_cn_limits(res,250.,280.,1)
+
+  if ( isdefined("lev") ) then
+    set_res_cn_limits(res,-14.,0.,.5)
+  else
+    set_res_cn_limits(res,250.,280.,1)
+  end if
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)
     print("working with: "+ vt + " "+ times(vt))
-;    p  = wrf_user_getvar(a,"pressure",vt)
-;    T =  wrf_user_getvar(a,"tc",vt)
-;    t2 = wrf_user_intrp3d(T,p,"h",lev,angle,False)
-;    t2 = wrf_user_getvar(a,"TSK",vt)
-    t2 = wrf_user_getvar(a,"T2",vt)
+    p  = wrf_user_getvar(a,"pressure",vt)
+    T =  wrf_user_getvar(a,"tc",vt)
+    t = wrf_user_intrp3d(T,p,"h",lev,angle,False)
+;    t = wrf_user_getvar(a,"TSK",vt)
+;    t = wrf_user_getvar(a,"T2",vt)
 
-    t2@lat2d = xlat
-    t2@lon2d = xlon
+    t@lat2d = xlat
+    t@lon2d = xlon
 
     res@gsnLeftString = times(vt)
-    plot(it) = gsn_csm_contour_map(wks,t2,res)
+    plot(it) = gsn_csm_contour_map(wks,t,res)
   end do
 
   pres = set_res_panel(True)
@@ -67,4 +72,4 @@ begin
   panelize_2col(wks,plot,pres)
 
 end
-;;; t2_qs_pan.ncl ends here
+;;; t_pan.ncl ends here
