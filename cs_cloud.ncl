@@ -24,6 +24,10 @@ begin
     print("Working on time: " + chartostring(times(it,5:15)))
 
     qs = wrf_my_getvar(a,"QCLOUD",it)
+    qs = qs + wrf_my_getvar(a,"QRAIN",it)
+    qs = qs + wrf_my_getvar(a,"QSNOW",it)
+    qs = qs + wrf_my_getvar(a,"QICE",it)
+    qs = qs + wrf_my_getvar(a,"QGRAUP",it)
 
     p  = wrf_my_getvar(a, "pressure",it)
     qs_plane = wrf_user_intrp3d(qs,p,"v",plane,angle,True)
