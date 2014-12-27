@@ -22,8 +22,9 @@ begin
   res@lbTitleOn = False
   res = set_res_highres_coast(res)
 
-  do it = 0, dim_len0(times) - 1 , 2
+;  do it = 0, dim_len0(times) - 1 , 1
 ;  do it = 58, 76 , 1
+  do it = 19, 35, 1
     vt = it
     system("echo " + vt + ": " + "working with: " + chartostring(times(vt,5:15)))
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
