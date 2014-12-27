@@ -4,9 +4,13 @@ begin
   a = set_inputfile()
   type = "png"
 
-  plane = (/263,104,305,158/)
   time = 62
   wks = gsn_open_wks(type,"cs_th")
+
+  plane = new(4,float)
+  plane = (/263,104,305,158/)
+
+  print(plane)
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
