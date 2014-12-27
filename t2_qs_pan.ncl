@@ -4,7 +4,7 @@ import("shea_util")
 begin
   a = set_inputfile()
 
-  tvalues = (/71, 82, 95, 119 /)
+  tvalues = (/19, 22, 25, 28, 32, 35 /)
   type = "pdf"
 
   out = "t2_qs_pan"
@@ -18,6 +18,12 @@ begin
 
   varname = "QSNOW"
   thin = 16
+
+  angle = 0.
+  lev = 960
+  lev_t = 940
+
+
 
   times  = wrf_user_list_times(a)  ; get times in the file
   noft = dim_len0(tvalues)
@@ -71,10 +77,6 @@ begin
     gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
   end if
 
-
-  angle = 0.
-  lev = 960
-  lev_t = 940
 
   do it = 0, noft - 1, 1
 
