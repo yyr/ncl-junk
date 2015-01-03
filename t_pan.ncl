@@ -3,14 +3,15 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  tvalues = (/19, 22, 25, 28, 32, 35 /)
+;  tvalues = (/19, 22, 25, 28, 32, 35 /)
+  tvalues = (/63, 65, 67, 69 /)
   type = "pdf"
 
   vname = "t"
   angle = 0.
 
 ; IMPORTANT comment out for "t2" plotting.
-  lev = 500
+;  lev = 500
 
   if ( isdefined("lev") ) then
     out = vname + lev +"hpa" + "_pan"
