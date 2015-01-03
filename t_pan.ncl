@@ -50,17 +50,17 @@ begin
     set_res_cn_limits(res,-30.,0.,.1)
 ;    set_res_cn_limits(res,-14.,0.,.5)
   else
-    set_res_cn_limits(res,260.,285.,.5)
+    set_res_cn_limits(res,250.,280.,1)
   end if
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)
     print("working with: "+ vt + " "+ times(vt))
-    ; p  = wrf_user_getvar(a,"pressure",vt)
-    ; T =  wrf_user_getvar(a,"tc",vt)
-    ; t = wrf_user_intrp3d(T,p,"h",lev,angle,False)
+    p  = wrf_user_getvar(a,"pressure",vt)
+    T =  wrf_user_getvar(a,"tc",vt)
+    t = wrf_user_intrp3d(T,p,"h",lev,angle,False)
 ;    t = wrf_user_getvar(a,"TSK",vt)
-    t = wrf_user_getvar(a,"T2",vt)
+;    t = wrf_user_getvar(a,"T2",vt)
 
     t@lat2d = xlat
     t@lon2d = xlon
