@@ -19,6 +19,7 @@ begin
 
   plane = new(4,float)
   plane = planes(3,:)
+  plane = (/263,104,305,158/)
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
