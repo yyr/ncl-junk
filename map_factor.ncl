@@ -12,7 +12,7 @@ import("yag_utils")
 
 begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "ps"
+  type = "pdf"
 
   msft = wrf_user_getvar(a,"MAPFAC_M",1 )
 

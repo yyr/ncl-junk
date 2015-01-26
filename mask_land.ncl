@@ -21,7 +21,7 @@ begin
 
   b_a = b(lo:ro,la:ra)
 
-  wks=gsn_open_wks("ps","tmp")
+  wks=gsn_open_wks("pdf","tmp")
 
   res = True
   res@gsnSpreadColors = True

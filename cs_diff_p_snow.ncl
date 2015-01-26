@@ -14,7 +14,7 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
 ; We generate plots, but what kind do we prefer?
-  type = "ps"
+  type = "pdf"
   wks = gsn_open_wks(type,"diff_p_wqsnow")
 
   varname = "slp"

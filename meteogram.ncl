@@ -34,11 +34,11 @@ begin
   locij = locij - 1        ; array pointers in NCL space
   locX = 179
   ;; locY = 71
-  ;; wks = gsn_open_wks("ps","meteo_land")    ; open a workstation
+  ;; wks = gsn_open_wks("pdf","meteo_land")    ; open a workstation
 
   out = "meteo_" + lat
   locY = 119
-  wks = gsn_open_wks("ps",out)    ; open a workstation
+  wks = gsn_open_wks("pdf",out)    ; open a workstation
 
 ;  print(locij)
 

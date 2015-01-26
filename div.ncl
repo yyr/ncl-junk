@@ -17,7 +17,7 @@ begin
   div = new( (/ dim(0), dim(1) /) , typeof(u))
   div = wrf_div(u,v,dx,dy,msft)
 
-  wks = gsn_open_wks("ps","div")
+  wks = gsn_open_wks("pdf","div")
 
   lats = (/ 44., 47.0 /)
   lons = (/ 142., 145.5 /)

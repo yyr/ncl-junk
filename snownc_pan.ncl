@@ -11,7 +11,7 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  type = "ps"
+  type = "pdf"
   out = "snownc"       ;out put file name
   tvalues = (/ 0,47,90,92,94,96 /)   ;specify desired timestep outputs must be even
 

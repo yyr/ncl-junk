@@ -26,7 +26,7 @@ begin
 
     filename = "VEL_1000"+months(mon)
 
-    wks_type          = "ps"
+    wks_type          = "pdf"
 ;    wks_type@wkWidth  = 600
 ;    wks_type@wkHeight = 800
     wks = gsn_open_wks(wks_type,filename)

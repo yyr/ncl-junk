@@ -9,7 +9,7 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  type = "ps"
+  type = "pdf"
   pressure = 850.                      ;which level you want to plot
   out = "tsk"                          ;out put file name
   tvalues = (/ 47, 78, 82, 86, 90,94/) ;specify desired timestep outputs must be even

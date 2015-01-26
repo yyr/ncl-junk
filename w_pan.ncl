@@ -8,7 +8,7 @@ begin
 
   a = set_inputfile()
 
-  type = "ps"
+  type = "pdf"
   pressure = 950.
   out = "vert_wind" + pressure
 

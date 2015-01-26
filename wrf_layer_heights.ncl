@@ -8,7 +8,7 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  wks = gsn_open_wks("ps","hgt")
+  wks = gsn_open_wks("pdf","hgt")
   hgt = wrf_user_getvar(a,"height", 1)
 
   res = wrf_map_resources(a,True)

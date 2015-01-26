@@ -15,7 +15,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/wrf/WRFUserARW.ncl"
 begin
 
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
-  type = "ps"
+  type = "pdf"
   out = "mflux"       ;out put file name
 
   tvalues = (/ 47, 78, 82, 86, 90,94/)   ;specify desired timestep outputs must be even

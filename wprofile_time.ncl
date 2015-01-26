@@ -3,7 +3,7 @@ import("yag_utils")
 begin
   a = set_inputfile()
   coard = (/265,336,126,223/)
-  wks = gsn_open_wks("ps","barb")
+  wks = gsn_open_wks("pdf","barb")
   gsn_define_colormap(wks,"WhBlGrYeRe")
 
   u = a->U          ; (time, lev)

@@ -5,7 +5,7 @@ import("yag_utils")
 
 begin
   a = set_inputfile()
-  type = "ps"
+  type = "pdf"
   type = "X11"
 
   varname = "QSNOW"

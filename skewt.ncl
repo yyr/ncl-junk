@@ -14,7 +14,7 @@ begin
 ; We generate plots, but what kind do we prefer?
 ;  type = "x11"
 ; type = "pdf"
-  type = "ps"
+  type = "pdf"
 ; type = "ncgm"
 ;  wks = gsn_open_wks(type,"SkewT_26_11")
 ;  wks = gsn_open_wks(type,"SkewT_26_22")

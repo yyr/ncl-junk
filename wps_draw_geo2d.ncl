@@ -24,7 +24,7 @@ begin
 
   do while ( dummy .eq. "y" )
     type = "x11"
-    ; type = "ps"
+    ; type = "pdf"
     wks = gsn_open_wks(type,"plt_geo")
 
     res = True

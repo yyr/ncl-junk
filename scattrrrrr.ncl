@@ -26,10 +26,10 @@ begin
 
   line = (/117,232,262,335/)
 
-  wks=gsn_open_wks("ps","scatter")
-  wks1=gsn_open_wks("ps","scatter_q")
-  wks2=gsn_open_wks("ps","scatter_tm")
-  wks3=gsn_open_wks("ps","scatter_tm2")
+  wks=gsn_open_wks("pdf","scatter")
+  wks1=gsn_open_wks("pdf","scatter_q")
+  wks2=gsn_open_wks("pdf","scatter_tm")
+  wks3=gsn_open_wks("pdf","scatter_tm2")
 
   res=True
   res@xyMarkLineMode="Markers"
