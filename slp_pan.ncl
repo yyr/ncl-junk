@@ -20,6 +20,7 @@ begin
   res@tfDoNDCOverlay = True
   res@lbTitleOn = False
   set_res_cn_limits(res, 970, 1030,1)
+  false(res,"lbLabelBarOn")
 
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
@@ -38,7 +39,7 @@ begin
     plot(it) = gsn_csm_contour_map(wks,slp,res)
   end do
 
-  pres                = True
+  pres = set_res_panel(True)
   pres@lbLabelStride  = 12
   pres@txString         = "sea level pressure"
   panelize_2col(wks,plot,pres)
