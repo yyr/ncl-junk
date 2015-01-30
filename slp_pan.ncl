@@ -1,7 +1,7 @@
 import("yag_utils")
 begin
   a = set_inputfile()
-  tvalues = (/19, 22, 25, 28, 32, 35 /)
+  tvalues = (/ 60,80,100,120 /)
 
   out = "slp_pan"       ;out put file name
   type = "pdf"
@@ -21,19 +21,13 @@ begin
   res@lbTitleOn = False
   set_res_cn_limits(res, 970, 1030,1)
 
-  res_gh = res
-  true(res,"cnLinesOn")
-  true(res,"cnFillOn")
-
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
-
 
   do it = 0, noft - 1, 1   ; LOOP NAME
     vt = tvalues(it)
     print("tvalue: " + tvalues(it))
     slp = wrf_user_getvar(a,"slp",tvalues(it))
-
 
     res = wrf_map_resources(a,res)
     res = set_lb_resources(slp,res)
