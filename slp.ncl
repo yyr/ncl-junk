@@ -21,8 +21,8 @@ begin
   res@lbTitleOn = False
   res = set_res_highres_coast(res)
 
-  do it = 0, dim_len0(times) - 1 , 1
-;  do it = 66, 86 , 4
+;  do it = 0, dim_len0(times) - 1 , 1
+  do it = 58, 76 , 1
     vt = it
     system("echo " + vt + ": " + "working with: " + chartostring(times(vt,5:15)))
 
