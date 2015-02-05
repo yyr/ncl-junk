@@ -1,4 +1,3 @@
-;    File: wind10.ncl
 import("yag_utils")
 
 begin

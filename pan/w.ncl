@@ -1,4 +1,3 @@
-;;    File: w_panel.ncl
 ;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Wednesday, September 21 2011
 

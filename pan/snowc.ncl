@@ -1,8 +1,5 @@
-;;    File: panel_t.ncl
 ;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Friday, September  9 2011
-;; License: GPL v3 or later.
-;;
 
 import("yag_utils")
 

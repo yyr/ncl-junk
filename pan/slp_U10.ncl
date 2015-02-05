@@ -1,6 +1,4 @@
-;    File: slp_wind10_pan.ncl
 ; Created: Friday, September 22 2011
-; License: GPL v3 or later.
 
 import("yag_utils")
 begin

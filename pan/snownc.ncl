@@ -1,4 +1,3 @@
-;    File: panel_t.ncl
 ; Created: Friday, September  9 2011
 ; License: GPL v3 or later.
 ;
