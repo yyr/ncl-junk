@@ -3,7 +3,7 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  tvalues = (/19, 22, 25, 28, 32, 35 /)
+  tvalues = (/ 62,70,85,95,110,120 /)   ;specify desired timestep outputs must be even
   type = "pdf"
 
   out = "t2_qs_pan"
@@ -12,8 +12,8 @@ begin
 ;  gsn_reverse_colormap(wks)
 
   arrow_overlay = False
-  wind_overlay = True
-  temp_overlay = True
+  wind_overlay = False
+  temp_overlay = False
 
   varname = "QSNOW"
   thin = 16
@@ -46,11 +46,12 @@ begin
   res@lbLabelBarOn = False
   res@gsnLeftString = ""
   res@gsnRightString = ""
-  res = set_res_mp_latlon(res,141.,145,43,47.5)
-  set_res_cn_limits(res,-14.,0.,.5)
+;  res = set_res_mp_latlon(res,141.,145,43,47.5)
+;  set_res_cn_limits(res,-14.,0.,.5)
+;  set_res_cn_limits(res,260.,285.,.5)
 ;  set_res_cn_limits(res,250.,280.,1)
 
-  cn_levs = (/2., 5., 9., 12./)
+  cn_levs = fspan(0., 5, 25)
   opts = True
   opts@cnFillOn = False
   opts@cnLinesOn = True
@@ -128,11 +129,12 @@ begin
       overlay(plot(it),vec)
     end if
 
-    if ( it .eq. 2 .and. arrow_overlay ) then
+    if ( it .eq. 1 .and. arrow_overlay ) then
       planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
                  (/303,382,62,237/),(/236,288,130,219/)/)
       plane = new(4,float)
-      plane = planes(3,:)
+;      plane = planes(3,:)
+      plane = (/263,104,305,158/)
 
       optsl = True
       lat_plane = wrf_user_intrp2d(xlat,plane,angle,optsl)
