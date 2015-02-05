@@ -1,8 +1,5 @@
-;    File: cs_hgt.ncl
 ;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ; Created: 2011-11-29 13:08
-; License: GPL v3 or later. <http://www.gnu.org/licenses/gpl.html>
-;
 
 import("yag_utils")
 
@@ -10,7 +7,7 @@ begin
   a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
 
   type = "pdf"
-  wks = gsn_open_wks(type,"diff_p")
+  wks = gsn_open_wks(type,"dp_pan")
 
   varname = "slp"
 
