@@ -8,6 +8,7 @@ begin
   out  = "div_wind"       ;out put file name
 ;  type = "x11"
   type = "pdf"
+  thin = 16
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"mine")
@@ -54,17 +55,27 @@ begin
   do it = 0, noft - 1, 1
     vt = tvalues(it)
     print("tvalue: " + tvalues(it))
-    u_1 = wrf_user_getvar(a, "ua", tvalues(it))
-    v_1 = wrf_user_getvar(a, "va", tvalues(it))
+    u_1 = wrf_user_getvar(a,"ua",vt)
+    v_1 = wrf_user_getvar(a,"va",vt)
     mx = wrf_user_getvar(a, "MAPFAC_M", tvalues(it))
 
     res = wrf_map_resources(a,res)
-;    res = set_lb_resources(div,res)
     date_string = chartostring(times(vt,5:15))
     delete_attrs(res)
 
     u = u_1(lev,:,:)
     v = v_1(lev,:,:)
+
+    optsv = True
+    optsv@vfXArray = xlon(::thin,::thin)
+    optsv@vfYArray = xlat(::thin,::thin)
+    optsv@gsnLeftString = ""
+    optsv@gsnRightString = ""
+    optsv = set_res_vc(optsv)
+;    optsv@vcLineArrowColor = "white"
+    optsv = set_aspectratio(xlat,optsv)
+    optsv = set_res_no_frame(optsv)
+    vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
 
     dim=dimsizes(u)
     div=new( (/ dim(0), dim(1) /) , typeof(u))
@@ -73,9 +84,8 @@ begin
     div@lat2d = xlat
     div@lon2d = xlon
 
-    ; cn = wrf_contour(a,wks,div(y_start:y_end,x_start:x_end),opts_c)
-    ; vector = wrf_vector(a,wks,u(y_start:y_end,x_start:x_end),v(y_start:y_end,x_start:x_end),opts)
     plot(it) = gsn_csm_contour_map(wks,div,res)
+    overlay(plot(it),vec)
 
   end do
   pres = set_res_panel(True)
