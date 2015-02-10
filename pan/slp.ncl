@@ -22,6 +22,10 @@ begin
   set_res_cn_limits(res, 970, 1030,1)
   false(res,"lbLabelBarOn")
 
+  a = set_inputfile()
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
@@ -39,8 +43,13 @@ begin
     date_string = chartostring(times(vt,5:15))
     res@gsnCenterString = date_string
     delete_attrs(res)
+    opts = True
+    opts@cnFillOn = False
+    gh_lev@lat2d = xlat
+    gh_lev@lon2d = xlon
 
-    plot(it) = gsn_csm_contour_map(wks,gh,res)
+    plot(it) = gsn_csm_contour_map_overlay(wks,slp,gh_lev,res,opts)
+
   end do
 
   pres = set_res_panel(True)
