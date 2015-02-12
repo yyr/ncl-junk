@@ -29,13 +29,13 @@ begin
 
   opts = True
   opts = set_res_cn(opts)
-  opts@cnLineLabelsOn = True
   opts = set_res_mp_latlon(opts,141.,145,43,47.5)
   opts = set_res_no_frame(opts)
   opts = set_res_lb(opts)
   opts = set_res_tm_size(opts)
   opts = set_res_highres_coast(opts)
   opts = set_aspectratio(xlat,opts)
+  opts@cnLineLabelsOn = True
   opts@lbLabelBarOn = False
   opts@gsnMajorLatSpacing = 1
   opts@gsnMajorLonSpacing = 1
