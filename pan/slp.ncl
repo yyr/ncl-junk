@@ -22,7 +22,6 @@ begin
   set_res_cn_limits(res, 970, 1030,1)
   false(res,"lbLabelBarOn")
 
-  a = set_inputfile()
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
