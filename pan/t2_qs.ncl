@@ -3,10 +3,13 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  tvalues = (/ 62,70,85,95,110,120 /)   ;specify desired timestep outputs must be even
-  type = "pdf"
+  ; specify desired timestep outputs must be even
+  tvalues = (/ 73,83,91,101 /)
+;  tvalues = (/ 62,70,85,95,110,120 /)
 
+  type = "pdf"
   out = "t2_qs_pan"
+
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 ;  gsn_reverse_colormap(wks)
@@ -21,8 +24,6 @@ begin
   angle = 0.
   lev = 960
   lev_t = 940
-
-
 
   times  = wrf_user_list_times(a)  ; get times in the file
   noft = dim_len0(tvalues)
@@ -81,7 +82,7 @@ begin
   do it = 0, noft - 1, 1
 
     vt = tvalues(it)
-    print("working with: "+ vt + " "+ times(vt))
+    print("working with: "+ vt + " ,"+ times(vt))
 
     p  = wrf_user_getvar(a,"pressure",vt)
     T =  wrf_user_getvar(a,"tc",vt)
