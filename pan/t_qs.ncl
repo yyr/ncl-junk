@@ -4,7 +4,7 @@ begin
   a = set_inputfile()
 
   ; specify desired timestep outputs must be even
-  tvalues = (/ 73,83,90,101 /)
+  tvalues = (/ 68,73,78,83,90,95,101,107 /)
 
   type = "pdf"
   out = "t_qs_pan"
@@ -74,6 +74,7 @@ begin
 
   pres = set_res_panel(True)
   pres@lbLabelStride = 6
+;  pres@lbOrientation = "horizontal"
   panelize_2col(wks,plot,pres)
 end
 ;;; t2_qs_pan.ncl ends here
