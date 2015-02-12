@@ -4,7 +4,7 @@ begin
   a = set_inputfile()
 
   ; specify desired timestep outputs must be even
-  tvalues = (/ 73,83,91,101 /)
+  tvalues = (/ 73,83,90,101 /)
 
   type = "pdf"
   out = "t_qs_pan"
@@ -13,7 +13,6 @@ begin
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 
   temp_overlay = True
-
   varname = "QSNOW"
 
   angle = 0.
@@ -32,37 +31,20 @@ begin
   res = set_res_lb(res)
   res = set_res_tm_size(res)
   res = set_res_highres_coast(res)
-  res = set_aspectratio(xlat,res)
+  res@lbLabelBarOn = False
   res@mpGeophysicalLineThicknessF = 3
   res@gsnMajorLatSpacing = 1
   res@gsnMajorLonSpacing = 1
-
   res = set_res_mp_latlon(res,141.,145,43,47.5)
-;  set_res_cn_limits(res,-14.,0.,.5)
-  set_res_cn_limits(res,260.,285.,.5)
+  set_res_cn_limits(res,260.,280.,.5)
 
   opts = True
-  opts@cnFillOn = False
-  opts@cnLinesOn = True
-  opts@cnLineLabelsOn = True
-  opts@cnLineLabelPlacementMode = "constant"
-  opts@cnLineLabelInterval = 1
-  opts@cnInfoLabelOn = False
-  opts@cnFillOn = False
-  opts@cnLinesOn = True
-  opts = set_res_mp_latlon(opts,141.,145,43,47.5)
+  opts = set_res_cn_lines(opts)
   opts = set_res_no_frame(opts)
+  opts = set_res_tm_size(opts)
   opts = set_res_lb(opts)
   opts = set_res_tm_size(opts)
-  opts = set_res_highres_coast(opts)
-  opts = set_aspectratio(xlat,opts)
-  opts@lbLabelBarOn = False
-  opts@mpGeophysicalLineThicknessF = 3
-  opts@gsnMajorLatSpacing = 1
-  opts@gsnMajorLonSpacing = 1
   set_res_cn_limits(opts, 1,10,1)
-  gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
-
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)
