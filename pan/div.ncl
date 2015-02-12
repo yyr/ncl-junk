@@ -4,11 +4,11 @@ begin
   a = set_inputfile()
   lev = 0
 
-  tvalues = (/ 60,82,100,120 /)
+  tvalues = (/ 73,83,91,101 /)
   out  = "div_wind"       ;out put file name
 ;  type = "x11"
   type = "pdf"
-  thin = 16
+  thin = 18
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"mine")
@@ -28,23 +28,6 @@ begin
 
   dx        = a@DX
   dy        = a@DY
-
-  ; lats = (/ 44., 47.0 /)
-  ; lons = (/ 142., 145.5 /)
-  ; loc = wrf_user_ll_to_ij(a, lons, lats, True)
-
-  ; x_start = loc(0,0) - 1
-  ; x_end   = loc(0,1) - 1
-  ; y_start = loc(1,0) - 1
-  ; y_end   = loc(1,1) - 1
-
-  ; mpres = True
-  ; mpres@ZoomIn = True
-  ; mpres@Xstart = x_start
-  ; mpres@Ystart = y_start
-  ; mpres@Xend = x_end
-  ; mpres@Yend = y_end
-
 
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
