@@ -5,7 +5,7 @@ begin
 
   out = "slp_gh_wind_pan"       ;out put file name
   type = "pdf"
-  wind_overlay = False
+  wind_overlay = True
   thin = 16
 
   wks = gsn_open_wks(type,out)
@@ -24,10 +24,12 @@ begin
   set_res_cn_limits(res, 970, 1030,1)
   false(res,"lbLabelBarOn")
 
+
   res_gh = True
-  res_gh = set_res_cn_lines(res)
+  res_gh = set_res_cn_lines(res_gh)
   res_gh@tfDoNDCOverlay = True
   res_gh@lbTitleOn = False
+  set_res_cn_limits(res_gh, 48200, 50300 ,300)
 
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
@@ -49,6 +51,10 @@ begin
     date_string = chartostring(times(vt,5:15))
     res@gsnCenterString = date_string
     delete_attrs(res)
+
+    gh_lev@lat2d = xlat
+    gh_lev@lon2d = xlon
+
 
     plot(it) =gsn_csm_contour_map_overlay(wks,slp,gh_lev,res,res_gh)
 ;    plot(it) =gsn_csm_contour_map(wks,gh_lev,res_gh)
