@@ -70,9 +70,13 @@ begin
   ; print(xtick_pos + " " + xtick_pos_vals)
 
 
+  res@gsnCenterString = "Hovmoller Diagram"
+  res@tiYAxisString           = "<-- Time"
+  res@tiXAxisString           = "Distance"
+
   res@tmXBMode                = "Explicit"
   res@tmXBValues = xtick_pos
   res@tmXBLabels = xtick_pos_vals
-  plot = gsn_csm_hov(wks,t_plane(:,:),res)
+  plot = gsn_csm_hov(wks,t_plane(:,0:180),res)
 end
 ;;; hov.ncl ends here
