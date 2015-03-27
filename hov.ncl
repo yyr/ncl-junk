@@ -1,10 +1,8 @@
 import("yag_utils")
 
 begin
-  directories=(/"/home/yagnesh/WRFMPI/WRFV3/test/bd/res" /)
-
-;  type = "pdf"
-  type = "X11"
+  type = "pdf"
+  ; type = "X11"
   wks = gsn_open_wks(type,"hov")
   gsn_define_colormap(wks,"WhiteBlueGreenYellowRed")
   varname = "QSNOW"
@@ -13,7 +11,7 @@ begin
              (/303,382,62,237/),(/236,288,130,219/)/)
 
   plane = new(4,float)
-  plane = planes(2,:)
+  plane = planes(1,:)
 
   a = set_inputfile()
   times_in_file = a->Times
@@ -76,7 +74,5 @@ begin
   res@tmXBValues = xtick_pos
   res@tmXBLabels = xtick_pos_vals
   plot = gsn_csm_hov(wks,t_plane(:,:),res)
-  ; draw(plot)
-  ; frame(plot)
 end
 ;;; hov.ncl ends here
