@@ -7,19 +7,22 @@ begin
   a = set_inputfile()
   type = "pdf"
 
-  time = 33
+  thin = 5
+  time = 113
   out = "cs_" + time
+;  out = "cs"
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"WhiteYellowOrangeRed")    ; Adds the color table
+
   planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
              (/303,382,62,237/),(/236,288,130,219/)/)
 
-  thin = 5
-
   plane = new(4,float)
   plane = planes(3,:)
-  plane = (/263,104,305,158/)
+
+  ; plane = (/263,104,305,158/)
+  ; plane = (/303,62,382,237/)
 
   angle = 0.                    ; intialize
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
@@ -56,7 +59,7 @@ begin
     xinter = 20.
 
     if ( FirstTime ) then
-      zmax = 850.
+      zmax = 680.
       zz = wrf_user_intrp3d(p,p,"v",plane,angle,True)
 
       zmin = 1000
@@ -133,7 +136,7 @@ begin
     opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
-    set_res_cn_limits(opts_th,245,280,1)
+    set_res_cn_limits(opts_th,260,280,1)
     opts_th@cnFillOn = True
     opts_th = set_res_lb(opts_th)
     set_res_aspectratio_manual(opts_th,0.8,0.3)

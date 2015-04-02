@@ -2,7 +2,7 @@ import("yag_utils")
 
 begin
   a = set_inputfile()
-  type = "png"
+  type = "pdf"
 
   time = 64
   wks = gsn_open_wks(type,"cs_th")
