@@ -8,13 +8,13 @@ begin
 ;  tvalues = (/ 62,70,85,95,110,120 /)
 
   type = "pdf"
-  out = "t2_qs_pan"
+  out = "t_qs_pan"
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 ;  gsn_reverse_colormap(wks)
 
-  arrow_overlay = False
+  arrow_overlay = True
   wind_overlay = False
   temp_overlay = True
 
@@ -133,11 +133,7 @@ begin
     end if
 
     if ( it .eq. 1 .and. arrow_overlay ) then
-      planes = (/(/217,378,98,372/),(/252,350,80,301/), (/300,378,56,176/) , \
-                 (/303,382,62,237/),(/236,288,130,219/)/)
-      plane = new(4,float)
-;      plane = planes(3,:)
-      plane = (/263,104,305,158/)
+     plane = (/303,62,382,237/)
 
       optsl = True
       lat_plane = wrf_user_intrp2d(xlat,plane,angle,optsl)
