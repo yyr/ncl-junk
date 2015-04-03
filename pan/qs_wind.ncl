@@ -17,7 +17,7 @@ begin
   thin = 16
 
 ; uncomment two line to draw at "lev" instead of 10m.
-  ; lev = 960
+  lev = 960
   ; angle = 0.
 
   times  = wrf_user_list_times(a)  ; get times in the file
@@ -80,7 +80,7 @@ begin
   end do
 
   pres = set_res_panel(True)
-  pres@lbLabelStride = 6
+  pres@lbLabelStride = 3
   panelize_2col(wks,plot,pres)
 end
 ;;; t2_qs_pan.ncl ends here
