@@ -4,7 +4,7 @@ begin
   a = set_inputfile()
 
   ; specify desired timestep outputs must be even
-  tvalues = (/ 68,73,78,83,90,95,101,107 /)
+  tvalues = (/ 60, 70, 80, 92, 102, 114, 126, 143/)
 
   type = "pdf"
   out = "t_qs_pan"
@@ -18,7 +18,7 @@ begin
   angle = 0.
   lev = 940
 
-  times  = wrf_user_list_times(a)  ; get times in the file
+  times = a->Times
   noft = dim_len0(tvalues)
   plot = new(noft,graphic)
 
@@ -41,39 +41,41 @@ begin
   opts = True
   opts = set_res_cn_lines(opts)
   opts = set_res_no_frame(opts)
-  opts = set_res_tm_size(opts)
   opts = set_res_lb(opts)
-  opts = set_res_tm_size(opts)
-  set_res_cn_limits(opts, 1,10,1)
+  set_res_cn_limits(opts, 1,10,2)
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)
-    print("working with: "+ vt + " ,"+ times(vt))
+    print("tvalue: " + tvalues(it))
 
     p  = wrf_user_getvar(a,"pressure",vt)
-;    t2 =  wrf_user_getvar(a,"tc",vt)
-    t2 = wrf_user_getvar(a,"T2",vt)
+    T =  wrf_user_getvar(a,"tc",vt)
+    t = wrf_user_intrp3d(T,p,"h",lev,angle,False)
+    t = t + 273.14
+    t@long_name = "T at " + lev ; + "hPa"
+    t@units = "K"
+    ; t = wrf_user_getvar(a,"T2",vt)
 
-    t2@lat2d = xlat
-    t2@lon2d = xlon
+    t@lat2d = xlat
+    t@lon2d = xlon
 
     wgted_var = wrf_user_getvar_weighted_sum(a,varname,vt)
-
     wgted_var@lat2d = xlat
     wgted_var@lon2d = xlon
 
+    date_string = chartostring(times(vt,5:15))
     if ( temp_overlay ) then
-      res@gsnLeftString = times(vt)
+      res@gsnCenterString = date_string
       res@cnFillOn = True
-      plot(it) = gsn_csm_contour_map_overlay(wks,t2,wgted_var,res,opts)
+      plot(it) = gsn_csm_contour_map_overlay(wks,t,wgted_var,res,opts)
     else
-      opts@gsnLeftString = times(vt)
+      opts@gsnCenterString = date_string
+      opts = set_res_tm_size(opts)
       plot(it) = gsn_csm_contour_map(wks,wgted_var,opts)
     end if
   end do
 
   pres = set_res_panel(True)
-  pres@lbLabelStride = 6
 ;  pres@lbOrientation = "horizontal"
   panelize_2col(wks,plot,pres)
 end
