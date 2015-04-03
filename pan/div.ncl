@@ -4,11 +4,11 @@ begin
   a = set_inputfile()
   lev = 0
 
-  tvalues = (/ 73,83,91,101 /)
+  tvalues = (/ 60,80,100,120 /)
   out  = "div_wind"       ;out put file name
 ;  type = "x11"
   type = "pdf"
-  thin = 18
+  thin = 20
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"mine")
@@ -19,6 +19,7 @@ begin
 
   res = True
   res = set_res_cn(res)
+  res = set_res_mp_latlon(res,141.,145,43,47.5)
   res = set_res_no_frame(res)
   res = set_res_highres_coast(res)
   res@tfDoNDCOverlay = True
@@ -38,12 +39,14 @@ begin
   do it = 0, noft - 1, 1
     vt = tvalues(it)
     print("tvalue: " + tvalues(it))
+
     u_1 = wrf_user_getvar(a,"ua",vt)
     v_1 = wrf_user_getvar(a,"va",vt)
     mx = wrf_user_getvar(a, "MAPFAC_M", tvalues(it))
 
     res = wrf_map_resources(a,res)
     date_string = chartostring(times(vt,5:15))
+    res@gsnCenterString = date_string
     delete_attrs(res)
 
     u = u_1(lev,:,:)
@@ -72,7 +75,8 @@ begin
 
   end do
   pres = set_res_panel(True)
-  pres@lbOrientation = "horizontal"
+  ; pres@lbOrientation = "horizontal"
   pres@cnLabelBarEndStyle = "ExcludeOuterBoxes"
+  pres@lbLabelStride = 6
   panelize_2col(wks,plot,pres)
 end
