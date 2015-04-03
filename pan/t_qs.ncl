@@ -77,6 +77,7 @@ begin
 
   pres = set_res_panel(True)
 ;  pres@lbOrientation = "horizontal"
+  pres@lbLabelStride = 6
   panelize_2col(wks,plot,pres)
 end
 ;;; t2_qs_pan.ncl ends here
