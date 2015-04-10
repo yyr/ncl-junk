@@ -4,7 +4,7 @@ begin
   a = set_inputfile()
 
   ; specify desired timestep outputs must be even
-  tvalues = (/ 60, 70, 80, 92, 102, 114, 126, 143/)
+  tvalues = (/ 60, 70, 82, 95, 102, 114, 126, 143/)
 
   type = "pdf"
   out = "t_qs_pan"
@@ -32,7 +32,6 @@ begin
   res = set_res_tm_size(res)
   res = set_res_highres_coast(res)
   res@lbLabelBarOn = False
-  res@mpGeophysicalLineThicknessF = 3
   res@gsnMajorLatSpacing = 1
   res@gsnMajorLonSpacing = 1
   res = set_res_mp_latlon(res,141.,145,43,47.5)
@@ -42,7 +41,7 @@ begin
   opts = set_res_cn_lines(opts)
   opts = set_res_no_frame(opts)
   opts = set_res_lb(opts)
-  set_res_cn_limits(opts, 1,10,2)
+  set_res_cn_limits(opts, 2,20,2)
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)
