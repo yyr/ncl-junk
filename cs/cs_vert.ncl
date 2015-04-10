@@ -8,7 +8,7 @@ begin
   type = "pdf"
 
   thin = 5
-  time = 113
+  time = 95
   out = "cs_" + time
 ;  out = "cs"
 
@@ -28,10 +28,7 @@ begin
   angle = angle_with_horizontal(plane(0),plane(1),plane(2),plane(3))
 
   res = True
-  res@gsnLeftString=""
-  res@gsnRightString=""
   set_res_aspectratio_manual(res,0.8,0.3)
-
   FirstTime = True              ; for calculating top level
   times  = wrf_user_list_times(a)          ; Get times in the file
 
@@ -56,10 +53,10 @@ begin
     ; project on to the cross section line (to make a plot vertical plane)
     ; uproj will horizontal component and w will be vertical component
     uproj = u_plane*cos(angle) + v_plane*sin(angle)
-    xinter = 20.
+    xinter = 50.
 
     if ( FirstTime ) then
-      zmax = 680.
+      zmax = 550.
       zz = wrf_user_intrp3d(p,p,"v",plane,angle,True)
 
       zmin = 1000
@@ -136,11 +133,10 @@ begin
     opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
-    set_res_cn_limits(opts_th,260,280,1)
+    set_res_cn_limits(opts_th,265,290,1)
     opts_th@cnFillOn = True
-    opts_th = set_res_lb(opts_th)
-    set_res_aspectratio_manual(opts_th,0.8,0.3)
 
+    opts_th = set_res_lb(opts_th)
     opts_v = opts_xy
     opts_v = set_res_no_frame(opts_v)
     opts_v = set_res_vc(opts_v)
@@ -149,8 +145,6 @@ begin
 
 ;    drawNDCGrid(wks)
     opts_pv@gsnFrame         = False
-    opts_pv@vpWidthF         = 0.8
-    opts_pv@vpHeightF        = 0.3
     opts_pv@vpXF             = 0.15
     opts_pv@vpYF             = 0.9
 
@@ -176,8 +170,6 @@ begin
     draw(contour_qs)
 
     opts_th@gsnFrame         = False
-    opts_th@vpWidthF         = 0.8
-    opts_th@vpHeightF        = 0.3
     opts_th@vpXF             = 0.15
     opts_th@vpYF             = 0.50
 
