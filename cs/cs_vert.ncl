@@ -78,7 +78,7 @@ begin
 
     opts_xy                         = res
     opts_xy@tiYAxisString           = "Pressure (hPa)"
-    opts_xy@tiXAxisString           = "Distance (km)"
+    opts_xy@tiXAxisString           = ""
     opts_xy@cnMissingValPerimOn     = True
     opts_xy@cnMissingValFillColor   = 0
     opts_xy@cnMissingValFillPattern = 11
@@ -171,7 +171,7 @@ begin
 
     opts_th@gsnFrame         = False
     opts_th@vpXF             = 0.15
-    opts_th@vpYF             = 0.50
+    opts_th@vpYF             = 0.45
 
     gsn_define_colormap(wks,"ncl_default")    ; Adds the color table
     contour_th = gsn_csm_contour(wks,th_plane(0:zmax_pos,:),opts_th)
