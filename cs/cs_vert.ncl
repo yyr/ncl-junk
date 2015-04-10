@@ -109,39 +109,38 @@ begin
 
 ; Plotting options for PV
     opts_pv = opts_xy
-    opts_pv@pmLabelBarOrthogonalPosF = -0.07
     opts_pv@cnFillOn = True
-    opts_pv@gsnSpreadColors = True
-    opts_pv@cnLevelSelectionMode = "ManualLevels"
     opts_pv@cnLevelFlags = "LineOnly"
     opts_pv@cnLevelFlag = False
     opts_pv@cnLineLabelsOn = False
-    opts_pv@cnMinLevelValF       = 0.
-    opts_pv@cnMaxLevelValF       = 0.001
-    opts_pv@cnLevelSpacingF      = .0001
-;    opts_pv@lbOrientation = "vertical"
-    opts_pv@lbLabelStride = 4
-    opts_pv = set_res_lb(opts_pv)
+    set_res_cn_limits(opts_pv,0.0002,0.002,.0002)
 
+    opts_pv = set_res_lb(opts_pv)
+    opts_pv@lbLabelStride = 4
+    opts_pv@pmLabelBarOrthogonalPosF = -0.1
+
+; Plotting options for TH
     opts_th = opts_xy
+    opts_th@gsnContourLineThicknessesScale = 2.0
+    opts_th@pmLabelBarOrthogonalPosF = -0.1
+
+    opts_th@cnFillOn = True
     opts_th@cnSmoothingOn = True
     opts_th@cnLineColor = "Blue"
     opts_th@cnInfoLabelOn = True
-    ; opts_th@cnInfoLabelPerimSpaceF =
-    opts_th@gsnContourLineThicknessesScale = 2.0
     opts_th@cnLineLabelBackgroundColor = "white"
     opts_th@cnInfoLabelOn = False
     opts_th@cnLabelDrawOrder  = "PostDraw"
     opts_th@cnInfoLabelOrthogonalPosF = 0.00
     set_res_cn_limits(opts_th,265,290,1)
-    opts_th@cnFillOn = True
-
     opts_th = set_res_lb(opts_th)
+
+; Plotting options for v
     opts_v = opts_xy
     opts_v = set_res_no_frame(opts_v)
     opts_v = set_res_vc(opts_v)
+    opts_v = set_res_vc_anno(opts_v)
     opts_v@vcLineArrowColor = "Blue"
-    opts_v@vcRefAnnoString2 = ""
 
 ;    drawNDCGrid(wks)
     opts_pv@gsnFrame         = False
