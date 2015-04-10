@@ -56,10 +56,14 @@ begin
 
     res_gh = True
     res_gh = set_res_cn_lines(res_gh)
-    res_gh@cnInfoLabelOn = True
-
     set_res_cn_limits(res_gh, 48200, 50300, 100)
-    res_gh@cnInfoLabelOrthogonalPosF = 0.015
+    if ( it .eq. 3 ) then
+      res_gh@cnInfoLabelOn = True
+      res_gh@cnInfoLabelString = "GeoPot contour from 48200 to 50300 by 100"
+      res_gh@cnInfoLabelOrthogonalPosF = 0.015
+      res_gh@cnInfoLabelFontHeightF = 0.016
+    end if
+
     ; plot(it) = gsn_csm_contour_map(wks,gh_lev,res)
     plot(it) =gsn_csm_contour_map_overlay(wks,slp,gh_lev,res,res_gh)
   end do
