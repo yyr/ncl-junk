@@ -13,6 +13,7 @@ begin
   gsn_define_colormap(wks,"BlGrYeOrReVi200")
 
   temp_overlay = True
+  arrow_overlay = False
   varname = "QSNOW"
 
   angle = 0.
@@ -72,6 +73,30 @@ begin
       opts = set_res_tm_size(opts)
       plot(it) = gsn_csm_contour_map(wks,wgted_var,opts)
     end if
+
+    if ( it .eq. 3 .and. arrow_overlay ) then
+      plane = new(4,float)
+      plane = (/303,382,62,237/)
+
+      optsl = True
+      lat_plane = wrf_user_intrp2d(xlat,plane,angle,optsl)
+      lon_plane = wrf_user_intrp2d(xlon,plane,angle,optsl)
+
+      lnres = True
+      lnres@gsLineThicknessF = 5.0
+      lnres@gsLineColor = "Red"
+      lnres@sfXArray = xlon
+      lnres@sfYArray = xlat
+
+      dum = new(dim_len0(lon_plane),graphic)
+
+      do ii = 0,dim_len0(lon_plane)-2
+        ; print(ii + " " + lon_plane(ii)   + " "+      lat_plane(ii))
+        dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
+                                   (/lat_plane(ii),lat_plane(ii+1)/),lnres)
+      end do
+    end if
+
   end do
 
   pres = set_res_panel(True)
