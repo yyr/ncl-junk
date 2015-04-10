@@ -133,7 +133,8 @@ begin
     end if
 
     if ( it .eq. 1 .and. arrow_overlay ) then
-     plane = (/303,62,382,237/)
+      plane = new(4,float)
+      plane = (/303,382,62,237/)
 
       optsl = True
       lat_plane = wrf_user_intrp2d(xlat,plane,angle,optsl)
@@ -148,6 +149,7 @@ begin
       dum = new(dim_len0(lon_plane),graphic)
 
       do ii = 0,dim_len0(lon_plane)-2
+        ; print(ii + " " + lon_plane(ii)   + " "+      lat_plane(ii))
         dum(ii) = gsn_add_polyline(wks,plot(it),(/lon_plane(ii),lon_plane(ii+1)/), \
                                    (/lat_plane(ii),lat_plane(ii+1)/),lnres)
       end do
