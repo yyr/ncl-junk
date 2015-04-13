@@ -19,11 +19,11 @@ begin
 
   res = True
   res = set_res_cn(res)
-  res = set_res_mp_latlon(res,141.,145,43,47.5)
   res = set_res_no_frame(res)
   res = set_res_highres_coast(res)
+  res = set_res_tm_size(res)
   res@tfDoNDCOverlay = True
-  res@lbTitleOn = False
+
   set_res_cn_limits(res,-.005,.005,.0005)
   false(res,"lbLabelBarOn")
 
@@ -45,6 +45,7 @@ begin
     mx = wrf_user_getvar(a, "MAPFAC_M", tvalues(it))
 
     res = wrf_map_resources(a,res)
+    res = set_res_lb(res)
     date_string = chartostring(times(vt,5:15))
     res@gsnCenterString = date_string
     delete_attrs(res)
@@ -59,8 +60,8 @@ begin
     optsv@gsnRightString = ""
     optsv = set_res_vc(optsv)
 ;    optsv@vcLineArrowColor = "white"
-    optsv = set_aspectratio(xlat,optsv)
     optsv = set_res_no_frame(optsv)
+    optsv = set_res_vc_anno(optsv)
     vec = gsn_csm_vector(wks,u(::thin,::thin),v(::thin,::thin),optsv)
 
     dim=dimsizes(u)
@@ -75,8 +76,7 @@ begin
 
   end do
   pres = set_res_panel(True)
-  ; pres@lbOrientation = "horizontal"
-  pres@cnLabelBarEndStyle = "ExcludeOuterBoxes"
+  ; pres@cnLabelBarEndStyle = "ExcludeOuterBoxes"
   pres@lbLabelStride = 6
   panelize_2col(wks,plot,pres)
 end
