@@ -9,9 +9,6 @@ begin
   ; gsn_define_colormap(wks,"BlGrYeOrReVi200")
 
   times  = wrf_user_list_times(a)  ; get times in the file
-  noft = dim_len0(tvalues)
-  plot = new(noft,graphic)
-
   xlat = a->XLAT(0,:,:)
   xlon = a->XLONG(0,:,:)
 
