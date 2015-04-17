@@ -3,9 +3,7 @@ import("yag_utils")
 begin
   a = set_inputfile()
 
-  tvalues = (/19, 22, 25, 28, 32, 35 /)
   type = "pdf"
-
   out = "t2"
   wks = gsn_open_wks(type,out)
   ; gsn_define_colormap(wks,"BlGrYeOrReVi200")
