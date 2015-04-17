@@ -8,7 +8,7 @@ begin
 
   out = "t2"
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"BlGrYeOrReVi200")
+  ; gsn_define_colormap(wks,"BlGrYeOrReVi200")
 
   times  = wrf_user_list_times(a)  ; get times in the file
   noft = dim_len0(tvalues)
@@ -31,8 +31,6 @@ begin
   ; res@gsnRightString = ""
   res = set_res_mp_latlon(res,141.,145,43,47.5)
   set_res_cn_limits(res,250.,280.,1)
-
-  cn_levs = (/2., 5., 9., 12./)
 
   vt = 95
   print("working with: "+ vt + " "+ times(vt))
