@@ -30,12 +30,13 @@ begin
   res = set_res_lb(res)
   res = set_res_tm_size(res)
   res = set_res_highres_coast(res)
+  res = set_res_mp_latlon(res,141.,145,43,47.5)
+
   res@lbLabelBarOn = False
   res@gsnMajorLatSpacing = 1
   res@gsnMajorLonSpacing = 1
-  res = set_res_mp_latlon(res,141.,145,43,47.5)
-  set_res_cn_limits(res,0.,.0003,.00002)
   res@gsnLeftString = "QFX"
+  set_res_cn_limits(res,0.,.0003,.00002)
 
   do it = 0, noft - 1, 1
     vt = tvalues(it)
