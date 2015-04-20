@@ -12,25 +12,27 @@ begin
 ; QFX            1  0  UPWARD MOISTURE FLUX AT THE SURFACE (kg m-2 s-1)
 
   res = True
-  var = "QFX"
-  set_res_cn_limits(res,0.,.0003,.00002)
-  res@gsnLeftString = "QFX"
 
-  ; var = "HFX"
-  ; set_res_cn_limits(res,-100,700.,40)
+  var = "HFX"
+  set_res_cn_limits(res,-100,700.,40)
   res@gsnLeftString = "HFX"
 
   ; var = "LH"
   ; set_res_cn_limits(res,-100,500.,40)
-  res@gsnLeftString = "LH"
+  ; res@gsnLeftString = "LH"
 
   ; var = "ACHFX"
   ; set_res_cn_limits(res,-10,100.,2)
-  res@gsnLeftString = "ACHFX"
+  ; res@gsnLeftString = "ACHFX"
 
   ; var = "ACGRDFLX"
   ; set_res_cn_limits(res,-5.,10.,.5)
-  res@gsnLeftString = "ACGRDFLX"
+  ; res@gsnLeftString = "ACGRDFLX"
+
+  ; var = "QFX"
+  ; set_res_cn_limits(res,0.,.0003,.00002)
+  ; res@gsnLeftString = "QFX"
+
 
   vt = 95
   type = "pdf"
