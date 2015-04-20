@@ -1,75 +1,56 @@
 ;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Wednesday, September 21 2011
 
+; panel plot for QFX.
+; QFX            1  0  UPWARD MOISTURE FLUX AT THE SURFACE (kg m-2 s-1)
+
 import("yag_utils")
 
 begin
+  a = set_inputfile()
 
-  a = addfile("./wrfout_d03_2008-12-25_00:00:00.nc","r")
   type = "pdf"
-  out = "mflux"       ;out put file name
+  out = "qfx_pan"
 
-  tvalues = (/ 47, 78, 82, 86, 90,94/)   ;specify desired timestep outputs must be even
+  tvalues = (/ 60, 70, 82, 95, 102, 114, 126, 143/)
 
   wks = gsn_open_wks(type,out)
   gsn_define_colormap(wks,"hotcold_18lev")
 
-  res = True
-
-  res@Footer = False
-  res@gsnSpreadColors = True    ;spread Colors
-  res@lbLabelBarOn        = False
-
-  mpres  = True
-  pltres = True
-  mpres@mpDataBaseVersion    = "HighRes"
-  mpres@mpGeophysicalLineThicknessF = 2.0
-
-  times  = wrf_user_list_times(a)
-  ntimes = dimsizes(times)
-
-  noft = dimsizes(tvalues)
+  times = a->Times
+  noft = dim_len0(tvalues)
   plot = new(noft,graphic)
 
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+
+  res = True
+  res = set_res_cn(res)
+  res = set_res_no_frame(res)
+  res = set_res_lb(res)
+  res = set_res_tm_size(res)
+  res = set_res_highres_coast(res)
+  res@lbLabelBarOn = False
+  res@gsnMajorLatSpacing = 1
+  res@gsnMajorLonSpacing = 1
+  res = set_res_mp_latlon(res,141.,145,43,47.5)
+  set_res_cn_limits(res,0.,.0003,.00002)
+  res@gsnLeftString = "QFX"
+
   do it = 0, noft - 1, 1
-
-    print("Record Number: " + tvalues(it))
-    print("Working on time: " + times(it) )
-
-    res@TimeLabel = times(tvalues(it))
-
-    mflux = wrf_user_getvar(a,"QFX",tvalues(it))
-
-    res@gsnDraw   = False
-    res@gsnFrame  = False
-    res@cnInfoLabelOn = False
-
-    opts = res
-    opts@cnFillOn         = True
-    opts@ContourParameters = (/ 0., 0.0002, 0.00005 /)
-    opts@cnFillColor = True
-    opts@InitTime = False
+    vt = tvalues(it)
+    print("tvalue: " + tvalues(it))
+    date_string = chartostring(times(vt,5:15))
+    res@gsnCenterString = date_string
 
 
-    pltres@NoTitles = True
-    pltres@PanelPlot = True
-    pltres@FramePlot = False
-
-    mpres@NoHeaderFooter = True
-
-    contour = wrf_contour(a,wks,mflux,opts)
-
-    plot(it) = wrf_map_overlays(a,wks,(/contour/),pltres,mpres)
-    delete(contour)
-
+    h = wrf_user_getvar(a,"QFX",vt)
+    h@lat2d = xlat
+    h@lon2d = xlon
+    plot(it) = gsn_csm_contour_map(wks,h,res)
   end do
 
-  pres                = True
-  pres@lbLabelStride  = 7
-  pres@gsnPanelBottom = 0.05
-  pres@gsnPanelLabelBar = True
-
-  pres@txString         = "Upward moisture flux at the surface (kg m-2 s-1)  "
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)
-
+  pres = set_res_panel(True)
+  pres@lbLabelStride  = 3
+  panelize_2col(wks,plot,pres)
 end
