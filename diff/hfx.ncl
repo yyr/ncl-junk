@@ -31,7 +31,7 @@ begin
   res@cnLinesOn = False
   res@gsnLeftString = "diff HFX"
 
-  ; set_res_cn_limits(res,-100,700.,40)
+  set_res_cn_limits(res,-1000,1000.,50)
   print("working with: "+ vt + " "+ times(vt))
 
   h1 = wrf_user_getvar(a,var,vt)
