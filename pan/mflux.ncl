@@ -1,8 +1,7 @@
 ;;  Author: Yagnesh Raghava Yakkala <hi@yagnesh.org>
 ;; Created: Wednesday, September 21 2011
 
-;; Description:
-;;
+import("yag_utils")
 
 begin
 
@@ -16,41 +15,41 @@ begin
   gsn_define_colormap(wks,"hotcold_18lev")
 
   res = True
-  ;; res@MainTitle = "Water Vapour Mixing Ration"
+
   res@Footer = False
   res@gsnSpreadColors = True    ;spread Colors
-  res@lbLabelBarOn        = False           ; turn off individual cb's
+  res@lbLabelBarOn        = False
 
-  mpres  = True  ; Map resources
-  pltres = True ; Plot resources
+  mpres  = True
+  pltres = True
   mpres@mpDataBaseVersion    = "HighRes"
   mpres@mpGeophysicalLineThicknessF = 2.0
 
-  times  = wrf_user_list_times(a)  ; get times in the file
-  ntimes = dimsizes(times)         ; number of times in the file
+  times  = wrf_user_list_times(a)
+  ntimes = dimsizes(times)
 
   noft = dimsizes(tvalues)
   plot = new(noft,graphic)
 
-  do it = 0, noft - 1, 1   ;; LOOP NAME
+  do it = 0, noft - 1, 1
 
     print("Record Number: " + tvalues(it))
     print("Working on time: " + times(it) )
 
-    res@TimeLabel = times(tvalues(it))   ; Set Valid time to use on plots
+    res@TimeLabel = times(tvalues(it))
 
     mflux = wrf_user_getvar(a,"QFX",tvalues(it))
 
-    res@gsnDraw   = False              ; Do not draw plot
-    res@gsnFrame  = False              ; Do not advance frame
-    res@cnInfoLabelOn = False        ; turn off contour info label
+    res@gsnDraw   = False
+    res@gsnFrame  = False
+    res@cnInfoLabelOn = False
 
     opts = res
     opts@cnFillOn         = True
     opts@ContourParameters = (/ 0., 0.0002, 0.00005 /)
     opts@cnFillColor = True
     opts@InitTime = False
-    ;; opts@NoHeaderFooter = True
+
 
     pltres@NoTitles = True
     pltres@PanelPlot = True
@@ -65,12 +64,12 @@ begin
 
   end do
 
-  pres                = True              ; mod panel plot
-  pres@lbLabelStride  = 7           ; skip every other label
-  pres@gsnPanelBottom = 0.05              ; add some space at bottom
-  pres@gsnPanelLabelBar = True                   ; add common colorbar
+  pres                = True
+  pres@lbLabelStride  = 7
+  pres@gsnPanelBottom = 0.05
+  pres@gsnPanelLabelBar = True
 
-  pres@txString         = "Upward moisture flux at the surface (kg m-2 s-1)  "      ; add common title
-  gsn_panel(wks,plot,(/noft/2 , 2/),pres)        ; create panel plot
+  pres@txString         = "Upward moisture flux at the surface (kg m-2 s-1)  "
+  gsn_panel(wks,plot,(/noft/2 , 2/),pres)
 
 end
