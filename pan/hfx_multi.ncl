@@ -63,7 +63,7 @@ begin
       res@gsnLeftString = "LH"
     end if
 
-    if ( var .eq. "ARHFX" ) then
+    if ( var .eq. "ACHFX" ) then
       ; var = "ACHFX"
       set_res_cn_limits(res,-10,100.,2)
       res@gsnLeftString = "ACHFX"
