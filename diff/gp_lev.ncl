@@ -1,32 +1,50 @@
 ; Created: Friday, July 12 2013
 
 import("yag_utils")
-
 begin
   a = set_inputfile()
   lev1 = 850
-  lev2 = 950
+  lev2 = 1000
 
-  t = 95
-  out  = "gp_diff_" + lev1 + "--" + lev2       ;out put file name
+  var = "geopt"
+  vt = 85
+  out  = "diff_" + var + "_" + lev1 + "--" + lev2       ;out put file name
   type = "pdf"
 
   wks = gsn_open_wks(type,out)
-  gsn_reverse_colormap(wks)
+  gsn_define_colormap(wks,"BlueRed")
 
-  p  = wrf_user_getvar(a,"pressure",t)
-  gp_1 = wrf_user_getvar(a,"geopt",t)
+  times  = wrf_user_list_times(a)  ; get times in the file
+  xlat = a->XLAT(0,:,:)
+  xlon = a->XLONG(0,:,:)
+
+  res = True
+  res = set_res_lb(res)
+  res = set_res_highres_coast(res)
+  res = set_aspectratio(xlat,res)
+  res@mpGeophysicalLineThicknessF = 3
+  res@gsnMajorLatSpacing = 1
+  res@gsnMajorLonSpacing = 1
+  res = set_res_mp_latlon(res,141.,145,43,47.5)
+
+  res@cnFillOn = True
+  res@cnLinesOn = False
+  res@gsnLeftString = "diff " + var + "(" + lev1 + "-" + lev2 + ")"
+
+  print("working with: "+ vt + " "+ times(vt))
+  ; set_res_cn_limits(res,8200,8600,20)
+
+  p  = wrf_user_getvar(a,"pressure",vt)
+  gp_1 = wrf_user_getvar(a,"geopt",vt)
 
   gp1 = wrf_user_intrp3d(gp_1,p,"h",lev1,0.,False)
   gp2 = wrf_user_intrp3d(gp_1,p,"h",lev2,0.,False)
 
   gp = gp1 - gp2
+  gp@units = gp1@units
 
-  res = True
-  set_res_cn_limits(res,8200,8600,20)
-  res =  set_res_cn(res)
-  plot = wrf_contour(a,wks,gp,res)
-  opts  = set_res_highres_coast(True)
-  map = wrf_map_overlays(a,wks,plot,True,opts)
+  gp@lat2d = xlat
+  gp@lon2d = xlon
 
+  plot = gsn_csm_contour_map(wks,gp,res)
 end
