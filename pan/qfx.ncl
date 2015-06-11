@@ -15,7 +15,7 @@ begin
   tvalues = (/ 60, 70, 82, 95, 102, 114, 126, 143/)
 
   wks = gsn_open_wks(type,out)
-  gsn_define_colormap(wks,"hotcold_18lev")
+  gsn_define_colormap(wks,"WhiteYellowOrangeRed")
 
   times = a->Times
   noft = dim_len0(tvalues)

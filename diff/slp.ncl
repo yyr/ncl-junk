@@ -1,6 +1,7 @@
 import("yag_utils")
 
 begin
+;  f1 = "/home/yagnesh/wrf/run/notopsak_20081225/d3/wrfout_d03_2008-12-25_00:00:00"
   f1 = "/home/yagnesh/WRFMPI/WRFV3/test/bd/res/wrfout_d03_2008-12-25_00:00:00"
   f2 ="/home/yagnesh/WRFMPI/WRFV3/test/bd_no_sak/d3/wrfout_d03_2008-12-25_00:00:00"
   a = addfile(f1,"r")
@@ -32,7 +33,7 @@ begin
   res@cnLinesOn = False
   res@gsnLeftString = "diff " + var
 
- set_res_cn_limits(res,-10,10.,1)
+  set_res_cn_limits(res,-10,10.,.2)
   print("working with: "+ vt + " "+ times(vt))
 
   slp1 = wrf_user_getvar(a,var,vt)

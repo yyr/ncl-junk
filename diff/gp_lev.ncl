@@ -28,7 +28,6 @@ begin
   res = set_res_mp_latlon(res,141.,145,43,47.5)
 
   res@cnFillOn = True
-  res@cnLinesOn = False
   res@gsnLeftString = "diff " + var + "(" + lev1 + "-" + lev2 + ")"
 
   print("working with: "+ vt + " "+ times(vt))
@@ -46,5 +45,6 @@ begin
   gp@lat2d = xlat
   gp@lon2d = xlon
 
+  printVarInfo(gp,"")
   plot = gsn_csm_contour_map(wks,gp,res)
 end

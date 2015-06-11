@@ -65,7 +65,8 @@ begin
 
     if ( var .eq. "ACHFX" ) then
       ; var = "ACHFX"
-      set_res_cn_limits(res,-10,100.,2)
+;      set_res_cn_limits(res,-10,100.,2)
+      gsn_define_colormap(wks,"hotres")
       res@gsnLeftString = "ACHFX"
     end if
 
@@ -73,6 +74,7 @@ begin
       ; var = "ACGRDFLX"
       h = h / 1e6
       h@units = "MJ m-2"
+      gsn_define_colormap(wks,"hotres")
       set_res_cn_limits(res,-5.,10.,.5)
       res@gsnLeftString = "ACGRDFLX"
     end if
